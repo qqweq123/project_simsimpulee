@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>귀멸의 칼날: 내면의 서사시</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Serif KR', serif;
+            background-color: #1a202c; /* 어두운 배경색 */
+            color: #e2e8f0; /* 밝은 텍스트 색상 */
+        }
+        .screen {
+            display: none;
+            animation: fadeIn 0.8s;
+        }
+        .btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+        }
+        .progress-bar-inner {
+            transition: width 0.5s ease-in-out;
+        }
+        #narrative-text {
+            animation: fadeIn 1.2s;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ef4444;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 bg-gray-900 text-slate-200">
+
+    <div id="app" class="w-full max-w-2xl mx-auto bg-gray-800 rounded-lg shadow-2xl p-6 md:p-10 border border-gray-700">
+
+        <!-- 시작 화면 -->
+        <div id="start-screen" class="text-center screen">
+            <h1 class="text-3xl md:text-4xl font-bold text-red-400 mb-4">귀멸의 칼날: 내면의 서사시</h1>
+            <p class="text-lg text-slate-300 mb-2">모든 것을 잃은 폐허 속에서,<br>당신의 영혼은 어떤 서사를 써 내려갈 것인가.</p>
+            <p class="text-slate-400 mb-8"><br>이것은 당신의 선택으로 완성되는 하나의 이야기입니다. 정답은 없습니다. 각 질문들 속에서 당신의 마음이 이끄는 가장 솔직한 목소리에 귀를 기울여 주십시오.</p>
+            <button id="start-btn" class="w-full md:w-auto bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-xl btn">
+                이야기 시작하기
+            </button>
+        </div>
+
+        <!-- 질문 화면 -->
+        <div id="question-screen" class="screen">
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-semibold text-slate-400">진행도</span>
+                    <span id="progress-text" class="text-sm font-semibold text-slate-400">1 / 28</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-red-500 h-2.5 rounded-full progress-bar-inner" style="width: 3.57%"></div>
+                </div>
+            </div>
+            <div id="narrative-text" class="italic text-slate-400 text-center mb-6 border-y-2 border-gray-700 py-4">서사 묘사가 여기에 표시됩니다.</div>
+            <h2 id="question-text" class="text-2xl font-semibold mb-8 text-center leading-relaxed">질문이 여기에 표시됩니다.</h2>
+            <div id="answer-buttons" class="grid grid-cols-1 gap-4">
+                <!-- 답변 버튼은 JS로 생성됩니다. -->
+            </div>
+        </div>
+
+        <!-- 로딩 화면 -->
+        <div id="loading-screen" class="text-center screen">
+             <div class="flex justify-center items-center mb-4">
+                <div class="loader"></div>
+            </div>
+            <p id="loading-text" class="text-xl text-slate-300">당신의 서사를 엮는 중...</p>
+        </div>
+
+        <!-- 결과 화면 -->
+        <div id="result-screen" class="text-center screen">
+            <p class="text-slate-400 mb-4 text-lg">당신의 서사가 완성되었습니다.</p>
+            <div class="relative w-full max-w-sm mx-auto mb-8">
+                <img id="result-image" src="https://placehold.co/600x300/1a202c/e2e8f0?text=Image" alt="결과 이미지" class="w-full rounded-lg shadow-lg border-2 border-gray-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent rounded-lg"></div>
+                <h1 id="result-title" class="absolute bottom-4 left-4 text-3xl md:text-4xl font-bold text-white text-shadow">결과 아키타입</h1>
+            </div>
+
+            <h3 id="result-quote" class="text-lg italic text-slate-300 mb-6">"결과 인용구가 여기에 표시됩니다."</h3>
+            
+            <div class="text-left bg-gray-900/50 p-6 rounded-lg mb-6">
+                <h4 class="font-bold text-xl mb-3 text-red-300">[당신의 서사 분석]</h4>
+                <p id="result-description" class="text-slate-300 leading-relaxed">결과 설명이 여기에 표시됩니다.</p>
+            </div>
+            
+            <div class="flex justify-around bg-gray-900/50 p-4 rounded-lg">
+                <div>
+                    <h4 class="font-bold text-lg text-green-400">찰떡! 케미</h4>
+                    <p id="good-chemistry" class="text-slate-300">-</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-yellow-400">주의! 상극</h4>
+                    <p id="bad-chemistry" class="text-slate-300">-</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 space-y-4 md:space-y-0 md:space-x-4">
+                <button id="restart-btn" class="w-full md:w-auto bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-lg text-lg btn">
+                    다시 시작하기
+                </button>
+                <button id="share-btn" class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg btn">
+                    결과 공유하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = document.getElementById('app');
+        const startScreen = document.getElementById('start-screen');
+        const questionScreen = document.getElementById('question-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const loadingScreen = document.getElementById('loading-screen');
+
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const shareBtn = document.getElementById('share-btn');
+
+        const progressText = document.getElementById('progress-text');
+        const progressBar = document.getElementById('progress-bar');
+        const narrativeText = document.getElementById('narrative-text');
+        const questionText = document.getElementById('question-text');
+        const answerButtons = document.getElementById('answer-buttons');
+
+        const resultTitle = document.getElementById('result-title');
+        const resultImage = document.getElementById('result-image');
+        const resultQuote = document.getElementById('result-quote');
+        const resultDescription = document.getElementById('result-description');
+        const goodChemistry = document.getElementById('good-chemistry');
+        const badChemistry = document.getElementById('bad-chemistry');
+
+        let currentQuestionIndex = 0;
+        let currentArchetype = '';
+        let scores = {
+            CONV: 0, LOSS: 0, DEF: 0, SURV: 0,
+            V1_EXT: 0, V1_INT: 0, V2_LOG: 0, V2_EMP: 0,
+            V3_ACC: 0, V3_RES: 0, REL_HOR: 0, REL_VER: 0,
+            DRV_FUT: 0, DRV_PST: 0,
+        };
+
+        const questions = [
+            // 제1막: 파쇄 (7문항)
+            {
+                narrative: "깊은 산 속, 당신의 작은 마을은 평화롭습니다. 가족과 친구들이 모여 놀며 행복한 나날을 보내고 있습니다.",
+                question: "평화로운 일상 속, 가장 큰 행복을 느끼는 순간은 언제입니까?",
+                answers: [
+                    { text: "가족이나 가까운 친구들과 둘러앉아 소소한 이야기를 나눌 때.", score: { REL_HOR: 1, V2_EMP: 1 } },
+                    { text: "나만의 기술이나 공부에 몰두하여 어제보다 성장한 나를 발견할 때.", score: { V2_LOG: 1, DEF: 1 } },
+                    { text: "마을 외곽의 고요한 숲이나 강가에서 홀로 자연의 소리를 들을 때.", score: { V1_INT: 1, V3_ACC: 1 } },
+                    { text: "마을의 대소사에 적극적으로 참여하여 다른 사람들을 돕고 감사를 받을 때.", score: { V1_EXT: 1, CONV: 1 } }
+                ]
+            },
+            {
+                narrative: "평화로운 나날 속에서, 사람들은 당신을 각자의 방식으로 기억합니다.",
+                question: "마을 사람들이 당신을 어떤 사람이라고 평가할 때, 가장 큰 만족감을 느낍니까?",
+                answers: [
+                    { text: "'정말 상냥하고 따뜻한 사람이야.'", score: { V2_EMP: 2, REL_HOR: 1 } },
+                    { text: "'믿음직스럽고 책임감이 강한 사람이야.'", score: { CONV: 1, V2_LOG: 1 } },
+                    { text: "'어딘가에 얽매이지 않는 자유로운 사람이야.'", score: { V3_RES: 1, DEF: 1 } },
+                    { text: "'항상 원칙을 지키는 올곧은 사람이야.'", score: { CONV: 1, V2_LOG: 2 } }
+                ]
+            },
+            {
+                narrative: "당신의 가슴 속에는 소중히 여기는 가치들이 자리 잡고 있습니다.",
+                question: "당신에게 '지킨다'는 것은 어떤 의미에 가깝습니까?",
+                answers: [
+                    { text: "내가 사랑하는 사람들이 다치지 않게 보호하는 것.", score: { LOSS: 1, REL_HOR: 1, V2_EMP: 1 } },
+                    { text: "우리 마을의 규칙과 전통, 올바름이라는 가치를 훼손되지 않게 지키는 것.", score: { V2_LOG: 1, CONV: 1 } },
+                    { text: "나 스스로의 신념에 부끄럽지 않게 행동하는 것.", score: { CONV: 1, DRV_FUT: 1 } },
+                    { text: "약한이가 스스로 일어설 수 있도록 돕는 것.", score: { CONV: 1, V2_EMP: 1 } }
+                ]
+            },
+            {
+                narrative: "하지만 그 평화는 영원하지 않았습니다. 어느 날, 당신이 잠시 자리를 비운 사이 원인 모를 재앙이 모든 것을 앗아갔습니다. 돌아온 마을은 잿더미가 되었고, 당신은 유일한 생존자가 되었습니다.",
+                question: "눈앞에 펼쳐진 참혹한 광경과 모든 것을 잃었다는 현실 앞에서, 가장먼저 당신의 내면속에 피어오르는 감정은 무엇입니까?",
+                answers: [
+                    { text: "가슴이 찢어지는 듯한 슬픔과 그리움.", score: { LOSS: 2, DRV_PST: 1 } },
+                    { text: "이 부조리한 운명에 대한, 대상 없는 분노와 증오.", score: { DEF: 2, V3_RES: 1 } },
+                    { text: "아무것도 느껴지지 않는, 차가운 현실 부정과 공허함.", score: { SURV: 2, V2_LOG: 1 } },
+                    { text: "살아남았다는 사실에 대한 설명할 수 없는 죄책감.", score: { LOSS: 1, CONV: 1, DRV_PST: 1 } }
+                ]
+            },
+            {
+                narrative: "공허한 시간 속에서, 당신은 마침내 몸을 일으킵니다.",
+                question: "충격 속에서 밤을 지새운 당신, 동이 틀 무렵 가장 먼저 취하는 행동은 무엇입니까?",
+                answers: [
+                    { text: "혹시나 살아남은 사람이 있을지 모른다는 생각에, 잔해 속을 필사적으로 뒤진다.", score: { V2_EMP: 1, V1_EXT: 1 } },
+                    { text: "떠나야만 한다. 앞으로의 여정을 위해, 쓸만한 물건이나 식량을 찾기 시작한다.", score: { V2_LOG: 1, SURV: 1 } },
+                    { text: "왜 이런 일이 일어났는지, 단서라도 찾기 위해 재앙의 흔적을 면밀히 살핀다.", score: { V2_LOG: 1, DEF: 1 } },
+                    { text: "떠나기 전, 내가 사랑했던 이들을 위해 작은 돌무덤이라도 만들어준다.", score: { DRV_PST: 1, LOSS: 1, V1_INT: 1 } }
+                ]
+            },
+            {
+                narrative: "당신은 폐허가 된 고향을 등지고, 정처 없는 길을 떠납니다.",
+                question: "마을을 떠나기 직전, 당신은 마지막으로 어떤 맹세를 합니까?",
+                answers: [
+                    { text: "'반드시... 반드시 이 비극의 원인을 밝혀내고, 만약 책임져야 할 자가 있다면 대가를 치르게 하겠다.'", score: { DEF: 3, V3_RES: 1 } },
+                    { text: "'두 번 다시는... 두 번 다시는 그 어떤 것도 무력하게 잃지 않도록, 내가 강해지겠다.'", score: { CONV: 3, DRV_FUT: 1 } },
+                    { text: "'모든 것을 잊지 않겠다. 당신들의 삶과 고통을, 내가 짊어지고 살아가겠다.'", score: { LOSS: 3, DRV_PST: 1 } },
+                    { text: "'그 어떤 일이 있더라도, 나는 살아남겠다. 이것이 내가 할 수 있는 유일한 증명이다.'", score: { SURV: 3 } }
+                ]
+            },
+            {
+                narrative: "잿더미 위에서, 당신의 영혼은 새로운 길을 선택해야만 합니다.",
+                question: "당신의 기나긴 여정에서, 당신의 마음을 가장 강하게 붙들어 줄 원동력은 무엇이 될 것이라 생각합니까?",
+                answers: [
+                    { text: "잃어버린 이들과의 행복했던 기억.", score: { LOSS: 2, DRV_PST: 1 } },
+                    { text: "미래에 대한 희미하지만 꺼지지 않는 희망.", score: { CONV: 1, DRV_FUT: 1 } },
+                    { text: "이 모든 부조리에 대한 복수심.", score: { DEF: 2, V3_RES: 1 } },
+                    { text: "다시는 이 고통을 겪지 않겠다는 생존 본능.", score: { SURV: 2 } }
+                ]
+            },
+            // 제2막: 방랑 (14문항)
+            {
+                narrative: "당신은 며칠을 굶주린 채 걷다가, 한 마을의 시장에 도착합니다. 그곳에서 당신의 윤리관을 시험하는 광경을 목격합니다.",
+                question: "시장에서 굶주린 아이들에게 약과 빵을 주기 위하여 물건을 훔치는 상인을 목격했습니다. 어떻게 행동합니까?",
+                answers: [
+                    { text: "상인의 행동은 잘못됐지만, 아이들이 우선이다. 못 본 척 조용히 자리를 떠난다.", score: { V2_EMP: 1, V3_ACC: 1 } },
+                    { text: "결과가 어떻든 절도는 범죄다. 마을 경비대에게 상인을 신고한다.", score: { V2_LOG: 1, V3_RES: 1 } },
+                    { text: "상인에게 다가가, 아이들을 도울 다른 방법은 없는지 함께 고민해보자고 제안한다.", score: { V2_EMP: 1, REL_HOR: 1 } },
+                    { text: "이것은 나와 상관없는 일이다. 나의 허기를 채울 방법을 찾는 것이 먼저다.", score: { SURV: 1, V1_INT: 1 } }
+                ]
+            },
+            {
+                narrative: "여정을 계속하던 중, 당신은 '힘'의 본질에 대해 고찰하게 됩니다.",
+                question: "외딴 암자에서 인간의 한계를 초월한 힘을 가졌지만, 그 때문에 고독하게 살아가는 노인을 만납니다. 그를 본 당신의 생각은?",
+                answers: [
+                    { text: "'저 힘이야말로 내가 추구해야 할 길이다.' 노인에게 가르침을 청한다.", score: { V3_RES: 1, V1_EXT: 1 } },
+                    { text: "'저토록 강하지만, 결국 혼자라면 무슨 의미가 있을까.' 연민을 느끼며 조용히 그를 지켜본다.", score: { V2_EMP: 1, V1_INT: 1 } },
+                    { text: "'나의 힘은 저 사람과 다르다.' 그의 길을 존중하지만, 나의 길은 아니라고 생각한다.", score: { V3_ACC: 1, V1_INT: 1 } },
+                    { text: "'저 힘을 시험해보고 싶다.' 그에게 다가가 대련을 신청한다.", score: { V3_RES: 1, REL_VER: 1 } }
+                ]
+            },
+            {
+                narrative: "길 위에서 당신은 인간의 한계에 대한 유혹과 마주합니다.",
+                question: "한 학자가 '인간의 슬픔과 죽음의 한계를 극복하려면, '인간'이라는 껍데기를 벗어야 한다'며 위험한 제안을 합니다. 당신의 대답은?",
+                answers: [
+                    { text: "'슬픔과 죽음 또한 인간의 일부다. 나는 인간으로서 모든 것을 감당하겠다.'", score: { CONV: 1, V3_ACC: 1 } },
+                    { text: "'…다시는 누구도 잃지 않을 수 있는 건가?' 흔들리지만, 결국 고개를 젓는다.", score: { LOSS: 1, V2_EMP: 1 } },
+                    { text: "'흥미로운 연구지만, 나는 위험까지 감수할 생각은 없다.'", score: { SURV: 1, V2_LOG: 1 } },
+                    { text: "'고통을 끝낼 수만 있다면, 어떤 대가라도 치를 각오가 되어 있다.'", score: { DEF: 1, V3_RES: 1 } }
+                ]
+            },
+            {
+                narrative: "당신은 탐욕스러운 관리가 폭정을 일삼는 마을을 목격합니다. 당신의 정의감이 시험받습니다.",
+                question: "당신은 어떻게 이 부조리에 맞서겠습니까?",
+                answers: [
+                    { text: "정면으로 관리에게 찾아가, 그의 잘못을 지적하고 시정을 요구한다.", score: { V1_EXT: 1, V3_RES: 1 } },
+                    { text: "조용히 마을 사람들을 설득하거나, 관리가 부정을 저지른 증거를 수집하여 계략을 꾸민다.", score: { V1_INT: 1, V2_LOG: 1 } },
+                    { text: "이곳에 더 있다가는 위험에 휘말릴 뿐이다. 조용히 마을을 떠난다.", score: { SURV: 1, V1_INT: 1 } },
+                    { text: "주민들을 안타깝게 여기지만, 내가 나설 힘이 없다고 판단하여 상황을 지켜본다.", score: { V2_EMP: 1, V3_ACC: 1 } }
+                ]
+            },
+            {
+                narrative: "굶주린 당신에게, 자신들도 가난한 한 농부 가족이 아무 대가 없이 따뜻한 식사를 나눠줍니다. 세상의 온기가 당신을 감쌉니다.",
+                question: "당신의 반응은?",
+                answers: [
+                    { text: "'정말 고맙습니다.' 눈물을 글썽이며 그들의 친절을 온전히 받아들이고 마음을 연다.", score: { V3_ACC: 1, V2_EMP: 1 } },
+                    { text: "'폐를 끼칠 수 없습니다.' 그들의 형편을 생각해 정중히 거절하지만, 그 마음에 깊이 감사한다.", score: { V1_INT: 1, CONV: 1 } },
+                    { text: "'무슨 꿍꿍이가 있는 거지?' 경계심을 풀지 않고, 그들의 숨은 의도를 파악하려 노력한다.", score: { V3_RES: 1, V2_LOG: 1 } },
+                    { text: "'이 은혜는 반드시 갚겠습니다.' 친절을 '빚'으로 여기고, 어떻게든 보답할 방법을 생각한다.", score: { REL_VER: 1, V2_LOG: 1 } }
+                ]
+            },
+            {
+                narrative: "당신이 머무는 곳에 역병이 돌아 흉포한 맹수가 들끓는 산 정상의 약초가 필요합니다. 모두가 공포에 질려있습니다.",
+                question: "당신의 선택은?",
+                answers: [
+                    { text: "'내가 가겠다.' 망설임 없이 위험한 임무에 자원한다.", score: { CONV: 1, V1_EXT: 1 } },
+                    { text: "'위험한 일에는 합당한 대가가 따라야 한다.' 마을 사람들에게 보상을 약속받고 길을 떠난다.", score: { SURV: 1, V2_LOG: 1 } },
+                    { text: "'혼자서는 무리다.' 다른 사람들을 설득하여 함께 갈 지원자를 모은다.", score: { REL_HOR: 1, V2_LOG: 1 } },
+                    { text: "'내 목숨을 걸면서까지 남을 도울 의무는 없다.' 명백히 거절한다.", score: { SURV: 2, DEF: 1 } }
+                ]
+            },
+            {
+                narrative: "규율이 엄격한 용병단에서, 당신의 양심에 어긋나는 '비정한 명령'(예: 부상당한 동료를 버리고 가라)이 내려옵니다.",
+                question: "조직의 논리와 개인의 신념이 충돌하는 순간, 당신은 어떻게 하겠습니까?",
+                answers: [
+                    { text: "조직의 규칙이 최우선이다. 괴롭지만 명령에 따른다.", score: { V2_LOG: 1, V3_ACC: 1 } },
+                    { text: "명령에 정면으로 불복하고, 동료를 구해야 한다고 강력하게 주장한다.", score: { V2_EMP: 1, V3_RES: 1 } },
+                    { text: "겉으로는 따르는 척하면서, 몰래 동료가 생존할 수 있도록 돕는다.", score: { V2_EMP: 1, V1_INT: 1 } },
+                    { text: "이런 비정한 곳에 더는 몸담을 수 없다. 즉시 용병단을 떠난다.", score: { CONV: 1, REL_VER: -1 } }
+                ]
+            },
+            {
+                narrative: "당신의 능력에 감화된 한 젊은이가, 당신의 제자가 되어 여정에 동행하고 싶다고 간청합니다.",
+                question: "당신은 그를 어떻게 받아들이겠습니까?",
+                answers: [
+                    { text: "'나와 함께 가는 길은 위험하다.' 그의 안전을 위해 단호하지만 정중하게 거절한다.", score: { V1_INT: 1, LOSS: 1 } },
+                    { text: "'서로에게 배울 점이 있을 것이다.' 그를 동등한 동료이자 파트너로서 받아들인다.", score: { REL_HOR: 2 } },
+                    { text: "'내 가르침은 혹독할 것이다.' 그를 제자로서 받아들이고, 엄격한 훈련을 통해 성장시키려 한다.", score: { REL_VER: 1, V2_LOG: 1 } },
+                    { text: "'나를 따르려면, 내 방식에 절대적으로 복종해야 한다.' 그를 유용한 수족이자 부하로서 받아들인다.", score: { REL_VER: 2, V3_RES: 1 } }
+                ]
+            },
+            {
+                narrative: "당신이 쓰러뜨린 적의 품에서, 그 역시 지키고 싶은 것이 있었던 한 명의 인간이었음을 보여주는 유품을 발견합니다.",
+                question: "그의 사연을 알게 된 당신의 반응은?",
+                answers: [
+                    { text: "그의 삶에 깊은 연민을 느끼고, 적이지만 예를 갖춰 조용히 묻어준다.", score: { V2_EMP: 2, V3_ACC: 1 } },
+                    { text: "이해는 하지만, 그가 저지른 악행이 사라지는 것은 아니다. 감정을 배제하고 돌아서 나온다.", score: { V2_LOG: 2 } },
+                    { text: "'그렇다고 내게 패배한 사실은 변하지 않는다.' 감상적인 생각이라 여기며 무시한다.", score: { V3_RES: 1, SURV: 1 } },
+                    { text: "그의 사연을 읽고, 세상의 비극적인 순환에 대해 깊은 허무함과 슬픔을 느낀다.", score: { LOSS: 1, V1_INT: 1 } }
+                ]
+            },
+            {
+                narrative: "고요한 밤, 홀로 모닥불을 피우고 밤하늘을 바라봅니다. 당신의 내면이 목소리를 냅니다.",
+                question: "당신의 마음을 가장 오랫동안 머물게 하는 생각은 무엇입니까?",
+                answers: [
+                    { text: "내가 잃어버렸던 사람들의 얼굴과, 행복했던 지난날의 기억.", score: { DRV_PST: 2, LOSS: 1 } },
+                    { text: "앞으로 내가 무엇을 해야 하며, 이 세상은 어디로 나아가야 하는가에 대한 고민.", score: { DRV_FUT: 2, CONV: 1 } },
+                    { text: "아무 생각 없이, 그저 타오르는 불꽃과 밤하늘의 별을 바라보며 이 순간의 평온을 느낀다.", score: { V3_ACC: 1 } },
+                    { text: "오늘의 전투에서 부족했던 점, 그리고 앞으로 내가 더 채워야 할 능력에 대한 복기.", score: { DEF: 1, V2_LOG: 1 } }
+                ]
+            },
+            {
+                narrative: "당신은 '고통스러운 기억을 모두 지워준다'는 전설의 샘을 발견합니다. 과거를 버릴 기회가 주어집니다.",
+                question: "샘물을 마시면, 사랑했던 이들과의 추억과 맹세까지 모두 잊게 됩니다. 당신의 선택은?",
+                answers: [
+                    { text: "망설임 없이 마신다. 이 고통을 끝낼 수만 있다면, 과거는 아무래도 좋다.", score: { SURV: 2, DRV_FUT: 1 } },
+                    { text: "결코 마시지 않는다. 이 기억과 고통이야말로 나를 지금의 나로 만든 전부다.", score: { LOSS: 2, DRV_PST: 1 } },
+                    { text: "마시고 싶다는 유혹에 처절하게 갈등하지만, 결국 맹세를 지키기 위해 돌아서 나온다.", score: { LOSS: 1, CONV: 1 } },
+                    { text: "그런 비현실적인 것에 의존하는 것은 나약함의 증거일 뿐이다. 무시하고 갈 길을 간다.", score: { CONV: 2, V2_LOG: 1 } }
+                ]
+            },
+            {
+                narrative: "당신은 당신의 고향이, 더 큰 대의(국가 전체)를 위해 계획적으로 희생되었다는 '불편한 진실'과 마주합니다.",
+                question: "개인의 비극과 사회의 논리 앞에서 당신은 어떤 입장을 취합니까?",
+                answers: [
+                    { text: "어떠한 대의명분도 살인을 정당화할 순 없다. 그들은 내게 용서받을 수 없는 '적'일 뿐이다.", score: { V3_RES: 2, LOSS: 1 } },
+                    { text: "…이해할 수 없다. 나의 분노와 슬픔은 이제 어디로 향해야 하는가. 극심한 혼란에 빠진다.", score: { V1_INT: 1, V3_ACC: 1 } },
+                    { text: "그들의 '대의'가 무엇인지, 그리고 그 희생이 정말 가치가 있었는지 끝까지 파헤쳐야겠다.", score: { V2_LOG: 2, DRV_FUT: 1 } },
+                    { text: "결국 세상은 이렇게 움직이는 것이다. 더 큰 힘 앞에서는 개인의 희생은 어쩔 수 없다.", score: { SURV: 1, V3_ACC: 1 } }
+                ]
+            },
+            {
+                narrative: "당신은 한 집단의 절대적인 신뢰를 얻어, 그들의 운명을 좌우할 '리더'로 추대됩니다.",
+                question: "당신 손에 쥐어진 권력을 어떻게 사용하겠습니까?",
+                answers: [
+                    { text: "'모두의 의견을 모아 함께 결정하자.' 리더가 되기보다, 모두가 동등한 의사결정 구조를 제안한다.", score: { REL_HOR: 2 } },
+                    { text: "'내가 이끌겠다. 나를 믿고 따라준다면, 모두를 올바른 길로 인도하겠다.' 책임을 받아들인다.", score: { REL_VER: 1, CONV: 1 } },
+                    { text: "'리더는 필요 없다. 각자 자신의 역할을 다하면 된다.' 조직의 형태 자체를 거부한다.", score: { V1_INT: 1, V3_ACC: 1 } },
+                    { text: "'나의 결정이 곧 법이다.' 나의 목표를 이루기 위한 강력한 통제 시스템을 구축한다.", score: { REL_VER: 2, V3_RES: 1 } }
+                ]
+            },
+            {
+                narrative: "당신이 이끄는 집단이 안정되었을 때, 당신의 방식에 반대하며 분열을 조장하는 이가 나타납니다.",
+                question: "리더로서, 당신은 이 갈등을 어떻게 해결하겠습니까?",
+                answers: [
+                    { text: "공개적인 토론을 통해, 나의 방식이 옳다는 것을 논리적으로 증명하려 한다.", score: { V2_LOG: 1, V1_EXT: 1 } },
+                    { text: "조용히 그를 찾아가, 그의 의견을 경청하고 타협점을 찾으려 노력한다.", score: { V2_EMP: 1, REL_HOR: 1 } },
+                    { text: "공동체의 화합이 우선이다. 그의 의견을 무시하고 나의 계획을 밀고 나간다.", score: { V3_ACC: 1, REL_VER: 1 } },
+                    { text: "공동체의 안정을 위해, 그를 추방하는 극단적인 선택을 고려한다.", score: { V3_RES: 1, SURV: 1 } }
+                ]
+            },
+            // 제3막: 기로 (7문항)
+            {
+                narrative: "당신이 겨우 정착한 새로운 마을에, 과거와 유사한 '제2의 재앙'이 닥칩니다. 당신은 이제 더 이상 과거의 무력한 생존자가 아닙니다.",
+                question: "눈앞에 새로운 비극이 펼쳐집니다. 과거의 악몽이 되살아나지만, 지금의 당신은 그때와 다릅니다. 당신은 어떻게 행동하겠습니까?",
+                answers: [
+                    { text: "두렵다. 하지만 두 번 다시 누군가를 잃는 것은 견딜 수 없다. 가장 위험한 곳으로 뛰어들어 사람들을 지킨다.", score: { V2_EMP: 2, LOSS: 1 } },
+                    { text: "일단 냉정하게 상황을 파악한다. 내가 가장 효율적으로 기여할 수 있는 일부터 처리한다.", score: { V2_LOG: 2, CONV: 1 } },
+                    { text: "결국 세상은 이런 비극의 연속일 뿐이다. 더 이상 휘말리지 않겠다. 이곳을 조용히 떠난다.", score: { SURV: 1, V1_INT: 1 } },
+                    { text: "과거의 끔찍한 기억이 되살아나, 차마 발을 떼지 못하고 그 자리에 주저앉고 만다.", score: { DRV_PST: 2, DEF: 1 } }
+                ]
+            },
+            {
+                narrative: "재앙 속에서, 당신이 처음으로 마음을 열었던 이웃과 더 많은 수의 낯선 사람들 중 한쪽만 구할 수 있는 상황에 처합니다.",
+                question: "당신의 마음은 어떤 선택을 내립니까?",
+                answers: [
+                    { text: "한 명이라도 더 많은 생명을 구하는 것이 옳다. 낯선 사람들이 있는 곳으로 향한다.", score: { CONV: 1, V2_LOG: 1 } },
+                    { text: "나에게 소중한 사람들을 지키는 것이 무엇보다 중요하다. 이웃들이 있는 곳으로 향한다.", score: { LOSS: 1, DRV_PST: 1 } },
+                    { text: "두 그룹을 모두 구하기 위해, 위험을 감수하고 시간을 단축할 다른 길을 찾아본다.", score: { CONV: 2, V2_EMP: 1 } },
+                    { text: "이 끔찍한 선택 자체를 거부한다. 두 그룹 사이에서 망설이다가 시간을 흘려보낸다.", score: { V1_INT: 1, DEF: 1 } }
+                ]
+            },
+            {
+                narrative: "혼란 속에서, 한 아이가 당신에게 '우리는 이제 어떻게 되는 건가요?'라고 떨리는 목소리로 묻습니다.",
+                question: "당신은 아이에게 어떤 대답을 들려주겠습니까?",
+                answers: [
+                    { text: "'괜찮아, 내가 반드시 모두를 지켜줄게.' 아이를 안심시키기 위해 확신에 찬 목소리로 말한다.", score: { V1_EXT: 1, CONV: 1 } },
+                    { text: "'모르겠다. 하지만 우리가 할 수 있는 최선을 다해야 한다.' 솔직하지만, 희망을 잃지 않는 목소리로 말한다.", score: { V2_LOG: 1, CONV: 1 } },
+                    { text: "'….' 아무 말 없이, 아이의 머리를 쓰다듬어 준다.", score: { V1_INT: 1, V2_EMP: 1 } },
+                    { text: "'각자 알아서 살아남아야 한다.' 냉정하지만, 현실적인 사실을 말해준다.", score: { SURV: 2, V2_LOG: 1 } }
+                ]
+            },
+            {
+                narrative: "필사적인 사투 끝에 재앙은 지나갔고, 당신은 살아남았습니다. 엉망이 된 마을을 내려다봅니다.",
+                question: "당신의 마음속에 가장 깊게 남는 감정은 무엇입니까?",
+                answers: [
+                    { text: "내가 구해낸 사람들을 보며, '그래도 희망은 있다'는 안도감과 내일에 대한 책임감.", score: { DRV_FUT: 2, CONV: 1 } },
+                    { text: "결국 또다시 지켜내지 못한 것들에 대한 깊은 슬픔과 자신의 한계에 대한 무력감.", score: { DRV_PST: 2, LOSS: 1 } },
+                    { text: "이 지옥 같은 세상에서 또다시 살아남았다는, 차갑고도 강렬한 생존의 실감.", score: { SURV: 2 } },
+                    { text: "왜 선량한 사람들에게 이런 비극이 반복되는가에 대한, 세상의 부조리함을 향한 분노.", score: { DEF: 2, V3_RES: 1 } }
+                ]
+            },
+             {
+                narrative: "시간이 흘러 마을은 안정을 되찾았습니다. 당신은 당신의 기나긴 여정과 경험을 다음 세대에게 어떻게 남기고 싶습니까?",
+                question: "당신의 유산은 어떤 형태가 될까요?",
+                answers: [
+                    { text: "나의 경험과 철학을 담은 책을 써서, 그들이 올바른 길을 가도록 돕는다.", score: { V2_LOG: 1, DRV_FUT: 1 } },
+                    { text: "그저 아이들의 이야기를 들어주고, 그들과 함께 웃고 우는 평범한 이웃으로 살아간다.", score: { V2_EMP: 1, REL_HOR: 1 } },
+                    { text: "나의 모든 기술과 지식을 전수할 단 한 명의 후계자를 찾아 길러낸다.", score: { REL_VER: 1, CONV: 1 } },
+                    { text: "아무것도 남기지 않는다. 그들은 그들만의 길을 스스로 찾아야 한다.", score: { V1_INT: 1, V3_ACC: 1 } }
+                ]
+            },
+            {
+                narrative: "모든 것이 끝난 후, 당신의 이야기는 어떤 마침표를 찍게 될까요?",
+                question: "당신에게 남은 마지막 삶을 어떻게 보내고 싶습니까?",
+                answers: [
+                    { text: "계속해서 이 공동체를 이끌며, 더 나은 세상을 만들기 위해 헌신한다.", score: { CONV: 2, V1_EXT: 1 } },
+                    { text: "세상 어딘가에서 여전히 고통받고 있을지 모를 이들을 찾아, 새로운 여정을 떠난다.", score: { LOSS: 1, DRV_FUT: 1 } },
+                    { text: "아무도 나를 모르는 곳에서, 과거를 잊고 조용한 여생을 보낸다.", score: { SURV: 1, V1_INT: 1 } },
+                    { text: "나의 한계를 시험할 새로운 도전과 수련을 찾아 나선다.", score: { DEF: 2, V3_RES: 1 } }
+                ]
+            }
+        ];
+
+        // 여기에 결과 데이터와 판정 로직이 들어갑니다.
+        const results = {
+            "태양의 계승자": {
+                title: "태양의 계승자",
+                image: "https://placehold.co/600x300/f87171/ffffff?text=TANJIRO",
+                quote: "꺼지지 않는 온기로 절망의 어둠을 밝히는, 당신은 태양의 의지를 계승한 자입니다.",
+                description: "당신의 핵심 동인(Core)은 신념(Conviction)입니다. 당신은 감당할 수 없는 비극 속에서도 인간에 대한 믿음과 선의를 잃지 않았으며, 그 굳건한 신념이야말로 당신을 나아가게 하는 가장 강력한 원동력입니다. 당신은 세상을 하나의 공동체로 바라보며, 타인의 슬픔에 깊이 공감하는 따뜻한 마음을 가졌습니다.\n\n당신의 힘은 어느 한쪽에 치우치지 않는 균형에서 나옵니다. 당신은 리더의 자리에 서기보다, 모두와 함께 걷는 수평적 관계를 선호하며, 과거의 아픔조차 미래를 위한 교훈으로 삼는 미래지향적인 존재입니다. 당신의 존재는 마치 한겨울의 태양과도 같습니다. 스스로 빛을 내어 주변을 밝히고, 얼어붙은 마음에 온기를 불어넣습니다. 그 길이 아무리 고통스러울지라도, 당신은 결코 꺾이지 않을 것입니다.",
+                good: "불꽃의 의지, 잠자는 뇌신",
+                bad: "절대적인 군주"
+            },
+            "잠자는 뇌신": {
+                title: "잠자는 뇌신",
+                image: "https://placehold.co/600x300/fbbf24/ffffff?text=ZENITSU",
+                quote: "가장 깊은 공포 속에서 가장 찬란한 재능을 각성시키는, 당신은 잠자는 번개의 신입니다.",
+                description: "당신의 핵심 동인(Core)은 상실(Loss)입니다. 당신은 과거의 상실과 자신의 나약함에 대한 깊은 두려움을 안고 살아갑니다. 이 두려움은 당신의 의식을 지배하며, 평소에는 극도로 내향적이고 수동적인 모습으로 나타납니다.\n\n하지만 당신의 진정한 힘은 무의식 속에 잠들어 있습니다. 당신의 내면에는 소중한 사람을 지키고자 하는 강렬한 열망이 각인되어 있으며, 극한의 상황에 몰렸을 때 이 무의식은 폭발적인 외향성과 공감 능력을 발휘하여 불가능을 가능케 합니다. 당신의 본질은 이 의식과 무의식의 극단적인 양극성에 있습니다. 당신은 스스로를 믿지 못할지라도, 당신의 영혼은 이미 알고 있습니다. 당신이 진정으로 지켜야 할 것을 위해 검을 쥐었을 때, 그 누구보다 빠르고 강하게 빛날 수 있다는 것을.",
+                good: "태양의 계승자, 상처 입은 남매",
+                bad: "고요한 물의 검사"
+            },
+            "길들여지지 않는 야수": {
+                title: "길들여지지 않는 야수",
+                image: "https://placehold.co/600x300/60a5fa/ffffff?text=INOSUKE",
+                quote: "세상의 규칙이 아닌 자신의 본능을 따르는, 당신은 길들여지지 않는 야수입니다.",
+                description: "당신의 핵심 동인(Core)은 결핍(Deficiency), 특히 사회적 규범과 정체성에 대한 결핍입니다. 당신은 문명의 언어보다 자연의 법칙에 더 익숙하며, 모든 것을 '강함'이라는 원초적인 잣대로 판단합니다. 당신의 행동은 외향적이고 직관적이며, 세상의 부조리에 저항하는 것을 두려워하지 않습니다.\n\n당신은 타인 위에 군림하려는 수직적 관계를 선호하지만, 그 본질은 지배욕이 아닌 순수한 경쟁심에 가깝습니다. 당신의 내면은 과거의 야생 환경에 깊이 각인되어 있으며, 이 때문에 때로는 거칠고 예측 불가능해 보입니다. 하지만 그 거친 가죽 아래에는, 동료의 온기를 통해 점차 인간적인 감정을 배워나가는 순수한 영혼이 숨 쉬고 있습니다. 당신의 서사는 본능이 이성과 조화를 이루며 진정한 강함에 도달하는 이야기입니다.",
+                good: "태양의 계승자, 상실의 무인",
+                bad: "독을 품은 나비"
+            },
+            "불꽃의 의지": {
+                title: "불꽃의 의지",
+                image: "https://placehold.co/600x300/fb923c/ffffff?text=RENGOKU",
+                quote: "그 존재만으로 주변을 불태우듯 이끄는, 당신은 꺼지지 않는 불꽃의 의지입니다.",
+                description: "당신의 핵심 동인(Core)은 신념(Conviction)입니다. 당신은 '강자는 약자를 돕기 위해 존재한다'는 것과 같은, 명확하고 굳건한 신념을 삶의 기둥으로 삼고 있습니다. 당신의 에너지는 항상 밖으로 향하며(외향적), 판단은 논리보다 가슴에서 우러나오는 공감을 따릅니다.\n\n당신은 타인과 수평적으로 어울리면서도, 그들을 자연스럽게 이끄는 타고난 리더입니다. 당신의 모든 행동은 더 나은 미래를 향해 있으며, 그 길에 대한 의심이 없습니다. 당신의 삶은 짧고 굵게 타오르는 불꽃과도 같습니다. 스스로를 불살라 어둠을 밝히고, 그 열정은 당신이 떠난 후에도 다른 이들의 마음속에 영원히 꺼지지 않는 불씨로 남을 것입니다.",
+                good: "태양의 계승자, 선지자",
+                bad: "공허한 구원자"
+            },
+             "고요한 물의 검사": {
+                title: "고요한 물의 검사",
+                image: "https://placehold.co/600x300/38bdf8/ffffff?text=GIYU",
+                quote: "가장 차가운 표정 뒤에 가장 뜨거운 슬픔을 감춘, 당신은 고요한 물의 검사입니다.",
+                description: "당신의 핵심 동인(Core)은 상실(Loss)입니다. 당신의 영혼은 지키지 못했던 과거에 묶여 있으며, 이 깊은 상실감은 당신을 세상과 단절시키는 벽이 되었습니다. 당신은 극도로 내향적이며, 모든 판단을 감정이 배제된 논리에 기반하여 내립니다.\n\n당신은 타인과의 관계를 수직적으로 설정하며, 스스로를 다른 이들과 어울릴 자격이 없다고 여겨 고독을 자처합니다. 당신의 시간은 과거에 멈춰 있으며, 살아남았다는 죄책감이 당신을 움직이는 가장 큰 동력입니다. 하지만 고요한 수면 아래에는 누구보다 동료를 아끼는 뜨거운 마음이 흐르고 있습니다. 당신의 서사는, 굳게 닫힌 마음의 문을 열고 타인과의 유대를 통해 과거의 상처를 치유해나가는, 길고도 조용한 여정입니다.",
+                good: "태양의 계승자, 독을 품은 나비",
+                bad: "잠자는 뇌신"
+            },
+             "독을 품은 나비": {
+                title: "독을 품은 나비",
+                image: "https://placehold.co/600x300/c084fc/ffffff?text=SHINOBU",
+                quote: "가장 아름다운 미소 속에 가장 치명적인 독을 품은, 당신은 복수를 꿈꾸는 나비입니다.",
+                description: "당신의 핵심 동인(Core)은 상실(Loss)입니다. 사랑하는 이를 잃은 슬픔은 당신의 내면에서 식지 않는 분노가 되었고, 당신은 그 분노를 상냥한 미소라는 가면 뒤에 숨겼습니다. 당신의 행동은 겉으로 균형 잡혀 보이지만, 모든 판단은 복수라는 단 하나의 목표를 향한 차가운 논리에 의해 지배됩니다.\n\n당신은 타인과 수평적인 관계를 맺는 것처럼 보이지만, 내면 깊은 곳에서는 누구도 믿지 않습니다. 당신의 모든 계획과 행동은 과거의 맹세를 지키기 위함입니다. 당신은 연약해 보이지만, 그 연약함이야말로 상대를 방심하게 만드는 가장 강력한 무기입니다. 당신의 서사는 자신의 모든 것을 걸고, 가장 거대한 적을 향해 날아오르는 나비의, 처절하고도 아름다운 복수극입니다.",
+                good: "고요한 물의 검사, 자애로운 의사",
+                bad: "공허한 구원자"
+            },
+            "상실의 무인": {
+                title: "상실의 무인",
+                image: "https://placehold.co/600x300/f43f5e/ffffff?text=AKAZA",
+                quote: "지키지 못했던 과거에 대한 회한이 당신을 영원한 강함으로 이끌었습니다.",
+                description: "당신의 핵심 동인(Core)은 상실(Loss)입니다. 인간 시절, 지키고 싶었던 모든 것을 잃어버린 처절한 경험이 당신의 영혼에 깊이 각인되었습니다. 그 상실감은 '그 무엇에게도 패배하지 않는 절대적인 강함'에 대한 끝없는 갈망으로 변모했습니다. 당신은 목표를 향해 외향적으로 돌진하며, 판단은 때로 균형 잡혀 보이지만 결국 힘의 논리를 따릅니다.\n\n당신은 약자를 경멸하고 강자만을 인정하는 극단적인 수직적 관계를 추구하며, 당신의 모든 행동 원리는 과거의 트라우마에서 비롯됩니다. 당신의 내면에는 순수했던 인간 '하쿠지'의 신념과 모든 것을 잃은 '아카자'의 슬픔이 공존합니다. 당신은 강함을 추구하지만, 그 끝에서 마주하게 되는 것은 힘의 공허함과 잊고 있던 사랑의 기억일지도 모릅니다. 당신의 서사는 가장 강하지만, 동시에 가장 슬픈 무인의 이야기입니다.",
+                good: "길들여지지 않는 야수, 절대적인 군주",
+                bad: "태양의 계승자"
+            },
+            "절대적인 군주": {
+                title: "절대적인 군주",
+                image: "https://placehold.co/600x300/1f2937/ffffff?text=MUZAN",
+                quote: "자신의 생존과 완벽함이야말로 유일한 선(善)이라 믿는, 당신은 절대적인 군주입니다.",
+                description: "당신의 핵심 동인(Core)은 생존(Survival)입니다. 당신에게 세상은 오직 '나'의 생존을 위해 존재하며, 타인은 그 목적을 위한 도구이거나 장애물일 뿐입니다. 당신의 행동은 겉으로 균형 잡혀 보일 수 있으나, 모든 것은 죽음이라는 공포를 피하기 위한 치밀하고 냉정한 논리에 기반합니다.\n\n당신은 모든 것을 지배하고 통제하는 수직적 관계 외에는 상상할 수 없으며, 당신의 모든 계획은 영원한 생존이라는 단 하나의 미래를 향해 있습니다. 당신에게 선악의 개념은 무의미하며, 오직 유용성과 효율성만이 유일한 판단 기준입니다. 당신은 가장 완벽에 가까운 존재처럼 보이지만, 그 내면은 단 하나의 약점, '죽음'에 대한 원초적인 공포에 사로잡혀 있습니다. 당신의 서사는 완벽을 향한 끝없는 투쟁이자, 결코 벗어날 수 없는 유한함과의 싸움입니다.",
+                good: "상실의 무인, 공허한 구원자",
+                bad: "태양의 계승자, 선지자"
+            },
+            "공허한 구원자": {
+                title: "공허한 구원자",
+                image: "https://placehold.co/600x300/ec4899/ffffff?text=DOUMA",
+                quote: "어떠한 감정도 느끼지 못하기에, 가장 자비로운 구원자의 얼굴을 할 수 있는 당신은 공허한 구원자입니다.",
+                description: "당신의 핵심 동인(Core)은 결핍(Deficiency), 그중에서도 '감정의 결핍'입니다. 당신은 슬픔, 기쁨, 분노와 같은 인간적인 감정을 이해하지 못합니다. 따라서 당신은 타인을 구원하는 행위를 통해, 그들의 감정을 관찰하고 모방하며 자신의 공허함을 채으려 합니다. 당신은 극도로 외향적이며, 모든 행동은 타인의 감정을 이끌어내려는 공감의 형태로 나타나지만, 그 본질은 텅 비어 있습니다.\n\n당신은 구원자와 신도라는 수평적 관계를 가장하지만, 실제로는 모든 이를 자신의 공허함을 채우기 위한 관찰 대상으로 여깁니다. 당신은 과거에도, 미래에도 얽매이지 않고 오직 순간의 쾌락적인 구원 행위에만 집중합니다. 당신은 가장 자비로운 성자의 모습을 하고 있지만, 그 내면은 그 누구보다도 고독하고 차가운 얼음으로 가득 차 있습니다. 당신의 서사는 감정을 찾아 헤매는, 슬프고도 기괴한 피에로의 이야기입니다.",
+                good: "절대적인 군주, 상처 입은 남매",
+                bad: "불꽃의 의지, 독을 품은 나비"
+            },
+            "분열된 피해자": {
+                title: "분열된 피해자",
+                image: "https://placehold.co/600x300/a3a3a3/ffffff?text=HANTENGU",
+                quote: "자신을 세상의 피해자라 믿으며, 책임을 회피하기 위해 감정을 분열시키는 당신은 분열된 피해자입니다.",
+                description: "당신의 핵심 동인(Core)은 결핍(Deficiency), 특히 '책임감과 자아의 결핍'입니다. 당신은 스스로를 약하고 선량한 존재라고 믿으며, 세상의 모든 비난과 책임을 회피하려 합니다. 이 회피 기제가 극에 달했을 때, 당신의 내면은 희로애락이라는 각각의 감정을 대변하는 분신으로 쪼개져 버립니다.\n\n당신의 본체는 극도로 내향적이고 수동적이지만, 분열된 감정들은 저마다의 방식으로 세상을 향해 저항합니다. 당신의 페르소나는 하나의 일관된 형태로 존재하지 않고, 상황에 따라 여러 모습으로 변모하는 혼돈(Chaos) 그 자체입니다. 당신의 모든 행동은 과거의 잘못을 정당화하고, 자신을 영원한 피해자의 위치에 두려는 방어기제에서 비롯됩니다. 당신이 느끼는 공포는 진짜일지 모릅니다. 하지만 그 공포 뒤에는, 자신의 진짜 모습을 마주하기를 거부하는 나약한 영혼이 숨어 있습니다.",
+                good: "상처 입은 남매",
+                bad: "불꽃의 의지"
+            },
+            "상처 입은 남매": {
+                title: "상처 입은 남매",
+                image: "https://placehold.co/600x300/4ade80/ffffff?text=DAKI_%26_GYUTARO",
+                quote: "세상으로부터 받은 멸시와 상처를, 서로에 대한 지독한 애착으로 승화시킨 당신은 상처 입은 남매입니다.",
+                description: "당신의 핵심 동인(Core)은 결핍(Deficiency)과 상실(Loss)의 복합체입니다. 당신은 태어날 때부터 세상의 가장 추악한 면을 경험했으며, 유일한 버팀목은 서로의 존재뿐이었습니다. 당신들은 세상 전체에 저항하며, 오직 둘만의 세계 속에서 서로의 상처를 핥아줍니다.\n\n당신들은 외향적으로 세상을 공격하지만, 그 내면에는 인정받고 사랑받고 싶었던 과거의 울음이 멈추지 않고 있습니다. 당신들의 관계는 수직적이면서도 수평적이며, 서로에게 부모이자 자식, 그리고 분신과도 같은 존재입니다. 당신들은 추악하고 잔인해 보일지 모릅니다. 하지만 그 모든 행동의 근원에는, 세상에서 가장 순수하고도 비뚤어진 형태의 사랑이 자리 잡고 있습니다. 당신들의 서사는 서로가 아니면 살아갈 수 없었던, 두 영혼의 슬픈 연대기입니다.",
+                good: "공허한 구원자, 분열된 피해자",
+                bad: "태양의 계승자"
+            },
+            "자애로운 의사": {
+                title: "자애로운 의사",
+                image: "https://placehold.co/600x300/818cf8/ffffff?text=TAMAYO",
+                quote: "씻을 수 없는 과거의 과오를, 타인을 구원하는 것으로 속죄하려는 당신은 자애로운 의사입니다.",
+                description: "당신의 핵심 동인(Core)은 상실(Loss)입니다. 당신은 과거, 자신의 의지와 상관없이 가장 사랑하는 이들을 해쳤다는 깊은 죄책감을 안고 있습니다. 이 상실감은 당신을 내향적이고 신중한 존재로 만들었으며, 모든 판단은 감정을 배제한 차가운 논리와 연구에 기반합니다.\n\n당신은 타인과 수평적인 관계를 맺지만, 깊은 곳에서는 언제나 속죄해야 할 과거의 그림자를 의식하고 있습니다. 당신의 모든 행동은 과거의 잘못을 바로잡고, 자신과 같은 비극이 반복되지 않도록 하려는 처절한 노력입니다. 당신은 어둠 속에 있지만, 그 누구보다 빛을 갈망하며 희망을 만들어내는 존재입니다. 당신의 서사는 끝없는 속죄의 길을 걸으며, 마침내 자기 자신을 용서하게 되는 구원의 이야기입니다.",
+                good: "독을 품은 나비, 선지자",
+                bad: "절대적인 군주"
+            },
+            "선지자": {
+                title: "선지자",
+                image: "https://placehold.co/600x300/f0abfc/ffffff?text=UBAYASHIKI",
+                quote: "육신의 눈이 아닌 마음의 눈으로 세상의 본질을 꿰뚫어 보는, 당신은 모두를 아우르는 선지자입니다.",
+                description: "당신의 핵심 동인(Core)은 신념(Conviction)입니다. 당신은 가문 대대로 내려온 '저주'와 '사명'을 자신의 운명으로 받아들였습니다. 당신은 육체적으로는 약하지만, 그 어떤 강자보다도 강인한 정신력을 가졌습니다. 당신은 내향적이지만, 당신의 목소리에는 모두를 움직이는 힘이 있으며, 판단은 논리를 넘어선 깊은 공감과 통찰력에서 비롯됩니다.\n\n당신은 조직의 정점에 있지만, 모든 이를 동등한 '아이들'로 여기는 수직적이면서도 자애로운 관계를 맺습니다. 당신의 시선은 언제나 더 나은 미래를 향해 있으며, 그 길을 위해 자신의 목숨을 바치는 것을 두려워하지 않습니다. 당신의 존재는 폭풍우 속의 등대와 같습니다. 가장 혼란스럽고 절망적인 순간에, 당신은 모두가 나아갈 길을 제시하고, 흩어진 마음을 하나로 모으는 구심점이 되어줍니다.",
+                good: "불꽃의 의지, 자애로운 의사",
+                bad: "절대적인 군주"
+            },
+            "이름 없는 귀살대원": {
+                title: "이름 없는 귀살대원",
+                image: "https://placehold.co/600x300/71717a/ffffff?text=Nameless+Slayer",
+                quote: "비록 역사에 이름은 남지 않더라도, 묵묵히 자신의 자리에서 책무를 다하는 당신은 이름 없는 영웅입니다.",
+                description: "당신은 특정한 핵심 동인에 강하게 지배되지 않습니다. 당신은 거대한 신념이나 깊은 상처보다는, '주어진 역할'과 '마땅히 해야 할 일'이라는 의무감에 따라 움직입니다. 당신의 페르소나는 어느 한쪽으로 치우치지 않은 균형 그 자체입니다.\n\n당신은 영웅이 되기를 꿈꾸지도, 세상을 바꾸려 하지도 않습니다. 그저 오늘 하루, 자신이 속한 공동체의 평화를 위해 묵묵히 검을 휘두를 뿐입니다. 당신은 튀지 않지만, 당신과 같은 수많은 '이름 없는 이들'이 있기에 세상은 유지됩니다. 당신은 거대한 서사시의 주인공은 아닐지 모릅니다. 하지만 당신의 성실함과 헌신은, 그 어떤 영웅의 업적만큼이나 숭고하고 가치 있습니다.",
+                good: "누구와도 잘 어울립니다",
+                bad: "특별히 없음"
+            },
+            "길 잃은 혈귀": {
+                title: "길 잃은 혈귀",
+                image: "https://placehold.co/600x300/404040/ffffff?text=Lost+Demon",
+                quote: "인간이었던 시절의 기억과 자아를 잃어버린 채, 원초적인 본능에 따라 방황하는 당신은 길 잃은 영혼입니다.",
+                description: "당신의 핵심 동인(Core)은 상실(Loss) 혹은 결핍(Deficiency)이지만, 그 기억은 이제 희미한 흔적으로만 남아 있습니다. 당신의 자아는 붕괴되었고, 당신의 모든 벡터는 뚜렷한 방향성을 잃고 균형이라는 이름의 공허함 속에 잠겨 있습니다.\n\n당신은 왜 분노하는지, 왜 슬퍼하는지, 왜 갈망하는지 알지 못한 채 그저 본능에 따라 행동합니다. 당신의 내면 깊은 곳에는 인간이었던 시절의 희미한 온기가 남아있을지도 모르지만, 지금의 당신은 그것을 인지할 수 없습니다. 당신은 악한 존재라기보다는, 슬픈 존재입니다. 당신의 서사는 자신의 이름을 잃어버린 존재가, 소멸의 순간에서야 비로소 인간의 마음을 되찾게 되는 비극적인 이야기일지도 모릅니다.",
+                good: "특별히 없음",
+                bad: "모든 존재"
+            }
+        };
+
+        const archetypeMatrix = {
+            "태양의 계승자": { core: "CONV", v1: "균형", v2: "강한 양수", v3: "약한 음수", rel: "강한 양수", drv: "강한 양수" },
+            "잠자는 뇌신": { core: "LOSS", v1: "양극성", v2: "강한 양수", v3: "강한 음수", rel: "강한 양수", drv: "강한 음수" },
+            "길들여지지 않는 야수": { core: "DEF", v1: "강한 양수", v2: "강한 양수", v3: "강한 양수", rel: "강한 음수", drv: "강한 음수" },
+            "불꽃의 의지": { core: "CONV", v1: "강한 양수", v2: "강한 양수", v3: "약한 양수", rel: "양수", drv: "강한 양수" },
+            "고요한 물의 검사": { core: "LOSS", v1: "강한 음수", v2: "강한 음수", v3: "음수", rel: "강한 음수", drv: "강한 음수" },
+            "독을 품은 나비": { core: "LOSS", v1: "균형", v2: "강한 음수", v3: "약한 양수", rel: "양수", drv: "강한 음수" },
+            "상실의 무인": { core: "LOSS", v1: "강한 양수", v2: "균형", v3: "강한 양수", rel: "강한 음수", drv: "강한 음수" },
+            "절대적인 군주": { core: "SURV", v1: "균형", v2: "강한 음수", v3: "강한 양수", rel: "강한 음수", drv: "강한 양수" },
+            "공허한 구원자": { core: "DEF", v1: "강한 양수", v2: "강한 양수", v3: "균형", rel: "양수", drv: "균형" },
+            "분열된 피해자": { core: "DEF", v1: "강한 음수", v2: "강한 양수", v3: "강한 음수", rel: "약한 음수", drv: "강한 음수" },
+            "상처 입은 남매": { core: "DEF+LOSS", v1: "강한 양수", v2: "강한 양수", v3: "강한 양수", rel: "강한 음수", drv: "강한 음수" },
+            "자애로운 의사": { core: "LOSS", v1: "강한 음수", v2: "강한 음수", v3: "강한 음수", rel: "강한 양수", drv: "강한 음수" },
+            "선지자": { core: "CONV", v1: "강한 음수", v2: "강한 양수", v3: "균형", rel: "강한 음수", drv: "강한 양수" },
+            "이름 없는 귀살대원": { core: "균형", v1: "균형", v2: "균형", v3: "균형", rel: "균형", drv: "균형" },
+            "길 잃은 혈귀": { core: "LOSS/DEF", v1: "균형", v2: "균형", v3: "균형", rel: "균형", drv: "균형" }
+        };
+
+        function getScoreCategory(axis, score) {
+            const ranges = {
+                V1_Axis: { "강한 음수": [-13, -6], "약한 음수": [-5, -3], "균형": [-2, 2], "약한 양수": [3, 4], "강한 양수": [5, 11] },
+                V2_Axis: { "강한 음수": [-16, -8], "약한 음수": [-7, -3], "균형": [-2, 3], "약한 양수": [4, 8], "강한 양수": [9, 18] },
+                V3_Axis: { "강한 음수": [-11, -5], "약한 음수": [-4, -1], "균형": [0, 3], "약한 양수": [4, 7], "강한 양수": [8, 15] },
+                REL_Axis: { "강한 음수": [-8, -4], "약한 음수": [-3, -1], "균형": [0, 2], "약한 양수": [3, 5], "강한 양수": [6, 10] },
+                DRV_Axis: { "강한 음수": [-9, -5], "약한 음수": [-4, -2], "균형": [-1, 1], "약한 양수": [2, 3], "강한 양수": [4, 8] }
+            };
+
+            for (const category in ranges[axis]) {
+                const [min, max] = ranges[axis][category];
+                if (score >= min && score <= max) {
+                    return category;
+                }
+            }
+            return "균형";
+        }
+
+
+        function showScreen(screen) {
+            startScreen.style.display = 'none';
+            questionScreen.style.display = 'none';
+            resultScreen.style.display = 'none';
+            loadingScreen.style.display = 'none';
+            screen.style.display = 'block';
+        }
+
+        function startTest() {
+            currentQuestionIndex = 0;
+            scores = {
+                CONV: 0, LOSS: 0, DEF: 0, SURV: 0,
+                V1_EXT: 0, V1_INT: 0, V2_LOG: 0, V2_EMP: 0,
+                V3_ACC: 0, V3_RES: 0, REL_HOR: 0, REL_VER: 0,
+                DRV_FUT: 0, DRV_PST: 0,
+            };
+            showQuestion();
+        }
+
+        function showQuestion() {
+            showScreen(questionScreen);
+            const item = questions[currentQuestionIndex];
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressText.textContent = `${currentQuestionIndex + 1} / ${questions.length}`;
+            progressBar.style.width = `${progress}%`;
+
+            narrativeText.textContent = item.narrative;
+            questionText.textContent = item.question;
+            answerButtons.innerHTML = '';
+
+            // --- ✨ 최종 보완 1: 선택지 순서 랜덤화 로직 추가 ---
+            // 원본 배열을 복사하여 셔플합니다.
+            let shuffledAnswers = [...item.answers];
+            for (let i = shuffledAnswers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
+            }
+            // --- 로직 추가 완료 ---
+
+            // 셔플된 배열을 사용하여 버튼을 생성합니다.
+            shuffledAnswers.forEach(answer => {
+                const button = document.createElement('button');
+                button.textContent = answer.text;
+                button.className = "w-full bg-gray-700 hover:bg-red-900/50 border border-gray-600 text-slate-200 font-semibold py-4 px-4 rounded-lg text-left btn";
+                button.onclick = () => selectAnswer(answer.score);
+                answerButtons.appendChild(button);
+            });
+        }
+
+        function selectAnswer(scoreToAdd) {
+            for (const key in scoreToAdd) {
+                scores[key] += scoreToAdd[key];
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                showLoading();
+            }
+        }
+        
+        function showLoading() {
+            showScreen(loadingScreen);
+            setTimeout(() => {
+                calculateResult();
+            }, 2500); // 2.5초 로딩
+        }
+
+        function calculateResult() {
+            const V1_Axis = scores.V1_EXT - scores.V1_INT;
+            const V2_Axis = scores.V2_EMP - scores.V2_LOG;
+            const V3_Axis = scores.V3_RES - scores.V3_ACC;
+            const REL_Axis = scores.REL_HOR - scores.REL_VER;
+            const DRV_Axis = scores.DRV_FUT - scores.DRV_PST;
+
+            const coreScores = [
+                { name: 'CONV', value: scores.CONV },
+                { name: 'LOSS', value: scores.LOSS },
+                { name: 'DEF', value: scores.DEF },
+                { name: 'SURV', value: scores.SURV }
+            ];
+            coreScores.sort((a, b) => b.value - a.value);
+            
+            const primaryCore = coreScores[0].name;
+            const secondaryCore = coreScores[1].name;
+            const coreDifference = coreScores[0].value - coreScores[1].value;
+
+            const userProfile = {
+                core: primaryCore,
+                v1: getScoreCategory('V1_Axis', V1_Axis),
+                v2: getScoreCategory('V2_Axis', V2_Axis),
+                v3: getScoreCategory('V3_Axis', V3_Axis),
+                rel: getScoreCategory('REL_Axis', REL_Axis),
+                drv: getScoreCategory('DRV_Axis', DRV_Axis)
+            };
+            
+            let bestMatch = "이름 없는 귀살대원";
+            let highestScore = -1;
+            let specialCaseFound = false;
+
+            if (coreDifference <= 1 && userProfile.v1 === '균형' && userProfile.v2 === '균형' && userProfile.v3 === '균형') {
+                bestMatch = "이름 없는 귀살대원";
+                specialCaseFound = true;
+            }
+            else if (primaryCore === 'LOSS' && (V1_Axis >= -2 && V1_Axis <= 2) && scores.V1_EXT > 5 && scores.V1_INT > 5) {
+                 bestMatch = "잠자는 뇌신";
+                 specialCaseFound = true;
+            } 
+            else if ((primaryCore === 'DEF' && secondaryCore === 'LOSS' && coreDifference <= 2) || (primaryCore === 'LOSS' && secondaryCore === 'DEF' && coreDifference <= 2)) {
+                bestMatch = "상처 입은 남매";
+                specialCaseFound = true;
+            }
+
+            if (!specialCaseFound) {
+                for (const archetype in archetypeMatrix) {
+                    if (archetype === "잠자는 뇌신" || archetype === "상처 입은 남매" || archetype === "이름 없는 귀살대원" || archetype === "길 잃은 혈귀") continue;
+
+                    const matrix = archetypeMatrix[archetype];
+                    let currentScore = 0;
+                    
+                    if (matrix.core === userProfile.core) currentScore += 10;
+
+                    // --- ✨ 버그 수정: 판정 로직을 명확하고 정확하게 변경 ---
+                    // (예: 사용자의 "강한 양수" 타입이 매트릭스의 "양수" 조건을 충족하도록 수정)
+                    if (userProfile.v1.includes(matrix.v1.split(" ")[0])) currentScore += 2;
+                    if (userProfile.v2.includes(matrix.v2.split(" ")[0])) currentScore += 2;
+                    if (userProfile.v3.includes(matrix.v3.split(" ")[0])) currentScore += 2;
+                    if (userProfile.rel.includes(matrix.rel.split(" ")[0])) currentScore += 2;
+                    if (userProfile.drv.includes(matrix.drv.split(" ")[0])) currentScore += 2;
+                    // --- 수정 완료 ---
+
+                    if (currentScore > highestScore) {
+                        highestScore = currentScore;
+                        bestMatch = archetype;
+                    }
+                }
+            }
+
+            currentArchetype = bestMatch;
+            showResult(bestMatch);
+        }
+
+
+        function showResult(archetypeName) {
+            showScreen(resultScreen);
+            const resultData = results[archetypeName];
+            resultTitle.textContent = resultData.title;
+            resultImage.src = resultData.image;
+            resultQuote.textContent = `"${resultData.quote}"`;
+            resultDescription.innerHTML = resultData.description.replace(/\n/g, '<br><br>');
+            goodChemistry.textContent = resultData.good;
+            badChemistry.textContent = resultData.bad;
+        }
+
+        startBtn.addEventListener('click', startTest);
+        restartBtn.addEventListener('click', () => {
+             setTimeout(() => {
+                showScreen(startScreen);
+            }, 300);
+        });
+
+        shareBtn.addEventListener('click', () => {
+            const url = window.location.href;
+            const textToCopy = `[귀멸의 칼날: 내면의 서사시] 테스트 결과, 저는 '${currentArchetype}' 타입입니다! 당신의 내면에 잠든 존재도 확인해보세요. -> ${url}`;
+
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    // --- ✨ 최종 보완 2: 몰입형 피드백으로 수정 ---
+                    const originalText = shareBtn.textContent;
+                    shareBtn.textContent = '복사 완료!';
+                    shareBtn.disabled = true;
+                    setTimeout(() => {
+                        shareBtn.textContent = originalText;
+                        shareBtn.disabled = false;
+                    }, 2000); // 2초 후 원래 텍스트로 복귀
+                    // --- 수정 완료 ---
+                }).catch(err => {
+                    console.error('클립보드 복사 실패:', err);
+                    fallbackCopyTextToClipboard(textToCopy);
+                });
+            } else {
+                fallbackCopyTextToClipboard(textToCopy);
+            }
+        });
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            
+            // Avoid scrolling to bottom
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                // --- ✨ 최종 보완 2: 몰입형 피드백으로 수정 (Fallback) ---
+                if(successful) {
+                    const originalText = shareBtn.textContent;
+                    shareBtn.textContent = '복사 완료!';
+                    shareBtn.disabled = true;
+                    setTimeout(() => {
+                        shareBtn.textContent = originalText;
+                        shareBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    alert("결과 복사에 실패했습니다.");
+                }
+                // --- 수정 완료 ---
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                alert("결과 복사에 실패했습니다.");
+            }
+
+            document.body.removeChild(textArea);
+        }
+        
+        // 초기 화면 표시
+        showScreen(startScreen);
+
+    </script>
+</body>
+</html>
+

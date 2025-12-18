@@ -1,0 +1,107 @@
+@charset "utf-8";
+
+/* 
+ * Mellow Wave - Main Stylesheet
+ * 
+ * Color Palette:
+ * - Primary: #FFD166 (Warm Yellow)
+ * - Secondary: #FF8C94 (Soft Coral Pink)
+ * - Accent: #FFB366 (Ripe Orange)
+ * - Background: #FFFDF5
+ * - Text: #4A4A4A
+ */
+
+:root {
+    --bg-primary: #FFFDF5;
+    --color-primary: #FFD166;
+    --color-secondary: #FF8C94;
+    --color-accent: #FFB366;
+    --text-dark: #4A4A4A;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+/* Typography */
+.font-gaegu {
+    font-family: 'Gaegu', cursive;
+}
+
+/* Animations & Components */
+
+/* Wave Animation Container */
+.wave-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    pointer-events: none; /* 물결이 클릭 방해하지 않도록 */
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background-size: 50% 100%;
+    background-repeat: repeat-x;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.wave-1 {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FFD166' fill-opacity='0.6' d='M0,160L48,181.3C96,203,192,245,288,250.7C384,256,480,224,576,192C672,160,768,128,864,138.7C960,149,1056,203,1152,208C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+    animation-name: wave-move-1;
+    animation-duration: 25s;
+    z-index: 4;
+}
+
+.wave-2 {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FFB366' fill-opacity='0.6' d='M0,224L48,208C96,192,192,160,288,170.7C384,181,480,235,576,240C672,245,768,203,864,192C960,181,1056,203,1152,218.7C1248,235,1344,245,1392,250.7L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+    animation-name: wave-move-2;
+    animation-duration: 35s;
+    z-index: 3;
+}
+
+.wave-3 {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FF8C94' fill-opacity='0.6' d='M0,128L40,144C80,160,160,192,240,192C320,192,400,160,480,149.3C560,139,640,149,720,170.7C800,192,880,224,960,218.7C1040,213,1120,171,1200,144C1280,117,1360,107,1400,101.3L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+    animation-name: wave-move-1;
+    animation-direction: reverse;
+    animation-duration: 30s;
+    z-index: 2;
+}
+
+@keyframes wave-move-1 {
+    from { background-position-x: 0; }
+    to { background-position-x: -100%; }
+}
+
+@keyframes wave-move-2 {
+    from { background-position-x: 0; }
+    to { background-position-x: -100%; }
+}
+
+/* Card Effects */
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Ad-Block Modal Styles */
+/* These will be used when we implement the JS detection */
+#adblock-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none; /* JS will toggle this */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}

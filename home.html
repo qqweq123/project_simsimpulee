@@ -1,110 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mellow Wave - 마음의 파도를 타는 시간</title>
+
+    <!-- SEO & Meta Tags -->
+    <meta name="description" content="나의 내면을 탐험하는 감성 심리테스트 플랫폼, Mellow Wave. 연애, 성격, 무인도 생존 등 다양한 테스트로 당신의 마음을 알아보세요.">
+    <meta name="keywords" content="심리테스트, MBTI, 연애 테스트, 성격 테스트, 무료 심리테스트, Mellow Wave">
+    <meta property="og:title" content="Mellow Wave - 마음의 파도를 타는 시간">
+    <meta property="og:description" content="당신의 마음은 지금 어떤 파도를 그리고 있나요? 무료 심리테스트로 알아보세요.">
+    <meta property="og:image" content="https://placehold.co/1200x630/FFD166/4A4A4A?text=Mellow+Wave">
+    <meta property="og:url" content="https://your-domain.com">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* 사용자 정의 스타일 및 애니메이션 */
-        :root {
-            --bg-primary: #FFFDF5;
-            --color-primary: #FFD166;   /* 따스한 노란색 */
-            --color-secondary: #FF8C94; /* 부드러운 코랄 핑크 */
-            --color-accent: #FFB366;    /* 잘 익은 오렌지 */
-            --text-dark: #4A4A4A;
-        }
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
 
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-dark);
-        }
-
-        /* 귀여운 느낌의 제목 폰트 */
-        .font-gaegu {
-            font-family: 'Gaegu', cursive;
-        }
-        
-        /* 메인 배너의 물결 애니메이션 컨테이너 */
-        .wave-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 250px; /* 물결 높이 */
-            overflow: hidden;
-        }
-
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%; /* 좌우로 움직일 수 있도록 너비를 2배로 */
-            height: 100%;
-            background-size: 50% 100%; /* 배경 이미지가 절반 너비로 반복되도록 설정 */
-            background-repeat: repeat-x;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-        }
-
-        /* 둥글고 큰 물결 모양을 SVG로 생성 */
-        .wave-1 {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FFD166' fill-opacity='0.6' d='M0,160L48,181.3C96,203,192,245,288,250.7C384,256,480,224,576,192C672,160,768,128,864,138.7C960,149,1056,203,1152,208C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
-            animation-name: wave-move-1;
-            animation-duration: 25s; /* 느린 속도 */
-            z-index: 4;
-        }
-        .wave-2 {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FFB366' fill-opacity='0.6' d='M0,224L48,208C96,192,192,160,288,170.7C384,181,480,235,576,240C672,245,768,203,864,192C960,181,1056,203,1152,218.7C1248,235,1344,245,1392,250.7L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
-            animation-name: wave-move-2;
-            animation-duration: 35s; /* 다른 속도 */
-            z-index: 3;
-        }
-        .wave-3 {
-             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FF8C94' fill-opacity='0.6' d='M0,128L40,144C80,160,160,192,240,192C320,192,400,160,480,149.3C560,139,640,149,720,170.7C800,192,880,224,960,218.7C1040,213,1120,171,1200,144C1280,117,1360,107,1400,101.3L1440,96L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
-            animation-name: wave-move-1;
-            animation-direction: reverse; /* 반대 방향으로 */
-            animation-duration: 30s; /* 또 다른 속도 */
-            z-index: 2;
-        }
-
-        /* 각 물결의 움직임 Keyframes */
-        @keyframes wave-move-1 {
-            from { background-position-x: 0; }
-            to { background-position-x: -100%; }
-        }
-        @keyframes wave-move-2 {
-            from { background-position-x: 0; }
-            to { background-position-x: -100%; }
-        }
-
-        /* 카드 호버 효과 */
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-    </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body class="overflow-x-hidden">
 
     <!-- 헤더 -->
     <header class="p-4 md:p-6 flex justify-between items-center">
-        <h1 class="font-gaegu text-3xl font-bold" style="color: var(--color-accent);">Mellow Wave</h1>
+        <a href="home.html" class="font-gaegu text-3xl font-bold" style="color: var(--color-accent);">Mellow Wave</a>
         <nav class="hidden md:flex items-center space-x-6 text-lg">
             <a href="#" class="hover:text-[var(--color-primary)] transition-colors">전체 테스트</a>
             <a href="#" class="hover:text-[var(--color-primary)] transition-colors">인기 테스트</a>
-            <a href="#" class="bg-[var(--color-primary)] text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-shadow shadow-md">로그인</a>
+            <a href="login.html"
+                class="bg-[var(--color-primary)] text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-shadow shadow-md">로그인</a>
         </nav>
         <button class="md:hidden text-3xl">☰</button>
     </header>
 
     <main>
         <!-- 메인 배너 (Hero Section) -->
-        <section class="relative h-[60vh] md:h-[70vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden">
+        <section
+            class="relative h-[60vh] md:h-[70vh] flex flex-col justify-center items-center text-center px-4 overflow-hidden">
             <div class="z-10">
                 <h2 class="font-gaegu text-5xl md:text-7xl font-bold mb-4" style="color: var(--text-dark);">
                     당신의 마음은 지금, <br>
@@ -114,10 +54,14 @@
                     간단한 심리테스트로 내면의 목소리에 귀 기울여보세요.
                 </p>
                 <div class="relative w-full max-w-lg mx-auto">
-                    <input type="text" placeholder="궁금한 테스트를 검색해보세요! (예: 연애, 성격)" class="w-full py-4 pl-6 pr-12 rounded-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)] focus:ring-opacity-50 transition-all duration-300">
-                    <button class="absolute right-3 top-1/2 -translate-y-1/2 bg-[var(--color-secondary)] p-2 rounded-full text-white hover:bg-opacity-80 transition-shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <input type="text" placeholder="궁금한 테스트를 검색해보세요! (예: 연애, 성격)"
+                        class="w-full py-4 pl-6 pr-12 rounded-full shadow-lg focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)] focus:ring-opacity-50 transition-all duration-300">
+                    <button
+                        class="absolute right-3 top-1/2 -translate-y-1/2 bg-[var(--color-secondary)] p-2 rounded-full text-white hover:bg-opacity-80 transition-shadow">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </button>
                 </div>
@@ -138,33 +82,45 @@
                     <h3 class="font-gaegu text-4xl font-bold mb-6 text-center">이번 주 인기 테스트 ✨</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- 카드 1 -->
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer">
-                            <img src="https://placehold.co/100x100/FFD166/4A4A4A?text=🍰" alt="디저트" class="mx-auto rounded-full mb-4">
+                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer"
+                            onclick="location.href='tests/dessert_intro.html'">
+                            <img src="https://placehold.co/100x100/FFD166/4A4A4A?text=🍰" alt="디저트"
+                                class="mx-auto rounded-full mb-4">
                             <h4 class="text-xl font-bold mb-2">내가 디저트라면?</h4>
                             <p class="text-gray-500 mb-4">달콤한 디저트로 알아보는 나의 성격 유형</p>
                             <div class="flex justify-center space-x-2">
-                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#성격</span>
-                                <span class="bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#MBTI</span>
+                                <span
+                                    class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#성격</span>
+                                <span
+                                    class="bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#MBTI</span>
                             </div>
                         </div>
                         <!-- 카드 2 -->
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer">
-                             <img src="https://placehold.co/100x100/FF8C94/FFFFFF?text=💖" alt="하트" class="mx-auto rounded-full mb-4">
+                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer"
+                            onclick="alert('준비 중인 테스트입니다!')">
+                            <img src="https://placehold.co/100x100/FF8C94/FFFFFF?text=💖" alt="하트"
+                                class="mx-auto rounded-full mb-4">
                             <h4 class="text-xl font-bold mb-2">나의 연애 능력치 테스트</h4>
                             <p class="text-gray-500 mb-4">과연 나의 연애 매력 점수는 몇 점일까?</p>
                             <div class="flex justify-center space-x-2">
-                                <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#연애</span>
-                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#재미</span>
+                                <span
+                                    class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#연애</span>
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#재미</span>
                             </div>
                         </div>
                         <!-- 카드 3 -->
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer">
-                             <img src="https://placehold.co/100x100/FFB366/4A4A4A?text=🏝️" alt="무인도" class="mx-auto rounded-full mb-4">
+                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer"
+                            onclick="alert('준비 중인 테스트입니다!')">
+                            <img src="https://placehold.co/100x100/FFB366/4A4A4A?text=🏝️" alt="무인도"
+                                class="mx-auto rounded-full mb-4">
                             <h4 class="text-xl font-bold mb-2">무인도 생존 유형 테스트</h4>
                             <p class="text-gray-500 mb-4">무인도에 떨어졌을 때 나의 생존 전략은?</p>
                             <div class="flex justify-center space-x-2">
-                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#생존</span>
-                                <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#성향</span>
+                                <span
+                                    class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#생존</span>
+                                <span
+                                    class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#성향</span>
                             </div>
                         </div>
                     </div>
@@ -175,38 +131,51 @@
                     <h3 class="font-gaegu text-4xl font-bold mb-6 text-center">골라보는 재미! 전체 테스트 🎨</h3>
                     <!-- 필터링 -->
                     <div class="flex justify-center flex-wrap gap-2 mb-8">
-                        <button class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">전체</button>
-                        <button class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#성격</button>
-                        <button class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#연애</button>
-                        <button class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#직업</button>
-                        <button class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#재미</button>
+                        <button
+                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">전체</button>
+                        <button
+                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#성격</button>
+                        <button
+                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#연애</button>
+                        <button
+                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#직업</button>
+                        <button
+                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#재미</button>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         <!-- 테스트 아이템 (반복) -->
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
-                            <img src="https://placehold.co/400x250/A9C9FF/FFFFFF?text=Test" class="w-full h-40 object-cover" alt="테스트 이미지">
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
+                            <img src="https://placehold.co/400x250/A9C9FF/FFFFFF?text=Test"
+                                class="w-full h-40 object-cover" alt="테스트 이미지">
                             <div class="p-4">
                                 <h5 class="font-bold text-lg">나에게 맞는 여행지는?</h5>
                                 <p class="text-sm text-gray-600">#여행 #성향</p>
                             </div>
                         </div>
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
-                           <img src="https://placehold.co/400x250/FFB6B9/FFFFFF?text=Test" class="w-full h-40 object-cover" alt="테스트 이미지">
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
+                            <img src="https://placehold.co/400x250/FFB6B9/FFFFFF?text=Test"
+                                class="w-full h-40 object-cover" alt="테스트 이미지">
                             <div class="p-4">
                                 <h5 class="font-bold text-lg">소울메이트 동물 찾기</h5>
                                 <p class="text-sm text-gray-600">#동물 #친구</p>
                             </div>
                         </div>
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
-                            <img src="https://placehold.co/400x250/C8E6C9/FFFFFF?text=Test" class="w-full h-40 object-cover" alt="테스트 이미지">
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
+                            <img src="https://placehold.co/400x250/C8E6C9/FFFFFF?text=Test"
+                                class="w-full h-40 object-cover" alt="테스트 이미지">
                             <div class="p-4">
                                 <h5 class="font-bold text-lg">집중력 유형 분석</h5>
                                 <p class="text-sm text-gray-600">#학습 #업무</p>
                             </div>
                         </div>
-                         <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
-                            <img src="https://placehold.co/400x250/FDFD96/4A4A4A?text=Test" class="w-full h-40 object-cover" alt="테스트 이미지">
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
+                            <img src="https://placehold.co/400x250/FDFD96/4A4A4A?text=Test"
+                                class="w-full h-40 object-cover" alt="테스트 이미지">
                             <div class="p-4">
                                 <h5 class="font-bold text-lg">스트레스 원인 진단</h5>
                                 <p class="text-sm text-gray-600">#정신건강 #힐링</p>
@@ -223,7 +192,15 @@
     <footer class="bg-gray-100 text-center p-8 mt-16">
         <p class="font-gaegu text-xl">Mellow Wave</p>
         <p class="text-sm text-gray-500">© 2024. All Rights Reserved.</p>
+        <div class="mt-4 flex justify-center space-x-4 text-xs text-gray-400">
+            <a href="#">이용약관</a>
+            <a href="#">개인정보처리방침</a>
+            <a href="#">문의하기</a>
+        </div>
     </footer>
 
+    <!-- Main Script -->
+    <script src="js/main.js"></script>
 </body>
+
 </html>
