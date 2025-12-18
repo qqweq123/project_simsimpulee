@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - Mellow Wave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-[var(--bg-primary)] min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- 로그인 카드 -->
+    <div class="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 text-center">
+        <!-- 로고 -->
+        <a href="home.html" class="block mb-8">
+            <h1 class="font-gaegu text-4xl font-bold text-[var(--color-accent)] hover:scale-105 transition-transform">
+                Mellow Wave</h1>
+            <p class="text-sm text-gray-400 mt-2">나를 찾아 떠나는 여행</p>
+        </a>
+
+        <h2 class="text-xl font-bold mb-6 text-gray-700">간편 로그인</h2>
+
+        <!-- 소셜 로그인 버튼 목록 -->
+        <div class="space-y-3">
+            <!-- 카카오 로그인 -->
+            <button onclick="loginWith('kakao')"
+                class="w-full flex items-center justify-center space-x-2 bg-[#FEE500] text-[#3c1e1e] font-medium py-3 rounded-lg hover:bg-opacity-90 transition shadow-sm">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor">
+                    <path
+                        d="M12 3C5.373 3 0 7.373 0 12.77c0 3.657 2.454 6.926 6.136 8.646-.23.856-.838 3.097-.96 3.61-.15.632.234.624.492.455.203-.133 3.256-2.214 4.544-3.132.887.128 1.802.195 2.735.195 6.627 0 12-4.373 12-9.77C24 7.373 18.627 3 12 3z" />
+                </svg>
+                <span>카카오로 시작하기</span>
+            </button>
+
+            <!-- 네이버 로그인 (Green) -->
+            <button onclick="loginWith('naver')"
+                class="w-full flex items-center justify-center space-x-2 bg-[#03C75A] text-white font-medium py-3 rounded-lg hover:bg-opacity-90 transition shadow-sm">
+                <svg viewBox="0 0 24 24" class="w-5 h-5" fill="white">
+                    <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727v12.845z" />
+                </svg>
+                <span>네이버로 시작하기</span>
+            </button>
+
+            <!-- 구글 로그인 (Gray/White) -->
+            <button onclick="loginWith('google')"
+                class="w-full flex items-center justify-center space-x-2 bg-white border border-gray-300 text-gray-700 font-medium py-3 rounded-lg hover:bg-gray-50 transition shadow-sm">
+                <svg viewBox="0 0 24 24" class="w-5 h-5">
+                    <path fill="#4285F4"
+                        d="M23.745 12.27c0-.743-.067-1.46-.197-2.152H12.23v4.067h6.463c-.28 1.503-1.127 2.777-2.396 3.627v3.01h3.88c2.268-2.09 3.576-5.167 3.576-8.552z" />
+                    <path fill="#34A853"
+                        d="M12.23 24c3.24 0 5.956-1.074 7.94-2.906l-3.88-3.01c-1.076.72-2.452 1.146-4.06 1.146-3.125 0-5.77-2.112-6.72-4.954H1.474v3.11C3.475 21.36 7.555 24 12.23 24z" />
+                    <path fill="#FBBC05"
+                        d="M5.51 16.276c-.24-.72-.378-1.49-.378-2.276s.138-1.556.378-2.276V8.614H1.474C.535 10.485 0 12.605 0 14.81c0 2.204.535 4.324 1.474 6.195l4.036-3.11c-.004 0-.004 0 0-.01z" />
+                    <path fill="#EA4335"
+                        d="M12.23 4.75c1.764 0 3.35.607 4.596 1.796l3.442-3.44C18.18 1.137 15.468 0 12.23 0 7.555 0 3.475 2.64 1.474 7.39l4.036 3.11C6.46 7.61 9.105 5.5 12.23 5.5v-.75z" />
+                </svg>
+                <span>구글로 시작하기</span>
+            </button>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-100 text-xs text-gray-400">
+            로그인 시 <a href="#" class="underline">이용약관</a> 및 <a href="#" class="underline">개인정보처리방침</a>에 동의하게 됩니다.
+        </div>
+    </div>
+
+    <script>
+        function loginWith(provider) {
+            // 실제 SDK 연동 전에는 준비 중 알림 표시
+            alert(provider.toUpperCase() + ' 로그인은 현재 개발 모드에서 준비 중입니다.\n(실제 클라이언트 ID 연동 필요)');
+
+            // 추후 구현 예시:
+            // if (provider === 'kakao') Kakao.Auth.login(...);
+        }
+    </script>
+</body>
+
+</html>
