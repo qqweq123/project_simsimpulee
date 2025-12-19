@@ -1,0 +1,149 @@
+@charset "utf-8";
+
+/* 
+ * Mellow Wave - Main Stylesheet
+ * 
+ * Color Palette:
+ * - Primary: #FFD166 (Warm Yellow)
+ * - Secondary: #FF8C94 (Soft Coral Pink)
+ * - Accent: #FFB366 (Ripe Orange)
+ * - Background: #FFFDF5
+ * - Text: #4A4A4A
+ */
+
+:root {
+    --bg-primary: #FFFDF5;
+    --color-primary: #FFD166;
+    --color-secondary: #FF8C94;
+    --color-accent: #FFB366;
+    --text-dark: #4A4A4A;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-dark);
+    overflow-x: hidden;
+}
+
+/* Typography */
+.font-gaegu {
+    font-family: 'Gaegu', cursive;
+}
+
+/* Animations & Components */
+
+/* Wave Animation Container */
+.wave-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat-x;
+    background-size: 50% 100%;
+    /* 배경 이미지가 절반 너비로 반복되도록 설정 */
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* 
+   Seamless Wave SVG Data - High Quality
+   높이를 키우고 곡률을 더 주어 역동적인 느낌을 줍니다.
+   Start Y = End Y = 320 (비어있는 공간) 또는 특정 높이로 맞춰 끊김 방지.
+*/
+
+.wave-1 {
+    /* 노란색 - 가장 앞 */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FFD166' fill-opacity='0.6' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+
+    animation: wave-move 25s linear infinite;
+    z-index: 3;
+}
+
+.wave-2 {
+    /* 주황색 - 중간 */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FFB366' fill-opacity='0.6' d='M0,160L48,176C96,192,192,224,288,224C384,224,480,192,576,192C672,192,768,224,864,229.3C960,235,1056,213,1152,208C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+    animation: wave-move 35s linear infinite;
+    z-index: 2;
+}
+
+.wave-3 {
+    /* 핑크색 - 뒤 */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FF8C94' fill-opacity='0.6' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,218.7C1248,213,1344,235,1392,245.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+    animation: wave-move 39s linear infinite;
+    z-index: 1;
+}
+
+@keyframes wave-move {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Side Ads (Desktop Only) */
+.side-ad {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 160px;
+    height: 600px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    z-index: 40;
+    display: none;
+    /* Mobile default hidden */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.side-ad-left {
+    left: 20px;
+}
+
+.side-ad-right {
+    right: 20px;
+}
+
+/* Show ads only on large screens */
+@media (min-width: 1400px) {
+    .side-ad {
+        display: flex;
+    }
+}
+
+/* Card Effects */
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Ad-Block Modal Styles */
+#adblock-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    /* JS will toggle this */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
