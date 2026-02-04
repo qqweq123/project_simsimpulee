@@ -183,8 +183,8 @@
                     });
                 }
 
-                // 이미지 플레이스홀더
-                document.getElementById('result-img').src = `https://placehold.co/200x200/FFD166/4A4A4A?text=${result.name}`;
+                // Supabase Storage 이미지 사용
+                document.getElementById('result-img').src = result.img;
 
                 // 궁합 정보 렌더링
                 if (result.goodMatch && matchData[result.goodMatch]) {
