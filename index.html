@@ -39,12 +39,14 @@
 
     <!-- 헤더 -->
     <header class="p-4 md:p-6 flex justify-between items-center">
-        <a href="home.html" class="font-gaegu text-3xl font-bold" style="color: var(--color-accent);">Mellow Wave</a>
+        <a href="index.html" class="font-gaegu text-3xl font-bold" style="color: var(--color-accent);">Mellow Wave</a>
         <nav class="hidden md:flex items-center space-x-6 text-lg">
             <a href="tests/test_list.html" class="hover:text-[var(--color-primary)] transition-colors">전체 테스트</a>
             <a href="tests/test_list.html" class="hover:text-[var(--color-primary)] transition-colors">인기 테스트</a>
-            <a href="login.html"
-                class="bg-[var(--color-primary)] text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-shadow shadow-md">로그인</a>
+            <div id="auth-container">
+                <a href="login.html"
+                    class="bg-[var(--color-primary)] text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-shadow shadow-md">로그인</a>
+            </div>
         </nav>
         <button id="mobile-menu-btn" class="md:hidden text-3xl">☰</button>
     </header>
@@ -222,8 +224,8 @@
     </footer>
 
     <!-- Main Script -->
-    <script src="js/main.js"></script>
     <script type="module" src="js/auth_ui.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
