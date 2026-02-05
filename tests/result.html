@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
+<!-- 앞에 .. 을 붙여서 상위 폴더로 나간 뒤 css를 찾습니다 -->
+<link rel="stylesheet" href="../css/image_transform.css">
 
 <head>
     <meta charset="UTF-8">
@@ -67,7 +69,7 @@
         <h1 class="font-gaegu text-3xl font-bold text-center mb-6 text-[var(--color-accent)]">나의 결과는?</h1>
 
         <!-- 결과 카드 -->
-        <div id="result-card" class="bg-white rounded-3xl shadow-xl overflow-hidden relative">
+        <div id="result-card" class="bg-white rounded-3xl shadow-xl overflow-hidden relative fade-in">
 
             <!-- 잠금 화면 (Overlay) -->
             <div id="lock-overlay" class="lock-overlay">
@@ -77,7 +79,7 @@
                     <p class="text-sm text-gray-500 mb-4">결과를 확인하려면 아래 버튼을 눌러주세요.</p>
 
                     <button onclick="unlockResult()"
-                        class="w-full bg-[var(--color-secondary)] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:brightness-110 transition-all mb-3 animate-pulse">
+                        class="btn-press w-full bg-[var(--color-secondary)] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:brightness-110 transition-all mb-3 animate-pulse">
                         무료로 결과 확인하기 🎁
                     </button>
                     <!-- Future Payment Placeholder -->
@@ -91,27 +93,46 @@
 
             <!-- 실제 결과 내용 (블러 처리됨) -->
             <div id="result-content" class="blur-content p-8 text-center transition-all duration-700">
-                <img src="https://placehold.co/200x200/FFD166/4A4A4A?text=Strawberry+Cake"
-                    class="mx-auto rounded-full mb-6 w-48 h-48 object-cover">
-                <h2 class="text-2xl font-bold text-[var(--text-dark)] mb-2">상큼발랄 딸기 케이크</h2>
-                <div class="flex justify-center gap-2 mb-6">
-                    <span class="px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-bold">#분위기메이커</span>
-                    <span class="px-3 py-1 bg-pink-100 text-pink-600 rounded-full text-xs font-bold">#감성충만</span>
+                <img id="result-img" src=""
+                    class="mx-auto rounded-full mb-6 w-48 h-48 object-cover bg-gray-100 shadow-md">
+                <h2 id="result-title" class="text-3xl font-bold text-[var(--text-dark)] mb-2 break-keep"></h2>
+                <h3 id="result-subtitle" class="text-lg text-[var(--color-primary)] font-bold mb-6"></h3>
+
+                <div class="flex justify-center gap-2 mb-6" id="result-tags">
+                    <!-- 태그들이 동적으로 들어갑니다 -->
                 </div>
-                <p class="text-gray-600 text-sm leading-7 mb-8 text-left bg-gray-50 p-4 rounded-xl">
-                    당신은 어디서나 주목받는 상큼한 매력의 소유자입니다! 분위기를 밝게 만드는 능력이 탁월하며,
-                    주변 사람들에게 긍정적인 에너지를 전파합니다. 다만 가끔은 혼자만의 시간이 필요할 때도 있어요.
+
+                <p id="result-desc"
+                    class="text-gray-600 text-sm leading-7 mb-8 text-left bg-gray-50 p-6 rounded-xl min-h-[100px] whitespace-pre-line border border-gray-100">
+                    ...
                 </p>
+
+                <!-- 궁합 정보 섹션 (New) -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <!-- 환상의 짝꿍 -->
+                    <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                        <h4 class="text-xs font-bold text-blue-400 mb-2">환상의 짝꿍 🍬</h4>
+                        <div id="good-match-name" class="text-sm font-bold text-gray-700 break-keep"></div>
+                    </div>
+                    <!-- 환장의 짝꿍 -->
+                    <div class="bg-red-50 p-4 rounded-2xl border border-red-100">
+                        <h4 class="text-xs font-bold text-red-400 mb-2">살짝 쌉싸름해요 ☕</h4>
+                        <div id="bad-match-name" class="text-sm font-bold text-gray-700 break-keep"></div>
+                    </div>
+                </div>
 
                 <!-- 상용화: 공유 & 친구 찾기 -->
                 <div class="border-t border-gray-100 pt-6">
                     <h4 class="font-bold mb-4 text-sm">결과 공유하고 내 짝꿍 찾기</h4>
                     <div class="flex justify-center gap-4">
-                        <button class="p-3 bg-yellow-300 rounded-full hover:scale-110 transition shadow-sm">🟡
+                        <button class="p-3 bg-yellow-300 rounded-full hover:scale-110 transition shadow-sm btn-press">🟡
                             카카오</button>
-                        <button class="p-3 bg-blue-500 text-white rounded-full hover:scale-110 transition shadow-sm">🔵
-                            페이북</button>
-                        <button class="p-3 bg-gray-200 rounded-full hover:scale-110 transition shadow-sm">🔗 링크</button>
+                        <button
+                            class="p-3 bg-blue-500 text-white rounded-full hover:scale-110 transition shadow-sm btn-press">🔵
+                            페이스북</button>
+                        <button onclick="copyLink()"
+                            class="p-3 bg-gray-200 rounded-full hover:scale-110 transition shadow-sm btn-press">🔗
+                            링크</button>
                     </div>
                 </div>
 
@@ -125,83 +146,112 @@
         <!-- 하단 버튼 -->
         <div class="mt-8 text-center space-y-4">
             <a href="test_list.html"
-                class="block w-full bg-white border border-[var(--color-primary)] text-[var(--color-primary)] font-bold py-3 rounded-xl hover:bg-yellow-50 transition">
+                class="btn-press block w-full bg-white border border-[var(--color-primary)] text-[var(--color-primary)] font-bold py-3 rounded-xl hover:bg-yellow-50 transition">
                 다른 테스트 하러 가기 🎨
             </a>
-            <a href="../home.html" class="inline-block text-gray-400 underline text-sm hover:text-gray-600">
+            <a href="../index.html" class="inline-block text-gray-400 underline text-sm hover:text-gray-600">
                 메인 홈으로 이동
             </a>
         </div>
     </div>
 
-    <script>
-        // --- 1. Ad-Block Detection (Bait Method) ---
-        // 'adsbygoogle.js' 같은 이름이나 특정 클래스는 광고 차단기가 자동으로 막습니다.
-        // 이를 역이용하여 가짜 광고 요소를 만들고, 차단되었는지 확인합니다.
+    <script type="module">
+        import { dessertResults, matchData } from './dessert_data.js';
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Bait Element 생성
-            const bait = document.createElement('div');
-            bait.innerHTML = '&nbsp;';
-            bait.className = 'adsbox'; // AdBlock Plus 등에서 흔히 차단하는 클래스명
-            bait.style.position = 'absolute';
-            bait.style.top = '-1000px';
-            bait.style.left = '-1000px';
-            bait.style.height = '1px';
-            bait.style.width = '1px';
-            document.body.appendChild(bait);
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Parse URL Parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type') || 'ESFP';
 
-            // 잠시 후 확인
-            setTimeout(function () {
-                if (bait.offsetHeight === 0 || bait.style.display === 'none') {
-                    // 차단됨
-                    document.getElementById('adblock-modal').classList.remove('hidden');
-                    document.getElementById('adblock-modal').classList.add('flex');
+            // 2. Load Data
+            const result = dessertResults[type];
+
+            if (result) {
+                document.getElementById('result-title').innerText = result.name;
+                document.getElementById('result-subtitle').innerText = result.subtitle || "";
+                document.getElementById('result-desc').innerText = result.desc;
+
+                // 태그 렌더링
+                const tagContainer = document.getElementById('result-tags');
+                tagContainer.innerHTML = '';
+                if (result.tags) {
+                    result.tags.forEach(tag => {
+                        const span = document.createElement('span');
+                        span.className = "px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold";
+                        span.innerText = tag;
+                        tagContainer.appendChild(span);
+                    });
                 }
-                document.body.removeChild(bait);
-            }, 500);
 
-            // --- 2. Check Ad-Lock Status (1 Hour Rule) ---
+                // Supabase Storage 이미지 사용
+                document.getElementById('result-img').src = result.img;
+
+                // 궁합 정보 렌더링
+                if (result.goodMatch && matchData[result.goodMatch]) {
+                    document.getElementById('good-match-name').innerText = matchData[result.goodMatch];
+                }
+                if (result.badMatch && matchData[result.badMatch]) {
+                    document.getElementById('bad-match-name').innerText = matchData[result.badMatch];
+                }
+            }
+
+            // 3. Ad-Block & Lock Logic
             checkAdLockStatus();
         });
+
+        // 전역 함수로 설정 (HTML onclick에서 부르기 위해 window 객체에 할당)
+        window.unlockResult = function () {
+            window.open('https://www.coupang.com', '_blank');
+            localStorage.setItem('adUnlockTime', Date.now());
+
+            const overlay = document.getElementById('lock-overlay');
+            const content = document.getElementById('result-content');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                content.classList.remove('blur-content');
+            }, 500);
+        }
 
         function checkAdLockStatus() {
             const unlockTime = localStorage.getItem('adUnlockTime');
             if (unlockTime) {
                 const now = Date.now();
-                const oneHour = 60 * 60 * 1000;
-
-                if (now - parseInt(unlockTime) < oneHour) {
-                    // 1시간 이내면 바로 해제
-                    forceUnlock();
+                if (now - parseInt(unlockTime) < 60 * 60 * 1000) {
+                    window.unlockResult(); // Re-use unlock logic logic but without popup if already unlocked? 
+                    // No, avoid popup. Manual implementation:
+                    document.getElementById('lock-overlay').style.display = 'none';
+                    document.getElementById('result-content').classList.remove('blur-content');
                 }
             }
         }
 
-        function forceUnlock() {
-            const overlay = document.getElementById('lock-overlay');
-            const content = document.getElementById('result-content');
-
-            overlay.style.display = 'none';
-            content.classList.remove('blur-content');
+        window.copyLink = function () {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('링크가 복사되었습니다!');
+            });
         }
+    </script>
 
-        function unlockResult() {
-            // 1. Open Coupang or Ad Link
-            window.open('https://www.coupang.com', '_blank');
-
-            // 2. Save timestamp to LocalStorage
-            localStorage.setItem('adUnlockTime', Date.now());
-
-            // 3. Unlock
-            const overlay = document.getElementById('lock-overlay');
-            const content = document.getElementById('result-content');
-
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                forceUnlock();
+    <!-- Ad Block Script (Separate non-module script ok?) -->
+    <script>
+        // Bait for AdBlock
+        document.addEventListener('DOMContentLoaded', function () {
+            const bait = document.createElement('div');
+            bait.innerHTML = '&nbsp;';
+            bait.className = 'adsbox';
+            bait.style.position = 'absolute';
+            bait.style.top = '-1000px';
+            bait.style.left = '-1000px';
+            document.body.appendChild(bait);
+            setTimeout(function () {
+                if (bait.offsetHeight === 0 || bait.style.display === 'none') {
+                    document.getElementById('adblock-modal').classList.remove('hidden');
+                    document.getElementById('adblock-modal').classList.add('flex');
+                }
+                document.body.removeChild(bait);
             }, 500);
-        }
+        });
     </script>
 </body>
 

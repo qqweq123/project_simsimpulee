@@ -44,48 +44,92 @@
     </div>
 
     <!-- 질문 카드 -->
-    <div class="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 text-center fade-in">
+    <div id="question-card" class="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 text-center fade-in">
         <div class="mb-8">
             <h2 class="text-2xl font-bold mb-4 leading-snug break-keep" id="question-text">
-                주말 아침, 눈을 떴을 때<br>가장 먼저 드는 생각은?
+                Loading...
             </h2>
         </div>
 
         <div class="space-y-4" id="answers-container">
-            <button onclick="nextQuestion(1)"
-                class="w-full bg-gray-50 hover:bg-[var(--color-primary)] hover:text-white border-2 border-gray-100 hover:border-transparent text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left">
-                A. "아직 시간 많네~" 더 뒹굴거린다.
-            </button>
-            <button onclick="nextQuestion(2)"
-                class="w-full bg-gray-50 hover:bg-[var(--color-primary)] hover:text-white border-2 border-gray-100 hover:border-transparent text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left">
-                B. "오늘 뭐 하지?" 바로 스마트폰을 켠다.
-            </button>
+            <!-- 버튼들이 여기에 동적으로 생성됩니다 -->
         </div>
     </div>
 
-    <script>
-        // 임시 로직: 2초 뒤 결과 페이지로 이동 (데모용)
-        let currentStep = 1;
-        const totalSteps = 12;
+    <script type="module">
+        import { dessertQuestions } from './dessert_data.js';
 
-        function nextQuestion(selection) {
-            // 여기에 점수 계산 로직 추가
-            currentStep++;
-            if (currentStep > 3) { // 데모를 위해 3번까지만
-                location.href = 'result.html';
-                return;
-            }
+        let currentStep = 0;
+        const totalSteps = dessertQuestions.length;
 
-            // UI 업데이트 (데모)
-            document.getElementById('progress-text').innerText = `${currentStep} / ${totalSteps}`;
-            document.getElementById('progress-bar').style.width = `${(currentStep / totalSteps) * 100}%`;
+        // MBTI 점수판
+        const scores = {
+            E: 0, I: 0,
+            S: 0, N: 0,
+            T: 0, F: 0,
+            J: 0, P: 0
+        };
 
-            // 질문 변경 애니메이션 효과
-            const card = document.querySelector('.fade-in');
+        function renderQuestion() {
+            const question = dessertQuestions[currentStep];
+
+            // 질문 텍스트 업데이트
+            const qEl = document.getElementById('question-text');
+            qEl.innerHTML = question.q;
+
+            // 답변 버튼 생성
+            const container = document.getElementById('answers-container');
+            container.innerHTML = ''; // 초기화
+
+            question.answers.forEach((ans, index) => {
+                const btn = document.createElement('button');
+                btn.className = "btn-press w-full bg-gray-50 hover:bg-[var(--color-primary)] hover:text-white border-2 border-gray-100 hover:border-transparent text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left";
+                btn.innerText = ans.text;
+                btn.onclick = () => selectAnswer(ans.type);
+                container.appendChild(btn);
+            });
+
+            // 프로그레스 바 업데이트
+            const progress = ((currentStep + 1) / totalSteps) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-text').innerText = `${currentStep + 1} / ${totalSteps}`;
+
+            // 애니메이션 리셋
+            const card = document.getElementById('question-card');
             card.classList.remove('fade-in');
-            void card.offsetWidth; // trigger reflow
+            void card.offsetWidth;
             card.classList.add('fade-in');
         }
+
+        function selectAnswer(type) {
+            scores[type]++; // 점수 누적
+            nextStep();
+        }
+
+        function nextStep() {
+            currentStep++;
+            if (currentStep >= totalSteps) {
+                showResult();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        function showResult() {
+            // MBTI 계산
+            // E vs I
+            const mbti = [
+                scores.E >= scores.I ? 'E' : 'I',
+                scores.S >= scores.N ? 'S' : 'N',
+                scores.T >= scores.F ? 'T' : 'F',
+                scores.J >= scores.P ? 'J' : 'P'
+            ].join('');
+
+            location.href = `result.html?type=${mbti}`;
+        }
+
+        // 초기 렌더링
+        renderQuestion();
     </script>
 </body>
 

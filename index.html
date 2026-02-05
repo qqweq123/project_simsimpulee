@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+<link rel="stylesheet" href="css/image_transform.css">
 
 <head>
     <meta charset="UTF-8">
@@ -47,8 +48,22 @@
                     class="bg-[var(--color-primary)] text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-shadow shadow-md">로그인</a>
             </div>
         </nav>
-        <button class="md:hidden text-3xl">☰</button>
+        <button id="mobile-menu-btn" class="md:hidden text-3xl">☰</button>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden transition-opacity duration-300">
+        <!-- Drawer -->
+        <div class="fixed top-0 right-0 w-64 h-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6"
+            id="mobile-drawer">
+            <button id="close-menu-btn" class="self-end text-3xl mb-8">&times;</button>
+            <nav class="flex flex-col space-y-6 text-xl font-bold font-gaegu">
+                <a href="tests/test_list.html" class="hover:text-[var(--color-primary)]">전체 테스트</a>
+                <a href="tests/test_list.html" class="hover:text-[var(--color-primary)]">인기 테스트</a>
+                <a href="login.html" class="hover:text-[var(--color-primary)]">로그인</a>
+            </nav>
+        </div>
+    </div>
 
     <main>
         <!-- 메인 배너 (Hero Section) -->
@@ -209,6 +224,7 @@
     </footer>
 
     <!-- Main Script -->
+    <script type="module" src="js/auth_ui.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 
