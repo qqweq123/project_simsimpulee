@@ -75,10 +75,17 @@
 
         window.loginWith = async function (provider) {
             try {
+                // 정확한 리다이렉트 URL 계산 (문자열 치환 방식 사용으로 경로 오류 방지)
+                // login.html -> index.html 로 치환
+                const redirectUrl = window.location.href.replace(/login\.html.*/, 'index.html');
+
+                console.log(`[Auth] Attempting login with ${provider}`);
+                console.log(`[Auth] Redirect URL set to: ${redirectUrl}`);
+
                 const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: provider, // 'google', 'kakao', 'naver' 모두 처리 가능
+                    provider: provider, // 'google', 'kakao', 'apple'
                     options: {
-                        redirectTo: window.location.origin + '/index.html'
+                        redirectTo: redirectUrl
                     }
                 });
                 if (error) throw error;

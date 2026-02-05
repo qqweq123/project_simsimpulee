@@ -40,14 +40,40 @@ function updateAuthUI(user) {
 }
 
 async function initAuth() {
-    // 현재 세션 확인
-    const { data: { session } } = await supabase.auth.getSession();
-    updateAuthUI(session?.user);
+    try {
+        console.log('[Auth] Checking session...');
+        // 현재 세션 확인
+        const { data: { session }, error } = await supabase.auth.getSession();
 
-    // 인증 상태 변경 리스너 (로그인/로그아웃 시 자동 UI 업데이트)
-    supabase.auth.onAuthStateChange((event, session) => {
+        if (error) {
+            console.error('[Auth] Error getting session:', error);
+            alert('세션 확인 중 오류: ' + error.message);
+            return;
+        }
+
+        console.log('[Auth] Session found:', session ? 'Yes' : 'No');
+
+        // [디버깅] 사용자가 로그를 못 보는 경우를 대비해 팝업 띄움
+        if (session) {
+            alert(`로그인 성공! 환영합니다, ${session.user.email}님.`);
+        } else {
+            // alert('현재 비로그인 상태입니다.'); // 필요 시 주석 해제
+        }
+
         updateAuthUI(session?.user);
-    });
+
+        // 인증 상태 변경 리스너 (로그인/로그아웃 시 자동 UI 업데이트)
+        supabase.auth.onAuthStateChange((event, session) => {
+            console.log(`[Auth] Auth state change event: ${event}`);
+            if (event === 'SIGNED_IN') {
+                alert(`로그인 완료! (${session.user.email})`);
+            }
+            updateAuthUI(session?.user);
+        });
+    } catch (err) {
+        console.error('[Auth] Unexpected error in initAuth:', err);
+        alert('알 수 없는 오류 발생: ' + err.message);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
