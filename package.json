@@ -1,0 +1,33 @@
+{
+  "name": "mind_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qqweq123/project_simsimpulee.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/qqweq123/project_simsimpulee/issues"
+  },
+  "homepage": "https://github.com/qqweq123/project_simsimpulee#readme",
+  "devDependencies": {
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.95.3"
+  }
+}

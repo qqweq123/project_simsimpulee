@@ -1,5 +1,5 @@
 
-import { supabase } from './supabase-config.js';
+import { supabase } from './src/lib/supabaseClient.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Check Initial Session

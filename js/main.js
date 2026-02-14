@@ -1,5 +1,5 @@
 
-import { supabase } from './supabase-config.js';
+import { supabase } from './src/lib/supabaseClient.js';
 
 /**
  * Mellow Wave Main Script

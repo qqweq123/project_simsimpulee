@@ -9,7 +9,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/src/assets/styles/main.css">
 </head>
 
 <body class="bg-[var(--bg-primary)] min-h-screen flex flex-col items-center justify-center p-4">
@@ -17,7 +17,7 @@
     <!-- 로그인 카드 -->
     <div class="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 text-center">
         <!-- 로고 -->
-        <a href="index.html" class="block mb-8">
+        <a href="/index.html" class="block mb-8">
             <h1 class="font-gaegu text-4xl font-bold text-[var(--color-accent)] hover:scale-105 transition-transform">
                 Mellow Wave</h1>
             <p class="text-sm text-gray-400 mt-2">나를 찾아 떠나는 여행</p>
@@ -71,29 +71,7 @@
     </div>
 
     <script type="module">
-        import { supabase } from './js/supabase-config.js';
-
-        window.loginWith = async function (provider) {
-            try {
-                // 정확한 리다이렉트 URL 계산 (문자열 치환 방식 사용으로 경로 오류 방지)
-                // login.html -> index.html 로 치환
-                const redirectUrl = window.location.href.replace(/login\.html.*/, 'index.html');
-
-                console.log(`[Auth] Attempting login with ${provider}`);
-                console.log(`[Auth] Redirect URL set to: ${redirectUrl}`);
-
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                    provider: provider, // 'google', 'kakao', 'apple'
-                    options: {
-                        redirectTo: redirectUrl
-                    }
-                });
-                if (error) throw error;
-            } catch (error) {
-                console.error("Login Error:", error);
-                alert("로그인 중 오류가 발생했습니다: " + error.message);
-            }
-        };
+        import '@/features/auth/authService.js';
     </script>
 </body>
 
