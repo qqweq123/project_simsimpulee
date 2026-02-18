@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mellow Wave - 전체 테스트</title>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Reuse Main Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        /* Filter Button Active State */
+        .filter-btn.active {
+            background-color: var(--color-primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Fade In Animation */
+        .test-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .test-card.hidden-card {
+            display: none;
+        }
+
+        .test-card.fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 overflow-x-hidden flex flex-col min-h-screen">
+
+    <!-- Header (Same as index.html) -->
+    <header class="p-4 md:p-6 flex justify-between items-center bg-white shadow-sm sticky top-0 z-50">
+        <a href="/" class="font-gaegu text-3xl font-bold" style="color: var(--color-accent);">Mellow Wave</a>
+        <nav class="hidden md:flex items-center space-x-6 text-lg">
+            <a href="/src/pages/tests/test_list.html" class="text-[var(--color-primary)] font-bold transition-colors">전체
+                테스트</a>
+            <a href="/#popular" class="hover:text-[var(--color-primary)] transition-colors">인기 테스트</a>
+            <div id="auth-container">
+                <a href="/src/pages/auth/login/index.html"
+                    class="bg-[var(--color-primary)] text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-shadow shadow-md">로그인</a>
+            </div>
+        </nav>
+        <button id="mobile-menu-btn" class="md:hidden text-3xl">☰</button>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden transition-opacity duration-300">
+        <div class="fixed top-0 right-0 w-64 h-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col p-6"
+            id="mobile-drawer">
+            <button id="close-menu-btn" class="self-end text-3xl mb-8">&times;</button>
+            <nav class="flex flex-col space-y-6 text-xl font-bold font-gaegu">
+                <a href="/src/pages/tests/test_list.html" class="text-[var(--color-primary)]">전체 테스트</a>
+                <a href="/#popular" class="hover:text-[var(--color-primary)]">인기 테스트</a>
+                <a href="/src/pages/auth/login/index.html" class="hover:text-[var(--color-primary)]">로그인</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section class="bg-[var(--color-bg)] py-16 px-4 text-center">
+            <h1 class="font-gaegu text-4xl md:text-5xl font-bold mb-4 text-gray-800">모든 마음의 파도 🌊</h1>
+            <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                사랑, 성격, 생존, 그리고 무의식까지.<br>
+                당신이 궁금해하는 모든 이야기를 모았습니다.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="relative w-full max-w-md mx-auto mb-10">
+                <input type="text" id="search-input" placeholder="테스트 검색 (예: 연애, 무인도)"
+                    class="w-full py-3 pl-5 pr-12 rounded-full border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all">
+                <button
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[var(--color-primary)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Filter Categories -->
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4" id="filter-container">
+                <button
+                    class="filter-btn active px-4 py-2 rounded-full bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all font-medium text-sm md:text-base"
+                    data-filter="all">전체</button>
+                <button
+                    class="filter-btn px-4 py-2 rounded-full bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all font-medium text-sm md:text-base"
+                    data-filter="love">💖 연애</button>
+                <button
+                    class="filter-btn px-4 py-2 rounded-full bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all font-medium text-sm md:text-base"
+                    data-filter="personality">🧠 성격</button>
+                <button
+                    class="filter-btn px-4 py-2 rounded-full bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all font-medium text-sm md:text-base"
+                    data-filter="survival">🏝️ 생존</button>
+                <button
+                    class="filter-btn px-4 py-2 rounded-full bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 transition-all font-medium text-sm md:text-base"
+                    data-filter="unique">✨ 이색</button>
+            </div>
+        </section>
+
+        <!-- Test Grid -->
+        <section class="max-w-6xl mx-auto px-4 py-10">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">
+                    총 <span id="test-count" class="text-[var(--color-primary)]">0</span>개의 테스트
+                </h2>
+
+                <!-- Sort Dropdown (Optional) -->
+                <select id="sort-select"
+                    class="bg-transparent text-sm text-gray-500 font-medium focus:outline-none cursor-pointer">
+                    <option value="newest">최신순</option>
+                    <option value="popular">인기순</option>
+                </select>
+            </div>
+
+            <div id="test-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Test Cards will be injected by JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-state" class="hidden text-center py-20">
+                <div class="text-6xl mb-4">😢</div>
+                <h3 class="text-xl font-bold text-gray-700 mb-2">검색 결과가 없어요</h3>
+                <p class="text-gray-500">다른 키워드로 검색해보시겠어요?</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 text-center p-8 mt-auto">
+        <p class="font-gaegu text-xl">Mellow Wave</p>
+        <p class="text-sm text-gray-500 mt-2">© 2024. All Rights Reserved.</p>
+    </footer>
+
+    <script type="module" src="test_list.js"></script>
+    <script>
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const drawer = document.getElementById('mobile-drawer');
+
+        function openMenu() {
+            mobileMenu.classList.remove('hidden');
+            setTimeout(() => {
+                mobileMenu.classList.remove('bg-opacity-0');
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.add('bg-opacity-0');
+            drawer.classList.add('translate-x-full');
+            setTimeout(() => {
+                mobileMenu.classList.add('hidden');
+            }, 300);
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) closeMenu();
+        });
+    </script>
+</body>
+
+</html>

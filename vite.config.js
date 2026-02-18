@@ -23,6 +23,7 @@ export default defineConfig({
 
                 // Tests index
                 testsIndex: path.resolve(__dirname, 'src/pages/tests/index.html'),
+                testList: path.resolve(__dirname, 'src/pages/tests/test_list.html'),
 
                 // Dessert test
                 dessertIndex: path.resolve(__dirname, 'src/pages/tests/dessert/index.html'),
