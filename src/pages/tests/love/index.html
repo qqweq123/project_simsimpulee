@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 연애 능력치 테스트 - Mellow Wave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/styles/main.css">
+    <meta property="og:title" content="나의 연애 능력치 테스트 - Mellow Wave">
+    <meta property="og:description" content="과연 나의 연애 매력 점수는 몇 점일까? 지금 바로 확인해보세요!">
+    <style>
+        .heart-float {
+            animation: heartFloat 3s ease-in-out infinite;
+        }
+
+        .heart-float:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .heart-float:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes heartFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        .glow-pink {
+            box-shadow: 0 0 40px rgba(244, 114, 182, 0.3), 0 0 80px rgba(244, 114, 182, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-pink-50 via-white to-rose-50 text-[var(--text-dark)] min-h-screen flex flex-col">
+
+    <header class="p-4 text-center">
+        <a href="/index.html" class="font-gaegu text-2xl font-bold text-[var(--color-accent)]">Mellow Wave</a>
+    </header>
+
+    <main class="flex-grow flex flex-col justify-center items-center px-4 py-8">
+        <div class="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 text-center relative overflow-hidden glow-pink">
+            <!-- 상단 그라데이션 바 -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-400 via-rose-400 to-red-400"></div>
+
+            <!-- 하트 데코레이션 -->
+            <div class="flex justify-center gap-4 mb-4">
+                <span class="heart-float text-4xl">💕</span>
+                <span class="heart-float text-5xl">💖</span>
+                <span class="heart-float text-4xl">💗</span>
+            </div>
+
+            <div class="mb-2">
+                <span
+                    class="inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-md">
+                    NEW 🔥
+                </span>
+            </div>
+
+            <h1
+                class="text-3xl font-bold mb-3 font-gaegu bg-gradient-to-r from-pink-600 to-rose-500 bg-clip-text text-transparent">
+                나의 연애 능력치 테스트
+            </h1>
+            <p class="text-gray-500 mb-8 leading-relaxed text-sm">
+                고백 타이밍부터 갈등 해결까지!<br>
+                10가지 연애 시뮬레이션으로 알아보는<br>
+                <strong class="text-pink-500">나의 진짜 연애 능력치</strong>는 과연 몇 점?
+            </p>
+
+            <div class="space-y-4">
+                <a href="question.html"
+                    class="block w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300">
+                    💖 테스트 시작하기
+                </a>
+                <div class="flex justify-center space-x-4 text-gray-400 text-sm">
+                    <span class="flex items-center"><span class="mr-1">⏱️</span> 3분 소요</span>
+                    <span class="flex items-center"><span class="mr-1">❓</span> 10문항</span>
+                    <span class="flex items-center"><span class="mr-1">👤</span> 8,742명 참여</span>
+                </div>
+            </div>
+
+            <div class="mt-8 p-4 bg-gray-50 rounded-lg text-xs text-gray-400">
+                광고 영역
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

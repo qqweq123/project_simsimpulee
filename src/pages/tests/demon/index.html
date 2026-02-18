@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>귀멸의 칼날: 내면의 서사시</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles/themes/demon_v2.css">
+</head>
+
+<body class="demon-theme flex items-center justify-center min-h-screen">
+
+    <!-- Background -->
+    <div class="bg-noise"></div>
+    <div class="bg-mist"></div>
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <main class="relative z-10 w-full max-w-2xl p-6">
+        <div class="demon-frame p-8 md:p-12 text-center">
+
+            <p class="text-gray-500 text-xs tracking-[0.3em] uppercase mb-6 font-light">Mellow Wave</p>
+
+            <h1 class="title-display mb-4">
+                귀멸의 칼날
+            </h1>
+            <p class="text-lg text-gray-400 font-serif mb-2">내면의 서사시</p>
+
+            <div class="my-8 w-px h-16 bg-gradient-to-b from-transparent via-gray-700 to-transparent mx-auto"></div>
+
+            <p class="text-gray-500 mb-10 leading-loose font-light text-sm">
+                모든 것을 잃은 폐허 속에서,<br>
+                당신의 영혼은 어떤 서사를 써 내려갈 것인가.<br><br>
+                <span class="text-gray-600 text-xs">28개의 문답 · 정답 없음 · 솔직한 선택</span>
+            </p>
+
+            <a href="question.html" class="btn-start-demon">
+                이야기 시작하기
+            </a>
+        </div>
+    </main>
+
+    <script>
+        setInterval(() => {
+            const p = document.createElement('div');
+            p.className = 'ash-particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = Math.random() * 8 + 10 + 's';
+            p.style.opacity = Math.random() * 0.3 + 0.05;
+            const size = Math.random() * 3 + 1;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            document.getElementById('particles').appendChild(p);
+            setTimeout(() => p.remove(), 18000);
+        }, 500);
+    </script>
+</body>
+
+</html>

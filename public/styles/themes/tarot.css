@@ -1,0 +1,171 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+KR:wght@300;400;600&display=swap');
+
+/* Variables */
+:root {
+    --color-midnight: #0F172A;
+    --color-midnight-light: #1E293B;
+    --color-gold: #D4AF37;
+    --color-gold-light: #FFD700;
+    --color-cream: #F5E6D3;
+    --color-parchment: #FDF5E6;
+}
+
+/* Base */
+.font-serif {
+    font-family: 'Noto Serif KR', serif;
+}
+
+.font-cinzel {
+    font-family: 'Cinzel', serif;
+}
+
+.text-gold {
+    color: var(--color-gold);
+}
+
+.text-gold-dark {
+    color: #8a6d1c;
+}
+
+.text-cream {
+    color: var(--color-cream);
+}
+
+.bg-midnight {
+    background-color: var(--color-midnight);
+}
+
+.bg-midnight-light {
+    background-color: var(--color-midnight-light);
+}
+
+.bg-parchment {
+    background-color: var(--color-parchment);
+}
+
+.border-gold {
+    border-color: var(--color-gold);
+}
+
+.bg-gold {
+    background-color: var(--color-gold);
+}
+
+.hover\:bg-gold-light:hover {
+    background-color: var(--color-gold-light);
+}
+
+/* Background Animation */
+.tarot-theme {
+    background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+    overflow-x: hidden;
+}
+
+.stars {
+    background: transparent;
+    box-shadow:
+        100px 200px #FFF,
+        300px 500px #FFF,
+        500px 100px #FFF,
+        700px 300px #FFF,
+        900px 600px #FFF,
+        1100px 200px #FFF;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    animation: anime-stars 50s linear infinite;
+}
+
+@keyframes anime-stars {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-2000px);
+    }
+}
+
+/* Text Splendor */
+.text-gradient-gold {
+    background: linear-gradient(to bottom, #cfc09f 22%, #634f2c 24%, #cfc09f 26%, #cfc09f 27%, #ffecb3 40%, #3a2c0f 78%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #fff;
+    position: relative;
+}
+
+/* 3D Flip Card */
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.transform-style-3d {
+    transform-style: preserve-3d;
+}
+
+.backface-hidden {
+    backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+    transform: rotateY(180deg);
+}
+
+.card-container.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Card Back Pattern */
+.bg-cover-pattern {
+    background-color: #1a1a2e;
+    background-image:
+        radial-gradient(#D4AF37 1px, transparent 1px),
+        radial-gradient(#D4AF37 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    opacity: 0.9;
+}
+
+/* Scrollbar Hide */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Tag Style */
+.tag-item {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold-dark);
+    background: rgba(212, 175, 55, 0.1);
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Fade In */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -20px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 1s ease-out;
+}

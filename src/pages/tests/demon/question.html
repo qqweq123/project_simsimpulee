@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>귀멸의 칼날: 내면의 서사시 - 진행중</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles/themes/demon_v2.css">
+</head>
+
+<body class="demon-theme flex items-center justify-center min-h-screen">
+
+    <!-- Background Layers -->
+    <div class="bg-noise"></div>
+    <div class="bg-mist"></div>
+
+    <!-- Ash Particles (Top to Bottom) -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Main Container (No Intro - index.html handles it) -->
+    <main class="relative z-10 w-full max-w-2xl p-6">
+
+        <!-- Question Screen -->
+        <div id="question-screen">
+            <!-- Progress -->
+            <div class="flex items-end justify-between mb-6 px-2">
+                <div class="text-xs text-gray-600 tracking-widest font-light">호흡 집중</div>
+                <div class="text-xl font-art text-gray-300"><span id="curr-q">1</span> <span
+                        class="text-sm text-gray-600">/ 28</span></div>
+            </div>
+            <div class="h-px w-full bg-gray-800 overflow-hidden mb-10">
+                <div id="progress-bar"
+                    class="h-full bg-gradient-to-r from-red-900 to-red-600 w-0 transition-all duration-700 ease-out">
+                </div>
+            </div>
+
+            <!-- Card -->
+            <div class="demon-frame p-8 md:p-12 min-h-[400px] flex flex-col justify-center relative">
+
+                <!-- Narrative -->
+                <p id="narrative" class="text-gray-500 text-sm mb-6 font-serif italic text-center leading-relaxed"></p>
+
+                <!-- Question -->
+                <h2 id="question-text"
+                    class="text-xl md:text-2xl font-art text-gray-200 leading-relaxed mb-10 text-center">
+                </h2>
+
+                <!-- Answers -->
+                <div id="answers" class="grid grid-cols-1 gap-3">
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Ash particle generator (slow, top to bottom)
+        setInterval(() => {
+            const p = document.createElement('div');
+            p.className = 'ash-particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = Math.random() * 8 + 10 + 's'; // 10~18s (very slow)
+            p.style.opacity = Math.random() * 0.3 + 0.05; // very faint
+            const size = Math.random() * 3 + 1;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            document.getElementById('particles').appendChild(p);
+            setTimeout(() => p.remove(), 18000);
+        }, 500);
+    </script>
+
+    <script type="module">
+        import { initDemonTest } from '@/features/tests/demon/question.js';
+        initDemonTest();
+    </script>
+</body>
+
+</html>

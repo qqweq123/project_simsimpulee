@@ -1,0 +1,117 @@
+<div class="texture-overlay"></div>
+
+<div class="max-w-md w-full relative z-10">
+    <!-- Header Title -->
+    <h1 class="text-4xl text-center mb-8 transform -rotate-2 relative inline-block w-full">
+        <span class="bg-yellow-100 px-4 py-1 inline-block transform rotate-1 border-b-4 border-yellow-200"
+            style="border-radius: 5px;">
+            나의 호르몬 다이어리
+        </span>
+        <div class="absolute -top-6 -right-2 text-2xl animate-bounce">✏️</div>
+    </h1>
+
+    <!-- Main Result Container -->
+    <div id="result-container" class="relative">
+
+        <!-- Lock Overlay -->
+        <div id="lock-overlay" class="absolute inset-0 z-50 flex items-center justify-center p-4">
+            <div class="lock-note bg-[#fff9c4] p-8 w-full max-w-sm text-center relative rotate-1">
+                <div class="tape"></div>
+                <div class="text-5xl mb-4">🔒</div>
+                <h2 class="text-2xl mb-2">비밀 일기장 잠금</h2>
+                <p class="mb-6 text-gray-600">결과를 확인하려면 아래 스티커를 떼어보세요!</p>
+                <button id="btn-unlock"
+                    class="sticker bg-blue-100 text-blue-800 text-xl w-full py-4 hover:bg-blue-200 transition">
+                    무료로 잠금 해제하기 ✨
+                </button>
+                <div class="absolute -bottom-10 left-0 w-full text-center">
+                    <div class="inline-block h-8 w-1 bg-gray-300"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content (Blurred initially) -->
+        <div id="result-content" class="blur-content transition-all duration-700">
+
+            <!-- Polaroid Result Card -->
+            <div class="polaroid mb-8 bg-white relative">
+                <div class="tape" style="background-color: rgba(255,200,200,0.4);"></div>
+
+                <!-- Image Area -->
+                <div
+                    class="aspect-square bg-gray-100 mb-4 border border-gray-200 flex items-center justify-center overflow-hidden relative group">
+                    <span id="result-emoji"
+                        class="text-8xl group-hover:scale-110 transition-transform duration-300">🌸</span>
+                    <!-- Actual Image Placeholder -->
+                    <img id="result-image" class="absolute inset-0 w-full h-full object-cover hidden" alt="Result">
+                </div>
+
+                <div class="text-center px-2">
+                    <h2 id="result-title"
+                        class="text-3xl text-gray-800 mb-1 border-b-2 border-gray-100 inline-block pb-1"></h2>
+                    <p id="result-subtitle" class="text-gray-500 mb-4 text-lg"></p>
+
+                    <!-- Hashtags -->
+                    <div id="result-tags" class="flex flex-wrap justify-center gap-2 mb-2">
+                        <!-- Tags injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Note -->
+            <div class="scribble-box p-6 mb-8 bg-white shadow-sm rotate-1">
+                <div
+                    class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gray-200 rounded-full border border-gray-300">
+                </div>
+                <p id="result-desc" class="whitespace-pre-line leading-7 text-lg text-gray-700 mt-2">
+                    <!-- Desc injected here -->
+                </p>
+            </div>
+
+            <!-- Partner Match (Notebook style) -->
+            <div class="bg-white p-1 mb-8 shadow-md"
+                style="background-image: linear-gradient(#e1e1e1 1px, transparent 1px); background-size: 100% 2em; line-height: 2em;">
+                <div class="p-4 border-l-4 border-red-200 ml-2">
+                    <h3 class="text-xl mb-4 border-b-2 border-dashed border-gray-300 inline-block">궁합 노트 📝</h3>
+
+                    <div class="flex items-center justify-between mb-4">
+                        <span
+                            class="bg-blue-100 px-2 py-1 rounded text-blue-600 font-bold transform -rotate-2">Best!</span>
+                        <span id="match-best" class="text-xl flex-1 text-right pr-4"></span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="bg-red-100 px-2 py-1 rounded text-red-600 font-bold transform rotate-1">Worst!</span>
+                        <span id="match-worst" class="text-xl flex-1 text-right pr-4"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sharing Stickers -->
+            <div class="text-center">
+                <h3 class="text-xl mb-4 text-gray-400">친구에게도 페이지 찢어주기</h3>
+                <div class="flex justify-center gap-4">
+                    <button id="btn-share-kakao"
+                        class="sticker bg-yellow-300 text-yellow-900 border-yellow-800 hover:-translate-y-1 transition">
+                        Kakao Talk 💬
+                    </button>
+                    <button id="btn-share-link"
+                        class="sticker bg-gray-100 text-gray-700 border-gray-400 hover:-translate-y-1 transition">
+                        Copy Link 🔗
+                    </button>
+                </div>
+            </div>
+
+            <!-- Ad Placeholder -->
+            <div class="mt-12 p-4 border-2 border-dashed border-gray-300 text-center text-gray-400 text-sm rotate-1">
+                광고 스티커 붙이는 곳
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Link -->
+    <div class="mt-10 text-center">
+        <a href="/index.html" class="underline text-gray-500 hover:text-black">다이어리 덮고 홈으로 가기</a>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무인도 생존유형 테스트 - Mellow Wave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/styles/main.css">
+    <meta property="og:title" content="무인도 생존유형 테스트 - Mellow Wave">
+    <meta property="og:description" content="무인도에 떨어졌을 때 나의 생존 전략은? 지금 바로 확인해보세요!">
+    <style>
+        .palm-sway {
+            animation: palmSway 4s ease-in-out infinite;
+        }
+
+        .palm-sway:nth-child(2) {
+            animation-delay: 0.7s;
+            animation-duration: 3.5s;
+        }
+
+        .palm-sway:nth-child(3) {
+            animation-delay: 1.4s;
+            animation-duration: 4.5s;
+        }
+
+        @keyframes palmSway {
+
+            0%,
+            100% {
+                transform: rotate(-3deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(3deg) translateY(-8px);
+            }
+        }
+
+        .wave-bg {
+            background: linear-gradient(180deg, #ecfdf5 0%, #f0fdf4 30%, #ffffff 100%);
+        }
+
+        .glow-green {
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.2), 0 0 80px rgba(16, 185, 129, 0.05);
+        }
+    </style>
+</head>
+
+<body class="wave-bg text-[var(--text-dark)] min-h-screen flex flex-col">
+
+    <header class="p-4 text-center">
+        <a href="/index.html" class="font-gaegu text-2xl font-bold text-[var(--color-accent)]">Mellow Wave</a>
+    </header>
+
+    <main class="flex-grow flex flex-col justify-center items-center px-4 py-8">
+        <div class="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 text-center relative overflow-hidden glow-green">
+            <!-- 상단 그라데이션 바 -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500">
+            </div>
+
+            <!-- 야자수 데코레이션 -->
+            <div class="flex justify-center gap-6 mb-4">
+                <span class="palm-sway text-4xl">🌴</span>
+                <span class="palm-sway text-5xl">🏝️</span>
+                <span class="palm-sway text-4xl">🌊</span>
+            </div>
+
+            <div class="mb-2">
+                <span
+                    class="inline-block bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-md">
+                    HOT 🔥
+                </span>
+            </div>
+
+            <h1
+                class="text-3xl font-bold mb-3 font-gaegu bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+                무인도 생존유형 테스트
+            </h1>
+            <p class="text-gray-500 mb-8 leading-relaxed text-sm">
+                만약 무인도에 떨어진다면?<br>
+                10가지 극한 상황에서의 선택으로 알아보는<br>
+                <strong class="text-emerald-600">나만의 생존 전략</strong>은 무엇일까?
+            </p>
+
+            <div class="space-y-4">
+                <a href="question.html"
+                    class="block w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300">
+                    🏝️ 생존 시작하기
+                </a>
+                <div class="flex justify-center space-x-4 text-gray-400 text-sm">
+                    <span class="flex items-center"><span class="mr-1">⏱️</span> 3분 소요</span>
+                    <span class="flex items-center"><span class="mr-1">❓</span> 10문항</span>
+                    <span class="flex items-center"><span class="mr-1">👤</span> 5,231명 참여</span>
+                </div>
+            </div>
+
+            <div class="mt-8 p-4 bg-gray-50 rounded-lg text-xs text-gray-400">
+                광고 영역
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

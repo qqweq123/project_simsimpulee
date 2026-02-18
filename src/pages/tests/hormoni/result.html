@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테스트 결과 - Mellow Wave</title>
+    <!-- Common Libs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&family=Inter:wght@400;700;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Theme Container -->
+    <div id="app-container"></div>
+
+    <!-- Logic -->
+    <script type="module">
+        import { initHormoniResult } from '@/features/tests/hormoni/result.js';
+        initHormoniResult();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>호르몬 성향 테스트 - Mellow Wave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <meta property="og:title" content="호르몬 성향 테스트 - 에겐(Egen) vs 테토(Teto)">
+    <meta property="og:description" content="나의 성격, 호르몬이 결정한다? 심리학적 분석으로 알아보는">
+    <link rel="stylesheet" href="/src/assets/styles/main.css">
+</head>
+
+<body class="bg-gradient-to-br from-pink-50 to-purple-50 min-h-screen flex flex-col justify-center items-center p-4">
+
+    <!-- Header -->
+    <header class="absolute top-0 w-full p-4 text-center">
+        <a href="/index.html" class="font-bold text-pink-300 tracking-widest">Mellow Wave</a>
+    </header>
+
+    <main class="flex-grow flex flex-col justify-center items-center px-4 py-8">
+        <div class="max-w-md w-full bg-white rounded-3xl shadow-xl p-8 text-center relative overflow-hidden fade-in">
+            <!-- 데코레이션 배경 -->
+            <div class="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300">
+            </div>
+
+            <div class="mb-6">
+                <span
+                    class="inline-block bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mb-2">
+                    Professional Analysis
+                </span>
+                <div
+                    class="mx-auto rounded-full shadow-md w-36 h-36 flex items-center justify-center text-7xl bg-gradient-to-br from-pink-100 to-blue-100 border-4 border-white">
+                    🧬
+                </div>
+            </div>
+
+            <h1 class="text-3xl font-bold mb-3 font-gaegu text-gray-800">에겐/테토 테스트</h1>
+            <p class="text-gray-600 mb-8 leading-relaxed font-medium">
+                에스트로겐(Egen)과 테스토스테론(Teto).<br>
+                당신의 성격을 지배하는 호르몬은 무엇일까요?<br>
+                <span class="text-xs text-gray-400 mt-2 block">심리학적 문항 분석을 통해 정밀하게 진단합니다.</span>
+            </p>
+
+            <!-- 성별 선택 모달 (초기엔 숨김) -->
+            <div id="gender-selection"
+                class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                <div
+                    class="bg-white rounded-2xl p-6 w-full max-w-sm text-center shadow-2xl transform transition-all scale-100">
+                    <h3 class="text-xl font-bold mb-4">성별을 선택해주세요</h3>
+                    <p class="text-gray-500 text-sm mb-6">정확한 호르몬 성향 분석을 위해 성별 정보가 필요합니다.</p>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="startTest('female')"
+                            class="btn-press bg-pink-50 border-2 border-pink-200 hover:bg-pink-100 p-4 rounded-xl flex flex-col items-center gap-2 group">
+                            <span class="text-3xl group-hover:scale-110 transition">👩</span>
+                            <span class="font-bold text-pink-700">여성</span>
+                        </button>
+                        <button onclick="startTest('male')"
+                            class="btn-press bg-blue-50 border-2 border-blue-200 hover:bg-blue-100 p-4 rounded-xl flex flex-col items-center gap-2 group">
+                            <span class="text-3xl group-hover:scale-110 transition">👨</span>
+                            <span class="font-bold text-blue-700">남성</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <button onclick="showGenderSelection()"
+                    class="block w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:brightness-110 transform transition hover:-translate-y-1">
+                    지금 분석 시작하기
+                </button>
+                <div class="flex justify-center space-x-4 text-gray-400 text-sm">
+                    <span class="flex items-center"><span class="mr-1">⏱️</span> 3분 소요</span>
+                    <span class="flex items-center"><span class="mr-1">🧪</span> 정밀 분석</span>
+                </div>
+            </div>
+
+            <!-- 하단 광고 영역 -->
+            <div class="mt-8 p-4 bg-gray-50 rounded-lg text-xs text-gray-400 border border-gray-100">
+                Sponsored Ad Area
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showGenderSelection() {
+            const modal = document.getElementById('gender-selection');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex'); // hidden 제거 후 flex 추가로 중앙 정렬
+        }
+
+        function startTest(gender) {
+            // 성별 정보를 파라미터로 전달
+            window.location.href = `question.html?gender=${gender}`;
+        }
+
+        // 모달 밖 클릭 시 닫기
+        document.getElementById('gender-selection').addEventListener('click', (e) => {
+            if (e.target.id === 'gender-selection') {
+                e.target.classList.add('hidden');
+                e.target.classList.remove('flex');
+            }
+        });
+    </script>
+</body>
+
+</html>

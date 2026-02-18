@@ -1,0 +1,111 @@
+<!-- Paper Collage Template -->
+<div class="paper-theme min-h-screen relative overflow-hidden font-hand">
+    <!-- Background Texture -->
+    <div class="absolute inset-0 bg-texture opacity-50 z-0"></div>
+    <div class="absolute inset-0 bg-noise opacity-30 z-0 pointer-events-none"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 container mx-auto px-4 py-8 max-w-lg">
+
+        <!-- Header: Handwritten Title -->
+        <header class="mb-8 text-center transform -rotate-1">
+            <h1 class="text-4xl font-bold text-gray-800 tracking-widest drop-shadow-sm">
+                <span class="bg-yellow-100 px-2 py-1 transform -skew-x-3 inline-block border-b-4 border-yellow-300">내면의
+                    서사시</span>
+            </h1>
+            <p class="mt-2 text-xl text-gray-600">당신의 영혼이 기억하는 이야기</p>
+        </header>
+
+        <!-- Result Card: Polaroid Style -->
+        <div class="polaroid-card bg-white p-4 pb-8 shadow-xl transform rotate-1 mb-8 relative">
+            <!-- Washi Tape -->
+            <div
+                class="tape-strip absolute -top-3 left-1/2 transform -translate-x-1/2 w-32 h-8 bg-red-400 opacity-80 shadow-md rotate-2 z-20">
+            </div>
+
+            <!-- Result Image Area -->
+            <div class="image-frame bg-gray-100 mb-4 overflow-hidden relative border-2 border-gray-200">
+                <img id="result-image" src="" alt="Result Image"
+                    class="w-full h-64 object-cover filter sepia-[0.2] hover:scale-105 transition-transform duration-700">
+                <div class="absolute bottom-2 right-2 bg-white/80 px-2 py-1 rounded text-sm font-bold shadow-sm">
+                    <span id="result-emoji" class="text-2xl"></span>
+                </div>
+            </div>
+
+            <!-- Result Text -->
+            <div class="text-center px-2">
+                <div
+                    class="inline-block bg-gray-800 text-white px-3 py-1 rounded-full text-sm mb-2 transform -rotate-1 shadow-sm">
+                    <span id="result-subtitle">Subtitle</span>
+                </div>
+                <h2 id="result-title"
+                    class="text-3xl font-bold text-gray-900 mb-4 border-b-2 border-dashed border-gray-300 pb-2">Result
+                    Name</h2>
+
+                <!-- Tags: Sticker Style -->
+                <div id="result-tags" class="flex flex-wrap justify-center gap-2 mb-4">
+                    <!-- Tags will be injected here -->
+                </div>
+
+                <p id="result-desc"
+                    class="text-lg text-gray-700 leading-relaxed font-normal whitespace-pre-line text-left bg-yellow-50 p-4 rounded-lg border border-yellow-100 shadow-inner">
+                    Description goes here...
+                </p>
+            </div>
+        </div>
+
+        <!-- Compatibility Section: Notebook Style -->
+        <section
+            class="notebook-paper bg-white p-6 shadow-lg transform -rotate-1 mb-8 relative border-l-8 border-red-200">
+            <!-- Tape -->
+            <div class="tape-strip absolute -top-4 right-4 w-24 h-6 bg-blue-300 opacity-70 shadow-sm -rotate-3 z-20">
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <span>🔗</span> 인연의 고리
+            </h3>
+
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Best Match -->
+                <div class="flex items-center bg-green-50 p-3 rounded-lg border-2 border-green-100 border-dashed">
+                    <div class="text-3xl mr-3">💖</div>
+                    <div>
+                        <span class="text-sm text-green-600 font-bold block mb-1">환상의 짝꿍</span>
+                        <span id="match-best" class="text-lg text-gray-800 font-bold">Name</span>
+                    </div>
+                </div>
+
+                <!-- Worst Match -->
+                <div class="flex items-center bg-red-50 p-3 rounded-lg border-2 border-red-100 border-dashed">
+                    <div class="text-3xl mr-3">💔</div>
+                    <div>
+                        <span class="text-sm text-red-500 font-bold block mb-1">환장의 짝꿍</span>
+                        <span id="match-worst" class="text-lg text-gray-800 font-bold">Name</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <div class="flex flex-col gap-3 pb-12">
+            <button id="btn-share-kakao"
+                class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-4 px-6 rounded-xl shadow-lg transform transition hover:-translate-y-1 flex items-center justify-center gap-2 relative overflow-hidden group">
+                <span
+                    class="absolute inset-0 w-full h-full bg-white/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
+                <span>💬 결과 공유하기</span>
+            </button>
+
+            <div class="flex gap-3">
+                <button id="btn-share-link"
+                    class="flex-1 bg-white border-2 border-gray-800 hover:bg-gray-100 text-gray-800 font-bold py-3 px-6 rounded-xl shadow-md transform transition hover:-translate-y-1">
+                    🔗 링크 복사
+                </button>
+                <a href="/"
+                    class="flex-1 bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-xl shadow-md text-center transform transition hover:-translate-y-1 flex items-center justify-center">
+                    🏠 홈으로
+                </a>
+            </div>
+        </div>
+
+    </main>
+</div>

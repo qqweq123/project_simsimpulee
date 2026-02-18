@@ -1,0 +1,203 @@
+===========================================================================
+  Mellow Wave — 데이터 구조 표준화 기획서
+  Date: 2026-02-18
+  Author: AI Architect + Project Owner
+===========================================================================
+
+1. 배경 (Background)
+---------------------------------------------------------------------------
+본 프로젝트는 심리 테스트 기반의 웹 서비스 "Mellow Wave"입니다.
+초기에는 단일 HTML 파일 방식으로 개발되었으나, Enterprise Architecture
+Migration(2026-02-10~14)을 통해 Vite + Feature-Sliced Design 기반의
+모듈화된 구조로 전환 작업이 진행되었습니다.
+
+그러나 마이그레이션이 완전히 완료되지 않은 채 후속 기능 개발이 이어지면서,
+레거시 코드 잔재·데이터 위치 불일치·빈 폴더 등의 기술 부채가 누적되었습니다.
+
+본 기획서는 상용화를 위한 유지보수성·확장성 확보를 목표로,
+데이터 구조 표준화 전략과 실행 결과를 기록합니다.
+
+
+2. 핵심 문제 진단 (Problem Diagnosis)
+---------------------------------------------------------------------------
+
+[C1] 코드 중복: js/ vs src/
+   - js/main.js 와 src/main.js 에 Auth UI 로직이 이중 존재
+   - js/src/lib/supabaseClient.js 와 src/features/auth/authService.js 이중 존재
+   - 결정: js/ 는 향후 확장 로드맵으로 보존. 다만, 실제 진입점은 src/ 를 사용.
+     장기적으로 js/ 내 코드를 src/ 의 모듈로 완전 통합 후 삭제 예정.
+
+[C2] 데이터 파일 위치 불일치: features/tests/ 내부
+   - 기존: 데이터 파일은 features/tests/ 루트에, 로직 파일은 서브폴더에 분산
+      → demon_data.js (루트), dessert/question.js (서브폴더)
+   - 문제: 테스트마다 파일 명명·위치가 달라 일괄 처리·자동화 불가능
+   - 해결: 모든 테스트 데이터를 {test_name}/data.js 패턴으로 통일 (Phase 2)
+
+[C3] 기획 문서와 코드 혼재
+   - 기존: data/ 루트에 .txt 기획서와 코드 데이터가 혼재
+   - 해결: 기획 문서를 docs/planning/ 으로 분리 (Phase 3)
+   - 고도화: 텍스트 원본(content)과 설계 데이터(reference)를 각각 archive/ 와 design/ 으로 세분화 (SSOT 전략)
+
+
+3. 확정된 표준 구조 (Finalized Standard)
+---------------------------------------------------------------------------
+
+  mind_test/
+  │
+  ├── index.html                   ← Vite 진입점
+  ├── vite.config.js               ← 빌드 설정
+  ├── package.json
+  │
+  ├── docs/                        ← 문서화 루트
+  │   ├── planning/                ← [Active] 기획·로드맵
+  │   │   ├── 데이터_구조_표준화_기획.txt
+  │   │   └── 아키텍처_방향성_기초자료.txt
+  │   │
+  │   ├── design/                  ← [Active] 시스템 설계·명세
+  │   │   └── demon/
+  │   │       └── scoring_logic.md  ← (구) 아키타입_동인.txt
+  │   │
+  │   └── archive/                 ← [Inactive] 구현 완료된 원본
+  │       └── demon/
+  │           └── original_content.txt
+  │
+  ├── src/                         ← 소스 코드 (SSOT)
+  │   ├── main.js                  ← 앱 진입점
+  │   │
+  │   ├── core/                    ← 공유 인프라 계층
+  │   │   ├── ThemeManager.js
+  │   │   ├── api.js
+  │   │   └── store.js
+  │   │
+  │   ├── features/                ← 기능별 비즈니스 로직
+  │   │   ├── auth/
+  │   │   │
+  │   │   └── tests/               ← ★ 테스트 데이터·로직
+  │   │       ├── demon/
+  │   │       │   ├── data.js      ← [TRUE SOURCE]
+  │   │       │   ├── question.js  ← [LOGIC]
+  │   │       │   └── result.js    ← [LOGIC]
+  │   │       ├── dessert/
+  │   │       └── hormoni/
+  │   │
+  │   ├── pages/                   ← 페이지(HTML) 계층
+  │   │   ├── tests/
+  │   │   │   ├── demon/
+  │   │   │   │   ├── index.html
+  │   │   │   │   ├── question.html
+  │   │   │   │   └── result.html  ← ThemeManager 사용
+  │   │   │   ├── dessert/
+  │   │   │   │   ├── index.html
+  │   │   │   │   ├── question.html
+  │   │   │   │   └── result.html
+  │   │   │   └── hormoni/
+  │   │   │       ├── index.html
+  │   │   │       ├── question.html
+  │   │   │       └── result.html  ← ThemeManager 사용
+  │   │   ├── auth/login/
+  │   │   ├── community/           ← 향후 확장 예약
+  │   │   └── mypage/              ← 향후 확장 예약
+  │   │
+  │   ├── assets/                  ← 정적 자산
+  │   │   ├── styles/
+  │   │   │   ├── main.css
+  │   │   │   ├── image_transform.css
+  │   │   │   └── themes/
+  │   │   │       ├── collage.css
+  │   │   │       ├── swiss.css
+  │   │   │       └── demon.css
+  │   │   ├── images/
+  │   │   └── icons/
+  │   │
+  │   └── shared/                  ← 공유 UI 컴포넌트/유틸리티
+  │       ├── ui/                  ← 향후 확장 예약
+  │       └── utils/               ← 향후 확장 예약
+  │
+  ├── public/                      ← 정적 서빙 (Vite가 그대로 복사)
+  │   └── templates/               ← 테마 HTML 템플릿
+  │       ├── result_collage.html
+  │       ├── result_swiss.html
+  │       └── result_demon.html
+  │
+  ├── supabase/                    ← Supabase 서버리스 백엔드
+  │   ├── functions/
+  │   │   ├── analyze-fortune/     ← Edge Function
+  │   │   ├── payment-webhook/     ← 결제 웹훅
+  │   │   └── user-cleanup/        ← 사용자 정리
+  │   └── migrations/              ← DB 스키마
+  │
+  └── js/                          ← 레거시 코드 (장기 통합 대상)
+      ├── main.js
+      ├── auth_ui.js
+      ├── core/
+      └── src/lib/
+
+
+4. 테스트 모듈 표준 패턴 (Test Module Standard)
+---------------------------------------------------------------------------
+새로운 테스트를 추가할 때는 아래 패턴을 반드시 따릅니다.
+
+  4-1. 데이터 모듈 (features/tests/{name}/data.js)
+      - export: {name}Questions (배열), {name}Results (객체)
+      - 선택: 유틸 함수 (점수 계산, 카테고리 분류 등)
+
+  4-2. 로직 모듈 (features/tests/{name}/question.js, result.js)
+      - data.js 를 import하여 질문 진행 / 결과 표시를 담당
+      - 같은 폴더 내 상대경로 사용: import { ... } from './data.js';
+
+  4-3. 페이지 (pages/tests/{name}/index.html, question.html, result.html)
+      - HTML 구조 + <script type="module"> 내에서 features 계층 import
+      - result.html 은 ThemeManager를 통해 테마를 동적으로 로드
+      - import 경로: '../../../features/tests/{name}/data.js'
+
+  4-4. 테마 (선택사항)
+      - CSS: src/assets/styles/themes/{name}.css
+      - HTML: public/templates/result_{name}.html
+      - ThemeManager가 자동으로 {name}에 매칭하여 로드
+
+
+5. 실행 결과 요약 (Execution Summary)
+---------------------------------------------------------------------------
+
+  [Phase 1] 레거시 삭제 — 부분 실행
+    ✅ tests/ (루트 빈 폴더) 삭제
+    ✅ css/ (빈 폴더) 삭제
+    ✅ pages/tests/maker, result/ (빈 폴더) 삭제
+    ✅ hormoni/result_collage.html, result_swiss.html (레거시 HTML) 삭제
+    ⏸ js/, images/, 빈 feature/page 폴더 → 보존 (향후 확장 로드맵)
+
+  [Phase 2] 데이터 구조 통일 — 완료
+    ✅ demon_data.js  → features/tests/demon/data.js
+    ✅ dessert_data.js → features/tests/dessert/data.js
+    ✅ hormoni_data.js → features/tests/hormoni/data.js
+    ✅ 7개 파일의 import 경로 수정 완료
+
+  [Phase 3] 기획 문서 분리 — 완료
+    ✅ data/ 폴더의 .txt 파일 → docs/planning/ 이동
+    ✅ data/ 폴더 삭제
+
+
+6. 향후 과제 (Future Tasks)
+---------------------------------------------------------------------------
+
+  [ ] js/ 레거시 코드의 src/ 완전 통합
+      → js/main.js 의 로직을 src/main.js 로 병합
+      → js/src/lib/ 의 supabaseClient 를 src/features/auth/ 로 통합
+      → 통합 후 js/ 폴더 삭제
+
+  [ ] images/ 폴더 활용 방안 결정
+      → 현재 Supabase Storage 사용 중이므로, 로컬 images/ 의 역할 재정의 필요
+      → 선택지: (A) 삭제 후 Supabase 전면 사용
+                (B) 개발용 로컬 이미지 저장소로 활용
+                (C) public/images/ 로 이동하여 정적 서빙용으로 사용
+
+  [ ] Vite rollupOptions 에 테스트 페이지 entry 등록
+      → 현재 main 하나만 등록되어 있어 프로덕션 빌드 시 테스트 페이지 누락
+      → 각 tests/{name}/index.html 을 entry로 추가 필요
+
+  [ ] 새 테스트 추가 시 위 표준 패턴(섹션 4) 준수 의무화
+
+
+===========================================================================
+  End of Document
+===========================================================================

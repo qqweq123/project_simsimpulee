@@ -1,0 +1,116 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+/* Base */
+.cyber-theme {
+    background-color: #050505;
+    font-family: 'Share Tech Mono', monospace;
+    color: #a5f3fc;
+    /* cyan-200 */
+}
+
+/* Scanlines */
+.scanlines {
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.2) 50%,
+            rgba(0, 0, 0, 0.2));
+    background-size: 100% 4px;
+    opacity: 0.6;
+}
+
+.vignette {
+    background: radial-gradient(circle, transparent 50%, black 100%);
+}
+
+/* Glitch Effect */
+.glitch {
+    position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -1px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip: rect(10px, 9999px, 30px, 0);
+    }
+
+    20% {
+        clip: rect(80px, 9999px, 100px, 0);
+    }
+
+    40% {
+        clip: rect(20px, 9999px, 60px, 0);
+    }
+
+    60% {
+        clip: rect(50px, 9999px, 90px, 0);
+    }
+
+    80% {
+        clip: rect(10px, 9999px, 40px, 0);
+    }
+
+    100% {
+        clip: rect(70px, 9999px, 120px, 0);
+    }
+}
+
+@keyframes glitch-anim2 {
+    0% {
+        clip: rect(60px, 9999px, 90px, 0);
+    }
+
+    20% {
+        clip: rect(10px, 9999px, 50px, 0);
+    }
+
+    40% {
+        clip: rect(90px, 9999px, 100px, 0);
+    }
+
+    60% {
+        clip: rect(30px, 9999px, 40px, 0);
+    }
+
+    80% {
+        clip: rect(70px, 9999px, 110px, 0);
+    }
+
+    100% {
+        clip: rect(20px, 9999px, 60px, 0);
+    }
+}
+
+/* Neon Text Shadow */
+.text-cyan-400 {
+    text-shadow: 0 0 5px rgba(34, 211, 238, 0.5);
+}
+
+.text-red-500 {
+    text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+}
