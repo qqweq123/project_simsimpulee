@@ -1,0 +1,202 @@
+/* 
+ * Demon Slayer Theme - "어둔 밤, 재가 내리는 숲"
+ * Concept: Dark Folktale / Taisho Era / Somber
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;500;700;900&family=Noto+Sans+KR:wght@100;300;400&display=swap');
+
+:root {
+    --color-void: #08090d;
+    --color-ink: #111318;
+    --color-paper: #d4d0c8;
+    --color-blood: #7f1d1d;
+    --color-blood-light: #991b1b;
+    --color-ash: #9ca3af;
+
+    --font-serif: 'Noto Serif KR', serif;
+    --font-sans: 'Noto Sans KR', sans-serif;
+}
+
+/* === Base === */
+body.demon-theme {
+    background-color: var(--color-void);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* === Background Textures === */
+.bg-noise {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Mist - subtle dark fog instead of wisteria glow */
+.bg-mist {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40vh;
+    background: linear-gradient(to top, rgba(8, 9, 13, 0.9) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* === Typography === */
+.font-art {
+    font-family: var(--font-serif);
+    font-weight: 700;
+}
+
+.title-display {
+    font-family: var(--font-serif);
+    font-weight: 900;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    color: var(--color-paper);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* === UI Components === */
+
+/* The Frame - no gold, just darkness and thin borders */
+.demon-frame {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(17, 19, 24, 0.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+    position: relative;
+    border-radius: 2px;
+}
+
+/* Buttons (Dark Folktale Style) */
+.btn-slash {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--color-paper);
+    padding: 1.25rem 1.5rem;
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    text-align: left;
+    border-radius: 2px;
+}
+
+.btn-slash:hover {
+    background: rgba(127, 29, 29, 0.2);
+    border-color: rgba(127, 29, 29, 0.4);
+    color: #fff;
+}
+
+.btn-slash:active {
+    transform: scale(0.98);
+    background: rgba(127, 29, 29, 0.3);
+}
+
+/* === Ash Particles (Top → Bottom, Slow) === */
+.ash-particle {
+    position: fixed;
+    top: -10px;
+    background: rgba(200, 200, 200, 0.4);
+    border-radius: 50%;
+    animation: ash-fall linear forwards;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes ash-fall {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.3;
+    }
+
+    90% {
+        opacity: 0.15;
+    }
+
+    100% {
+        transform: translateY(105vh) translateX(30px) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+/* === Result Page === */
+.reveal-smoke {
+    animation: smoke-clear 2s ease-out forwards;
+}
+
+@keyframes smoke-clear {
+    from {
+        filter: blur(15px) brightness(0.3);
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        filter: blur(0) brightness(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.character-aura {
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle, rgba(127, 29, 29, 0.15), transparent 70%);
+    filter: blur(30px);
+    z-index: -1;
+    animation: pulse-aura 6s infinite alternate;
+}
+
+@keyframes pulse-aura {
+    from {
+        opacity: 0.3;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 0.5;
+        transform: scale(1.03);
+    }
+}
+
+/* Stats Polygon */
+.stat-polygon {
+    fill: rgba(127, 29, 29, 0.15);
+    stroke: rgba(127, 29, 29, 0.5);
+    stroke-width: 1.5;
+}
+
+/* === Intro Page (index.html) Specific === */
+.btn-start-demon {
+    display: inline-block;
+    background: rgba(127, 29, 29, 0.3);
+    border: 1px solid rgba(127, 29, 29, 0.5);
+    color: var(--color-paper);
+    padding: 1rem 3rem;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.btn-start-demon:hover {
+    background: rgba(127, 29, 29, 0.5);
+    border-color: rgba(153, 27, 27, 0.7);
+    box-shadow: 0 0 20px rgba(127, 29, 29, 0.3);
+}

@@ -1,48 +1,42 @@
 import { demonResults } from './data.js';
-import { ThemeManager } from '@/core/ThemeManager.js';
 
 export function initDemonResult() {
-    document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
-
-        // 1. Parse Data Config
         const archetype = urlParams.get('archetype') || '이름 없는 귀살대원';
-        let resultData = demonResults[archetype];
 
+        // Data Load
+        let resultData = demonResults[archetype];
         if (!resultData) {
-            console.warn(`[Demon Result] archetype "${archetype}" not found in demonResults. Falling back to default.`);
+            console.warn(`Archetype "${archetype}" not found. Falling back.`);
             resultData = demonResults['이름 없는 귀살대원'];
         }
 
-        // 2. Determine Theme (Default: tarot)
-        const themeName = urlParams.get('theme') || 'tarot';
+        // DOM Binding
+        document.getElementById('result-title').textContent = resultData.name;
+        document.getElementById('result-subtitle').textContent = resultData.subtitle || archetype;
 
-        // 3. Initialize Manager
-        const themeManager = new ThemeManager();
-        const container = document.getElementById('app-container');
+        // Image Safe Handling
+        const imgEl = document.getElementById('result-image');
+        if (imgEl) {
+            imgEl.src = resultData.imgUrl || 'https://placehold.co/400x600/1e293b/a78bfa?text=Secret';
+            imgEl.alt = resultData.name;
+        }
 
-        // 4. Load Theme
-        const success = await themeManager.loadTheme(themeName, container);
-        if (!success) return;
+        // Tags
+        const tagsContainer = document.getElementById('result-tags');
+        if (tagsContainer && resultData.tags) {
+            tagsContainer.innerHTML = resultData.tags.map(tag =>
+                `<span class="px-3 py-1 bg-white/10 border border-white/20 text-xs text-paper rounded-full font-light tracking-wider">${tag}</span>`
+            ).join('');
+        }
 
-        // 5. Bind Data
-        themeManager.bindData(resultData);
+        // Desc
+        const descEl = document.getElementById('result-desc');
+        if (descEl) {
+            // Replace newlines with <br> if needed, or rely on whitespace-pre-line
+            descEl.textContent = resultData.desc;
+        }
 
-        // 6. Bind Events
-        themeManager.bindEvents({
-            onShareKakao: () => alert('카카오톡 공유 기능 준비중입니다.'),
-            onCopyLink: () => {
-                const url = window.location.href;
-                const textToCopy = `[귀멸의 칼날: 내면의 서사시] 테스트 결과, 저는 '${archetype}' 타입입니다! 당신의 내면에 잠든 존재도 확인해보세요.`;
-
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(`${textToCopy}\n${url}`).then(() => {
-                        alert('결과 링크가 복사되었습니다!');
-                    });
-                } else {
-                    alert('링크 복사를 지원하지 않는 브라우저입니다.');
-                }
-            }
-        });
     });
 }

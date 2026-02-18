@@ -15,50 +15,98 @@ export function initDemonTest() {
 function showQuestion() {
     const item = demonQuestions[currentQuestionIndex];
 
+    // 1. Progress
     const progress = ((currentQuestionIndex + 1) / demonQuestions.length) * 100;
-    document.getElementById('progress-text').textContent = `${currentQuestionIndex + 1} / ${demonQuestions.length}`;
+    document.getElementById('curr-q').textContent = currentQuestionIndex + 1;
     document.getElementById('progress-bar').style.width = `${progress}%`;
 
-    document.getElementById('narrative-text').textContent = item.narrative;
-    document.getElementById('question-text').textContent = item.question;
+    // 2. Elements with Animation Reset
+    const narrativeEl = document.getElementById('narrative');
+    const questionEl = document.getElementById('question-text');
+    const answersEl = document.getElementById('answers');
 
-    const answerButtons = document.getElementById('answer-buttons');
-    answerButtons.innerHTML = '';
+    // Reset Animation State
+    [narrativeEl, questionEl, answersEl].forEach(el => {
+        el.className = el.className.replace(/opacity-100 translate-y-0/g, 'opacity-0 translate-y-4');
+        // Force reflow
+        void el.offsetWidth;
+    });
 
-    // 셔플 로직
+    // 3. Content Update
+    narrativeEl.textContent = item.narrative;
+    questionEl.textContent = item.question;
+
+    answersEl.innerHTML = '';
+
+    // Shuffle
     let shuffledAnswers = [...item.answers];
     for (let i = shuffledAnswers.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffledAnswers[i], shuffledAnswers[j]] = [shuffledAnswers[j], shuffledAnswers[i]];
     }
 
-    shuffledAnswers.forEach(answer => {
+    shuffledAnswers.forEach((answer, idx) => {
         const button = document.createElement('button');
-        button.textContent = answer.text;
-        button.className = "w-full bg-gray-700 hover:bg-red-900/50 border border-gray-600 text-slate-200 font-semibold py-4 px-4 rounded-lg text-left btn-demon transition-colors duration-200";
+        button.innerHTML = `<span class="relative z-10">${answer.text}</span>`;
+        button.className = "w-full btn-slash text-left group opacity-0 translate-y-4 transition-all duration-500 fill-mode-forwards";
+        button.style.animationDelay = `${idx * 100}ms`; // Staggered appearance
         button.onclick = () => selectAnswer(answer.score);
-        answerButtons.appendChild(button);
+        answersEl.appendChild(button);
     });
+
+    // 4. Trigger Appear Animation
+    setTimeout(() => {
+        narrativeEl.classList.add('opacity-100', 'translate-y-0');
+        narrativeEl.classList.remove('opacity-0', 'translate-y-4');
+
+        questionEl.classList.add('opacity-100', 'translate-y-0');
+        questionEl.classList.remove('opacity-0', 'translate-y-4');
+
+        answersEl.classList.remove('opacity-0', 'translate-y-4'); // Container visible
+
+        // Children buttons
+        Array.from(answersEl.children).forEach((btn, i) => {
+            setTimeout(() => {
+                btn.classList.add('opacity-100', 'translate-y-0');
+                btn.classList.remove('opacity-0', 'translate-y-4');
+            }, i * 150 + 300);
+        });
+    }, 100);
 }
 
 function selectAnswer(scoreToAdd) {
+    // Add Score
     for (const key in scoreToAdd) {
         scores[key] += scoreToAdd[key];
     }
+
+    // Slash Effect (Screen Shake or flash)
+    document.body.classList.add('animate-pulse');
+    setTimeout(() => document.body.classList.remove('animate-pulse'), 300);
+
     currentQuestionIndex++;
+
     if (currentQuestionIndex < demonQuestions.length) {
-        showQuestion();
+        // Delay for transition
+        setTimeout(showQuestion, 400);
     } else {
         showLoading();
     }
 }
 
 function showLoading() {
-    document.getElementById('question-screen').classList.add('hidden');
-    document.getElementById('loading-screen').classList.remove('hidden');
+    const qScreen = document.getElementById('question-screen');
+    qScreen.innerHTML = `
+        <div class="flex flex-col items-center justify-center min-h-[50vh] fade-in">
+            <div class="w-24 h-24 border-4 border-l-red-500 border-r-blue-500 border-t-transparent border-b-transparent rounded-full animate-spin"></div>
+            <h2 class="mt-8 text-2xl font-art text-white animate-pulse">호흡을 가다듬는 중...</h2>
+            <p class="text-gray-400 mt-2 text-sm">내면의 소리에 귀를 기울입니다.</p>
+        </div>
+    `;
+
     setTimeout(() => {
         calculateResult();
-    }, 2500);
+    }, 3000); // 3s delay for suspense
 }
 
 function calculateResult() {
@@ -114,7 +162,6 @@ function calculateResult() {
             let currentScore = 0;
 
             if (matrix.core === userProfile.core) currentScore += 10;
-
             if (userProfile.v1.includes(matrix.v1.split(" ")[0])) currentScore += 2;
             if (userProfile.v2.includes(matrix.v2.split(" ")[0])) currentScore += 2;
             if (userProfile.v3.includes(matrix.v3.split(" ")[0])) currentScore += 2;
@@ -128,6 +175,6 @@ function calculateResult() {
         }
     }
 
-    // 결과 페이지로 이동
+    // 결과 페이지로 이동 (테마 파라미터 제외, result.html 자체가 전용 테마임)
     window.location.href = `result.html?archetype=${encodeURIComponent(bestMatch)}`;
 }
