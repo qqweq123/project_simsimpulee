@@ -1,0 +1,101 @@
+<div class="poster-container relative bg-white">
+
+    <!-- Header / Logo Area -->
+    <header class="border-b-2-black p-4 flex justify-between items-center bg-accent text-white">
+        <div class="font-black text-xl tracking-tighter">MIND POSTER</div>
+        <div class="text-xs font-bold border-2 border-white px-2 py-1 rounded-full">VOL.01</div>
+    </header>
+
+    <!-- Marquee -->
+    <div class="marquee-container border-b-2-black">
+        <div class="marquee-content">
+            ANALYSIS COMPLETE /// HORMONE TYPE IDENTIFIED /// PERSONALITY DECODED /// ANALYSIS COMPLETE /// HORMONE
+            TYPE IDENTIFIED ///
+        </div>
+    </div>
+
+    <!-- Scrollable Content Area -->
+    <div class="flex-grow relative">
+
+        <!-- Lock Overlay -->
+        <div id="lock-overlay" class="lock-container">
+            <div class="border-2-black p-8 bg-white max-w-xs text-center shadow-[8px_8px_0_0_#111]">
+                <h2 class="text-4xl font-black mb-4">LOCKED</h2>
+                <p class="font-bold mb-6 text-sm">ACCESS RESTRICTED<br>UNLOCK TO VIEW RESULT</p>
+                <button id="btn-unlock" class="btn-swiss w-full bg-accent text-white">
+                    UNLOCK NOW
+                </button>
+                <div class="text-[10px] mt-4 font-mono">ID: USER-2026-X82</div>
+            </div>
+        </div>
+
+        <!-- Result Content -->
+        <main id="result-content" class="blur-target h-full flex flex-col">
+
+            <!-- Hero Section -->
+            <section class="border-b-2-black p-6">
+                <div class="text-xs font-bold mb-2 text-gray-500">TYPE CLASSIFICATION</div>
+                <h1 id="result-title" class="text-5xl uppercase break-keep mb-2"></h1>
+                <h2 id="result-subtitle" class="text-lg font-bold text-accent mb-6"></h2>
+
+                <div
+                    class="w-full aspect-square border-2-black bg-gray-100 flex items-center justify-center relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-20">
+                    </div>
+                    <span id="result-emoji"
+                        class="text-9xl group-hover:scale-125 transition-transform duration-500 grayscale group-hover:grayscale-0"></span>
+                    <div class="absolute bottom-0 right-0 bg-black text-white px-2 py-1 text-xs font-mono">FIG. 01
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tags Grid -->
+            <section id="result-tags" class="grid grid-cols-2 border-b-2-black font-bold text-sm">
+                <!-- Tags Injected Here -->
+            </section>
+
+            <!-- Description -->
+            <section class="p-6 border-b-2-black bg-gray-50">
+                <h3 class="font-black text-xl mb-4 uppercase decoration-4 underline decoration-accent">Analysis
+                    Report</h3>
+                <p id="result-desc" class="text-sm leading-6 font-medium text-justify whitespace-pre-line">
+                    <!-- Desc Injected Here -->
+                </p>
+            </section>
+
+            <!-- Data Grid (Match) -->
+            <section class="grid grid-cols-2 border-b-2-black">
+                <div class="border-r-2-black p-4">
+                    <div class="text-[10px] font-bold text-gray-500 mb-1">COMPATIBILITY / POSITIVE</div>
+                    <div class="text-2xl font-black text-accent">BEST</div>
+                    <div id="match-best" class="font-bold mt-2"></div>
+                </div>
+                <div class="p-4 bg-gray-900 text-white">
+                    <div class="text-[10px] font-bold text-gray-400 mb-1">COMPATIBILITY / NEGATIVE</div>
+                    <div class="text-2xl font-black text-white">WORST</div>
+                    <div id="match-worst" class="font-bold mt-2 text-gray-300"></div>
+                </div>
+            </section>
+
+            <!-- Action Grid -->
+            <section class="grid grid-cols-2 border-b-2-black h-24">
+                <button id="btn-share-kakao"
+                    class="border-r-2-black hover:bg-yellow-400 transition flex items-center justify-center font-bold gap-2">
+                    <span>KAKAO SHARE</span>
+                </button>
+                <button id="btn-share-link"
+                    class="hover:bg-gray-200 transition flex items-center justify-center font-bold gap-2">
+                    <span>COPY LINK</span>
+                </button>
+            </section>
+
+            <!-- Footer -->
+            <footer class="p-8 text-center bg-accent text-white">
+                <a href="/index.html" class="font-black underline text-xl hover:text-black transition">BACK TO
+                    HOME</a>
+            </footer>
+
+        </main>
+    </div>
+</div>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무인도 생존유형 테스트 진행 중 - Mellow Wave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/styles/main.css">
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-emerald-50 to-white min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- 상단 진행바 -->
+    <div class="w-full max-w-md mb-8">
+        <div class="flex justify-between text-xs text-gray-500 mb-1 font-bold">
+            <span id="progress-text">1 / 10</span>
+            <span class="text-emerald-500">🏝️ 생존 시뮬레이션 진행 중...</span>
+        </div>
+        <div class="w-full bg-emerald-100 rounded-full h-2.5">
+            <div id="progress-bar"
+                class="bg-gradient-to-r from-emerald-400 to-teal-600 h-2.5 rounded-full transition-all duration-500"
+                style="width: 10%"></div>
+        </div>
+    </div>
+
+    <!-- 질문 카드 -->
+    <div id="question-card"
+        class="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 text-center fade-in border border-emerald-100">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 leading-snug break-keep" id="question-text">
+                Loading...
+            </h2>
+        </div>
+
+        <div class="space-y-4" id="answers-container">
+            <!-- 버튼들이 여기에 동적으로 생성됩니다 -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { initIslandTest } from '@/features/tests/island/question.js';
+        initIslandTest();
+    </script>
+</body>
+
+</html>

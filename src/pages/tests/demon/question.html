@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>귀멸의 칼날: 내면의 서사시 - 진행중</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/styles/themes/demon.css">
+    <style>
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ef4444;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .progress-bar-inner {
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4 bg-gray-900 text-slate-200">
+
+    <div class="w-full max-w-2xl mx-auto bg-gray-800 rounded-lg shadow-2xl p-6 md:p-10 border border-gray-700">
+
+        <!-- 질문 화면 -->
+        <div id="question-screen" class="screen">
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-semibold text-slate-400">진행도</span>
+                    <span id="progress-text" class="text-sm font-semibold text-slate-400">1 / 28</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-red-500 h-2.5 rounded-full progress-bar-inner" style="width: 0%">
+                    </div>
+                </div>
+            </div>
+            <div id="narrative-text" class="italic text-slate-400 text-center mb-6 border-y-2 border-gray-700 py-4">
+            </div>
+            <h2 id="question-text" class="text-2xl font-semibold mb-8 text-center leading-relaxed"></h2>
+            <div id="answer-buttons" class="grid grid-cols-1 gap-4"></div>
+        </div>
+
+        <!-- 로딩 화면 -->
+        <div id="loading-screen" class="text-center screen hidden">
+            <div class="flex justify-center items-center mb-4">
+                <div class="loader"></div>
+            </div>
+            <p class="text-xl text-slate-300">당신의 서사를 엮는 중...</p>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initDemonTest } from '@/features/tests/demon/question.js';
+        initDemonTest();
+    </script>
+</body>
+
+</html>

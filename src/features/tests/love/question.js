@@ -1,47 +1,36 @@
 
-import { dessertQuestions } from './data.js';
+import { loveQuestions, getGrade } from './data.js';
 
 let currentStep = 0;
-const totalSteps = dessertQuestions.length;
+const totalSteps = loveQuestions.length;
+let totalScore = 0;
 
-// MBTI Score Board
-const scores = {
-    E: 0, I: 0,
-    S: 0, N: 0,
-    T: 0, F: 0,
-    J: 0, P: 0
-};
-
-export function initDessertTest() {
+export function initLoveTest() {
     renderQuestion();
 }
 
 function renderQuestion() {
-    const question = dessertQuestions[currentStep];
+    const question = loveQuestions[currentStep];
 
-    // Update Text
     const qEl = document.getElementById('question-text');
     if (qEl) qEl.innerHTML = question.q;
 
-    // Create Buttons
     const container = document.getElementById('answers-container');
     if (container) {
-        container.innerHTML = ''; // Clear
-
+        container.innerHTML = '';
         question.answers.forEach((ans) => {
             const btn = document.createElement('button');
-            btn.className = "btn-press w-full bg-gray-50 hover:bg-[var(--color-primary)] hover:text-white border-2 border-gray-100 hover:border-transparent text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left";
+            btn.className = "btn-press w-full bg-gray-50 hover:bg-gradient-to-r hover:from-pink-400 hover:to-rose-500 hover:text-white border-2 border-gray-100 hover:border-transparent text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left";
             btn.innerText = ans.text;
-            btn.onclick = () => selectAnswer(ans.type);
+            btn.onclick = () => selectAnswer(ans.score);
             container.appendChild(btn);
         });
     }
 
-    // Update Progress
+    // Progress
     const progress = ((currentStep + 1) / totalSteps) * 100;
     const bar = document.getElementById('progress-bar');
     const text = document.getElementById('progress-text');
-
     if (bar) bar.style.width = `${progress}%`;
     if (text) text.innerText = `${currentStep + 1} / ${totalSteps}`;
 
@@ -54,8 +43,8 @@ function renderQuestion() {
     }
 }
 
-function selectAnswer(type) {
-    if (scores[type] !== undefined) scores[type]++;
+function selectAnswer(score) {
+    totalScore += score;
     nextStep();
 }
 
@@ -69,16 +58,6 @@ function nextStep() {
 }
 
 function showResult() {
-    // Calculate MBTI
-    const mbti = [
-        scores.E >= scores.I ? 'E' : 'I',
-        scores.S >= scores.N ? 'S' : 'N',
-        scores.T >= scores.F ? 'T' : 'F',
-        scores.J >= scores.P ? 'J' : 'P'
-    ].join('');
-
-    location.href = `result.html?type=${mbti}`;
+    const grade = getGrade(totalScore);
+    location.href = `result.html?grade=${grade}&score=${totalScore}`;
 }
-
-// Auto init if importing script
-// initDessertTest();

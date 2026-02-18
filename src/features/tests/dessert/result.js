@@ -1,5 +1,5 @@
 
-import { dessertResults, matchData } from '@/features/tests/dessert_data.js';
+import { dessertResults, matchData } from './data.js';
 
 export function initDessertResult() {
     document.addEventListener('DOMContentLoaded', () => {

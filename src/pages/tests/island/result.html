@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무인도 생존유형 결과 - Mellow Wave</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/styles/main.css">
+    <style>
+        .blur-content {
+            filter: blur(8px);
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 10;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .compass-spin {
+            animation: compassSpin 6s ease-in-out infinite;
+        }
+
+        @keyframes compassSpin {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(15deg);
+            }
+
+            75% {
+                transform: rotate(-15deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-b from-emerald-50 via-white to-teal-50 min-h-screen flex flex-col items-center py-8">
+
+    <div class="max-w-md w-full px-4 relative z-0">
+        <h1
+            class="font-gaegu text-3xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+            🏝️ 나의 생존 유형은?
+        </h1>
+
+        <!-- 결과 카드 -->
+        <div id="result-card"
+            class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl shadow-xl overflow-hidden relative fade-in">
+
+            <!-- 상단 그라데이션 바 -->
+            <div id="gradient-bar" class="h-2 bg-gradient-to-r from-emerald-500 to-teal-600 w-full"></div>
+
+            <!-- 잠금 화면 -->
+            <div id="lock-overlay" class="lock-overlay">
+                <div class="text-center p-6 bg-white/95 rounded-2xl shadow-2xl border border-emerald-200 max-w-[280px]">
+                    <span class="text-4xl mb-2 block compass-spin">🧭</span>
+                    <h3 class="text-xl font-bold mb-2">생존 분석 완료!</h3>
+                    <p class="text-sm text-gray-500 mb-4">당신의 생존 유형을 확인해보세요</p>
+                    <button onclick="unlockResult()"
+                        class="btn-press w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all mb-3 animate-pulse">
+                        무료로 결과 확인하기 🏝️
+                    </button>
+                    <button
+                        class="w-full bg-gray-200 text-gray-500 font-bold py-3 px-6 rounded-full text-sm cursor-not-allowed"
+                        disabled>
+                        프리미엄 정밀 분석 (준비중)
+                    </button>
+                </div>
+            </div>
+
+            <!-- 실제 결과 내용 -->
+            <div id="result-content" class="blur-content p-8 text-center transition-all duration-700">
+
+                <!-- 이모지 & 유형명 -->
+                <div class="mb-6">
+                    <span id="result-emoji" class="text-7xl block mb-3">🔧</span>
+                    <h2 id="result-title" class="text-3xl font-bold text-gray-800 mb-1 break-keep"></h2>
+                    <h3 id="result-subtitle" class="text-base text-emerald-600 font-bold mb-2"></h3>
+                </div>
+
+                <!-- 태그 -->
+                <div class="flex justify-center flex-wrap gap-2 mb-6" id="result-tags"></div>
+
+                <!-- 능력치 그래프 -->
+                <div class="bg-white/80 rounded-2xl p-5 mb-6 shadow-sm border border-emerald-100">
+                    <h4 class="text-sm font-bold text-gray-600 mb-4 text-left">📊 생존 능력치 분석</h4>
+                    <div id="ability-bars">
+                        <!-- 능력치 바들이 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+
+                <!-- 설명 -->
+                <p id="result-desc"
+                    class="text-gray-600 text-sm leading-7 mb-8 text-left bg-white/80 p-6 rounded-xl min-h-[100px] whitespace-pre-line border border-emerald-100 shadow-sm">
+                </p>
+
+                <!-- 공유 -->
+                <div class="border-t border-emerald-100 pt-6">
+                    <h4 class="font-bold mb-4 text-sm text-gray-600">🏝️ 친구의 생존 유형도 궁금하다면?</h4>
+                    <div class="flex justify-center gap-4">
+                        <button class="p-3 bg-yellow-300 rounded-full hover:scale-110 transition shadow-sm btn-press">🟡
+                            카카오</button>
+                        <button
+                            class="p-3 bg-blue-500 text-white rounded-full hover:scale-110 transition shadow-sm btn-press">🔵
+                            페이스북</button>
+                        <button onclick="copyLink()"
+                            class="p-3 bg-gray-200 rounded-full hover:scale-110 transition shadow-sm btn-press">🔗
+                            링크</button>
+                    </div>
+                </div>
+
+                <!-- 광고 -->
+                <div
+                    class="mt-8 h-20 bg-white/50 rounded-lg flex items-center justify-center text-gray-400 text-xs border border-emerald-100">
+                    Advertisement Area
+                </div>
+            </div>
+        </div>
+
+        <!-- 하단 버튼 -->
+        <div class="mt-8 text-center space-y-4">
+            <a href="/index.html"
+                class="btn-press block w-full bg-white border border-emerald-300 text-emerald-600 font-bold py-3 rounded-xl hover:bg-emerald-50 transition shadow-sm">
+                다른 테스트 하러 가기 🎨
+            </a>
+            <a href="/index.html" class="inline-block text-gray-400 underline text-sm hover:text-gray-600">
+                메인 홈으로 이동
+            </a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initIslandResult } from '@/features/tests/island/result.js';
+        initIslandResult();
+    </script>
+</body>
+
+</html>

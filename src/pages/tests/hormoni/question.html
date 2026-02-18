@@ -65,63 +65,8 @@
     </div>
 
     <script type="module">
-        // 버튼 내부 내용
-        btn.innerHTML = `
-                    <span class="relative z-10 block group-hover:text-purple-700 transition-colors">${ans.text}</span>
-                    <div class="absolute inset-0 bg-purple-50 opacity-0 group-hover:opacity-100 transition-opacity z-0"></div>
-                `;
-
-        btn.onclick = () => selectAnswer(ans.type);
-        container.appendChild(btn);
-            });
-
-        // 프로그레스 바 업데이트
-        const progress = ((currentStep + 1) / totalSteps) * 100;
-        document.getElementById('progress-bar').style.width = `${progress}%`;
-        document.getElementById('progress-text').innerText = `Question ${currentStep + 1} / ${totalSteps}`;
-
-        // 애니메이션 리셋
-        const card = document.getElementById('question-card');
-        card.classList.remove('fade-in');
-        void card.offsetWidth; // Trigger reflow
-        card.classList.add('fade-in');
-        }
-
-        window.selectAnswer = function (type) {
-            if (scores[type] !== undefined) {
-                scores[type]++; // 점수 누적
-            }
-            nextStep();
-        }
-
-        function nextStep() {
-            currentStep++;
-            if (currentStep >= totalSteps) {
-                calculateAndShowResult();
-            } else {
-                renderQuestion();
-            }
-        }
-
-        function calculateAndShowResult() {
-            // 결과 계산 로직 고도화
-            const totalEgen = scores["Egen"];
-            const totalTeto = scores["Teto"];
-            const totalAnswers = totalEgen + totalTeto;
-
-            // Egen 비율 계산 (%)
-            const egenPercent = Math.round((totalEgen / totalAnswers) * 100);
-
-            // MBTI처럼 주 성향 결정 (과반수 이상)
-            // 50:50인 경우 Egen 우세로 처리 (또는 랜덤)
-            let resultType = (totalEgen >= totalTeto) ? "Egen" : "Teto";
-
-            // 결과 페이지로 이동 (성별, 성향타입, 퍼센트 정보 전달)
-            location.href = `hormoni_result.html?gender=${gender}&type=${resultType}&percent=${egenPercent}`;
-        }
-
-        // 초기 렌더링
-        renderQuestion();
+        import { initHormoniTest } from '@/features/tests/hormoni/question.js';
+        initHormoniTest();
     </script>
 </body>
 

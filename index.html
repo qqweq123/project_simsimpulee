@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<link rel="stylesheet" href="css/image_transform.css">
+
 
 <head>
     <meta charset="UTF-8">
@@ -26,6 +26,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/image_transform.css">
 </head>
 
 <body class="overflow-x-hidden">
@@ -101,141 +102,230 @@
         <!-- 추천 테스트 섹션 -->
         <section class="py-16 px-4">
             <div class="max-w-6xl mx-auto">
-                <!-- 이번 주 인기 테스트 -->
-                <div class="mb-12">
-                    <h3 class="font-gaegu text-4xl font-bold mb-6 text-center">이번 주 인기 테스트 ✨</h3>
+
+                <!-- ===== 이번 주 인기 테스트 ===== -->
+                <div class="mb-16">
+                    <div class="text-center mb-8">
+                        <span
+                            class="inline-block bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-3 shadow-md">🏆
+                            WEEKLY BEST</span>
+                        <h3 class="font-gaegu text-4xl font-bold">이번 주 인기 테스트 ✨</h3>
+                        <p class="text-gray-400 text-sm mt-2">가장 많은 사람들이 즐기고 있는 핫한 테스트!</p>
+                    </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- 카드 1 -->
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer"
-                            onclick="location.href='tests/dessert_intro.html'">
-                            <img src="https://placehold.co/100x100/FFD166/4A4A4A?text=🍰" alt="디저트"
-                                class="mx-auto rounded-full mb-4">
-                            <h4 class="text-xl font-bold mb-2">내가 디저트라면?</h4>
-                            <p class="text-gray-500 mb-4">달콤한 디저트로 알아보는 나의 성격 유형</p>
-                            <div class="flex justify-center space-x-2">
-                                <span
-                                    class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#성격</span>
-                                <span
-                                    class="bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#MBTI</span>
+                        <!-- 인기 1위: 디저트 -->
+                        <div class="group relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer"
+                            onclick="location.href='/src/pages/tests/dessert/index.html'">
+                            <div
+                                class="absolute top-3 left-3 z-10 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                                🥇 1위</div>
+                            <div
+                                class="h-36 bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">
+                                🍰
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-xl font-bold mb-2">내가 디저트라면?</h4>
+                                <p class="text-gray-500 text-sm mb-4">달콤한 디저트로 알아보는 나의 MBTI 성격 유형</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex gap-1.5">
+                                        <span
+                                            class="bg-yellow-100 text-yellow-700 text-xs font-bold px-2.5 py-0.5 rounded-full">#성격</span>
+                                        <span
+                                            class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-0.5 rounded-full">#MBTI</span>
+                                    </div>
+                                    <span class="text-xs text-gray-400">👤 12,345</span>
+                                </div>
                             </div>
                         </div>
-                        <!-- 카드 2 -->
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer"
-                            onclick="alert('준비 중인 테스트입니다!')">
-                            <img src="https://placehold.co/100x100/FF8C94/FFFFFF?text=💖" alt="하트"
-                                class="mx-auto rounded-full mb-4">
-                            <h4 class="text-xl font-bold mb-2">나의 연애 능력치 테스트</h4>
-                            <p class="text-gray-500 mb-4">과연 나의 연애 매력 점수는 몇 점일까?</p>
-                            <div class="flex justify-center space-x-2">
-                                <span
-                                    class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#연애</span>
-                                <span
-                                    class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#재미</span>
+
+                        <!-- 인기 2위: 연애 능력치 -->
+                        <div class="group relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer"
+                            onclick="location.href='/src/pages/tests/love/index.html'">
+                            <div
+                                class="absolute top-3 left-3 z-10 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                                🥈 2위</div>
+                            <div
+                                class="h-36 bg-gradient-to-br from-pink-100 via-rose-50 to-red-100 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">
+                                💖
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-xl font-bold mb-2">나의 연애 능력치</h4>
+                                <p class="text-gray-500 text-sm mb-4">과연 나의 연애 매력 점수는 몇 점일까?</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex gap-1.5">
+                                        <span
+                                            class="bg-red-100 text-red-700 text-xs font-bold px-2.5 py-0.5 rounded-full">#연애</span>
+                                        <span
+                                            class="bg-pink-100 text-pink-700 text-xs font-bold px-2.5 py-0.5 rounded-full">#능력치</span>
+                                    </div>
+                                    <span class="text-xs text-gray-400">👤 8,742</span>
+                                </div>
                             </div>
                         </div>
-                        <!-- 카드 3 -->
-                        <div class="bg-white rounded-2xl shadow-lg p-6 text-center transition-all duration-300 card-hover cursor-pointer"
-                            onclick="alert('준비 중인 테스트입니다!')">
-                            <img src="https://placehold.co/100x100/FFB366/4A4A4A?text=🏝️" alt="무인도"
-                                class="mx-auto rounded-full mb-4">
-                            <h4 class="text-xl font-bold mb-2">무인도 생존 유형 테스트</h4>
-                            <p class="text-gray-500 mb-4">무인도에 떨어졌을 때 나의 생존 전략은?</p>
-                            <div class="flex justify-center space-x-2">
-                                <span
-                                    class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#생존</span>
-                                <span
-                                    class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">#성향</span>
+
+                        <!-- 인기 3위: 무인도 -->
+                        <div class="group relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer"
+                            onclick="location.href='/src/pages/tests/island/index.html'">
+                            <div
+                                class="absolute top-3 left-3 z-10 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                                🥉 3위</div>
+                            <div
+                                class="h-36 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">
+                                🏝️
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-xl font-bold mb-2">무인도 생존 유형</h4>
+                                <p class="text-gray-500 text-sm mb-4">무인도에 떨어졌을 때 나의 생존 전략은?</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex gap-1.5">
+                                        <span
+                                            class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-0.5 rounded-full">#생존</span>
+                                        <span
+                                            class="bg-teal-100 text-teal-700 text-xs font-bold px-2.5 py-0.5 rounded-full">#성향</span>
+                                    </div>
+                                    <span class="text-xs text-gray-400">👤 5,231</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 전체 테스트 목록 -->
+                <!-- ===== 방금 나온 신규 테스트 ===== -->
+                <div class="mb-16">
+                    <div class="text-center mb-8">
+                        <span
+                            class="inline-block bg-gradient-to-r from-violet-500 to-purple-500 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-3 shadow-md">🆕
+                            JUST ARRIVED</span>
+                        <h3 class="font-gaegu text-4xl font-bold">따끈따끈 신규 테스트 🔥</h3>
+                        <p class="text-gray-400 text-sm mt-2">새로 추가된 테스트를 가장 먼저 체험해보세요!</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                        <!-- 신규 1: 연애 능력치 -->
+                        <div class="group relative bg-gradient-to-br from-pink-50 to-rose-50 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer border border-pink-100"
+                            onclick="location.href='/src/pages/tests/love/index.html'">
+                            <div class="absolute top-3 right-3 z-10">
+                                <span
+                                    class="bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow animate-pulse">NEW</span>
+                            </div>
+                            <div class="p-6 flex items-center gap-5">
+                                <div
+                                    class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-200 to-rose-200 flex items-center justify-center text-4xl shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                                    💖
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold mb-1">나의 연애 능력치 테스트</h4>
+                                    <p class="text-gray-500 text-xs mb-2">10가지 상황으로 측정하는 SS~D급 연애 등급</p>
+                                    <div class="flex gap-1">
+                                        <span class="text-xs text-pink-500 font-bold">#연애 #능력치 #등급</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 신규 2: 무인도 -->
+                        <div class="group relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer border border-emerald-100"
+                            onclick="location.href='/src/pages/tests/island/index.html'">
+                            <div class="absolute top-3 right-3 z-10">
+                                <span
+                                    class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow animate-pulse">NEW</span>
+                            </div>
+                            <div class="p-6 flex items-center gap-5">
+                                <div
+                                    class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center text-4xl shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                                    🏝️
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-bold mb-1">무인도 생존유형 테스트</h4>
+                                    <p class="text-gray-500 text-xs mb-2">극한 상황에서의 선택으로 보는 4가지 생존 유형</p>
+                                    <div class="flex gap-1">
+                                        <span class="text-xs text-emerald-600 font-bold">#생존 #유형 #무인도</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== 전체 테스트 ===== -->
                 <div>
-                    <h3 class="font-gaegu text-4xl font-bold mb-6 text-center">골라보는 재미! 전체 테스트 🎨</h3>
-                    <!-- 필터링 -->
-                    <div class="flex justify-center flex-wrap gap-2 mb-8">
-                        <button
-                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">전체</button>
-                        <button
-                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#성격</button>
-                        <button
-                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#연애</button>
-                        <button
-                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#직업</button>
-                        <button
-                            class="bg-white px-4 py-2 rounded-full shadow-sm hover:bg-gray-100 transition-colors">#재미</button>
+                    <div class="text-center mb-8">
+                        <span
+                            class="inline-block bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-3 shadow-md">📚
+                            ALL TESTS</span>
+                        <h3 class="font-gaegu text-4xl font-bold">골라보는 재미! 전체 테스트 🎨</h3>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        <!-- 테스트 아이템 (반복) -->
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
-                            <img src="https://placehold.co/400x250/A9C9FF/FFFFFF?text=Test"
-                                class="w-full h-40 object-cover" alt="테스트 이미지">
-                            <div class="p-4">
-                                <h5 class="font-bold text-lg">나에게 맞는 여행지는?</h5>
-                                <p class="text-sm text-gray-600">#여행 #성향</p>
-                            </div>
-                        </div>
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
-                            <img src="https://placehold.co/400x250/FFB6B9/FFFFFF?text=Test"
-                                class="w-full h-40 object-cover" alt="테스트 이미지">
-                            <div class="p-4">
-                                <h5 class="font-bold text-lg">소울메이트 동물 찾기</h5>
-                                <p class="text-sm text-gray-600">#동물 #친구</p>
-                            </div>
-                        </div>
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
-                            <img src="https://placehold.co/400x250/C8E6C9/FFFFFF?text=Test"
-                                class="w-full h-40 object-cover" alt="테스트 이미지">
-                            <div class="p-4">
-                                <h5 class="font-bold text-lg">집중력 유형 분석</h5>
-                                <p class="text-sm text-gray-600">#학습 #업무</p>
-                            </div>
-                        </div>
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer">
-                            <img src="https://placehold.co/400x250/FDFD96/4A4A4A?text=Test"
-                                class="w-full h-40 object-cover" alt="테스트 이미지">
-                            <div class="p-4">
-                                <h5 class="font-bold text-lg">스트레스 원인 진단</h5>
-                                <p class="text-sm text-gray-600">#정신건강 #힐링</p>
-                            </div>
-                        </div>
-                        <!-- 리스트 아이템 1 -->
-                        <div class="bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer"
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+                        <!-- 디저트 -->
+                        <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
                             onclick="location.href='/src/pages/tests/dessert/index.html'">
-                            <div class="relative h-40 overflow-hidden bg-yellow-100">
-                                <img src="https://placehold.co/400x250/FFD166/4A4A4A?text=Dessert"
-                                    class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
-                                    alt="테스트 이미지">
+                            <div
+                                class="relative h-32 bg-gradient-to-br from-amber-100 to-yellow-50 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+                                🍰
                                 <span
-                                    class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">HOT</span>
+                                    class="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">HOT</span>
                             </div>
-                            <div class="p-5">
-                                <h5 class="font-bold text-lg mb-1">내가 디저트라면?</h5>
-                                <p class="text-sm text-gray-500 line-clamp-2">달콤한 디저트로 알아보는 나의 성격 유형은 과연 무엇일까요?</p>
-                                <div class="mt-3 text-xs text-blue-500 font-bold">#성격 #MBTI</div>
+                            <div class="p-4">
+                                <h5 class="font-bold text-sm mb-1">내가 디저트라면?</h5>
+                                <p class="text-xs text-gray-500">#성격 #MBTI</p>
                             </div>
                         </div>
 
-                        <!-- 리스트 아이템 2 -->
-                        <div class="bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 card-hover cursor-pointer"
-                            onclick="location.href='/src/pages/tests/hormoni/index.html'">
-                            <div class="relative h-40 overflow-hidden bg-gradient-to-br from-pink-100 to-purple-100">
-                                <img src="https://placehold.co/400x250/FF8C94/FFFFFF?text=Hormoni"
-                                    class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
-                                    alt="테스트 이미지">
+                        <!-- 연애 -->
+                        <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+                            onclick="location.href='/src/pages/tests/love/index.html'">
+                            <div
+                                class="relative h-32 bg-gradient-to-br from-pink-100 to-rose-50 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+                                💖
                                 <span
-                                    class="absolute top-2 right-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">爆火</span>
+                                    class="absolute top-2 right-2 bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">NEW</span>
                             </div>
-                            <div class="p-5">
-                                <h5 class="font-bold text-lg mb-1">에겐녀? 테토녀?</h5>
-                                <p class="text-sm text-gray-500 line-clamp-2">호르몬으로 보는 나만의 성향! MZ세대の間で超人気!</p>
-                                <div class="mt-3 text-xs text-pink-500 font-bold">#성향 #트렌드</div>
+                            <div class="p-4">
+                                <h5 class="font-bold text-sm mb-1">나의 연애 능력치</h5>
+                                <p class="text-xs text-gray-500">#연애 #능력치</p>
+                            </div>
+                        </div>
+
+                        <!-- 무인도 -->
+                        <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+                            onclick="location.href='/src/pages/tests/island/index.html'">
+                            <div
+                                class="relative h-32 bg-gradient-to-br from-emerald-100 to-teal-50 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+                                🏝️
+                                <span
+                                    class="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">NEW</span>
+                            </div>
+                            <div class="p-4">
+                                <h5 class="font-bold text-sm mb-1">무인도 생존 유형</h5>
+                                <p class="text-xs text-gray-500">#생존 #성향</p>
+                            </div>
+                        </div>
+
+                        <!-- 호르몬 -->
+                        <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+                            onclick="location.href='/src/pages/tests/hormoni/index.html'">
+                            <div
+                                class="relative h-32 bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+                                💉
+                                <span
+                                    class="absolute top-2 right-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">爆火</span>
+                            </div>
+                            <div class="p-4">
+                                <h5 class="font-bold text-sm mb-1">에겐녀? 테토녀?</h5>
+                                <p class="text-xs text-gray-500">#성향 #트렌드</p>
+                            </div>
+                        </div>
+
+                        <!-- 귀멸 -->
+                        <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+                            onclick="location.href='/src/pages/tests/demon/index.html'">
+                            <div
+                                class="relative h-32 bg-gradient-to-br from-slate-800 to-red-900 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+                                ⚔️
+                            </div>
+                            <div class="p-4">
+                                <h5 class="font-bold text-sm mb-1">귀멸의 내면 서사시</h5>
+                                <p class="text-xs text-gray-500">#성격 #귀멸의칼날</p>
                             </div>
                         </div>
                     </div>

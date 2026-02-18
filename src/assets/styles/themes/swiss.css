@@ -1,0 +1,135 @@
+:root {
+    --swiss-black: #111;
+    --swiss-white: #f4f4f4;
+    --swiss-accent: #FF3B00;
+    /* International Orange */
+    --grid-line: 2px solid var(--swiss-black);
+}
+
+body {
+    background-color: var(--swiss-white);
+    color: var(--swiss-black);
+    font-family: 'Inter', 'Noto Sans KR', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Utility */
+.border-b-2-black {
+    border-bottom: var(--grid-line);
+}
+
+.border-t-2-black {
+    border-top: var(--grid-line);
+}
+
+.border-l-2-black {
+    border-left: var(--grid-line);
+}
+
+.border-r-2-black {
+    border-right: var(--grid-line);
+}
+
+.border-2-black {
+    border: var(--grid-line);
+}
+
+.text-accent {
+    color: var(--swiss-accent);
+}
+
+.bg-accent {
+    background-color: var(--swiss-accent);
+    color: var(--swiss-white);
+}
+
+/* Typography */
+h1 {
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+}
+
+h2 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Layout */
+.poster-container {
+    max-width: 480px;
+    margin: 0 auto;
+    border-left: var(--grid-line);
+    border-right: var(--grid-line);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Marquee */
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    background: var(--swiss-black);
+    color: var(--swiss-white);
+    padding: 8px 0;
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marquee 10s linear infinite;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Lock Overlay */
+.lock-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(244, 244, 244, 0.9);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: var(--grid-line);
+}
+
+.blur-target {
+    filter: blur(8px) grayscale(100%);
+    transition: filter 0.5s ease;
+}
+
+/* Button */
+.btn-swiss {
+    border: var(--grid-line);
+    background: transparent;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0px var(--swiss-black);
+}
+
+.btn-swiss:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--swiss-black);
+}
+
+.btn-swiss:hover {
+    background: var(--swiss-black);
+    color: var(--swiss-white);
+}
