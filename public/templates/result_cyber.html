@@ -1,0 +1,88 @@
+<!-- Cyberpunk Tech Template -->
+<div class="cyber-theme min-h-screen bg-black font-mono relative overflow-hidden flex items-center justify-center p-4">
+
+    <!-- Scanline Overlay -->
+    <div class="scanlines pointer-events-none fixed inset-0 z-50"></div>
+    <div class="vignette pointer-events-none fixed inset-0 z-40"></div>
+
+    <!-- Main HUD Container -->
+    <main class="relative z-10 w-full max-w-lg border border-cyan-500/30 bg-black/80 p-1">
+        <!-- Corner Brackets -->
+        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-500"></div>
+        <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyan-500"></div>
+        <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyan-500"></div>
+        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-500"></div>
+
+        <div class="border border-cyan-900/50 p-6 relative overflow-hidden group">
+
+            <!-- Header Status -->
+            <header class="flex justify-between items-center mb-6 text-xs text-cyan-700 uppercase tracking-widest">
+                <span>Subject: #7392-A</span>
+                <span class="animate-pulse">STATUS: COMPLETED</span>
+            </header>
+
+            <!-- Result Title (Glitch) -->
+            <div class="mb-8 text-center relative">
+                <h1 class="glitch text-5xl font-bold text-white mb-2" data-text="NET RUNNER">NET RUNNER</h1>
+                <p class="text-cyan-500 text-sm tracking-[0.5em] uppercase">Archetype Detected</p>
+            </div>
+
+            <!-- Visualizer -->
+            <div class="w-full h-48 bg-gray-900 border-y border-cyan-500/50 mb-6 relative overflow-hidden">
+                <div class="absolute inset-0 grid grid-cols-12 gap-1 opacity-20">
+                    <div class="bg-cyan-500 h-full animate-pulse" style="animation-delay: 0.1s"></div>
+                    <div class="bg-transparent h-full"></div>
+                    <div class="bg-cyan-500 h-full animate-pulse" style="animation-delay: 0.3s"></div>
+                    <div class="bg-transparent h-full"></div>
+                    <div class="bg-cyan-500 h-full animate-pulse" style="animation-delay: 0.5s"></div>
+                </div>
+                <!-- Image Placeholder -->
+                <img src="" id="result-image" alt="Visual"
+                    class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-80 grayscale contrast-150">
+                <div class="absolute bottom-2 right-2 text-xs text-cyan-500 bg-black px-1">IMG_SRC_LOADED</div>
+            </div>
+
+            <!-- Analysis Text -->
+            <div class="mb-6 relative">
+                <div class="absolute -left-2 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-500 to-transparent"></div>
+                <h3 class="text-cyan-400 text-xs mb-2 pl-2">> SYSTEM_ANALYSIS</h3>
+                <p class="text-gray-300 text-sm leading-relaxed pl-2 font-light">
+                    Processing personality data... Logic cores operating at 98% efficiency. Subject displays high
+                    aptitude for digital manipulation and strategic planning.
+                </p>
+            </div>
+
+            <!-- Stats HUD -->
+            <div class="grid grid-cols-2 gap-2 mb-8">
+                <div class="bg-cyan-900/10 border border-cyan-500/30 p-2">
+                    <div class="flex justify-between text-xs text-cyan-500 mb-1">
+                        <span>INT</span>
+                        <span>80</span>
+                    </div>
+                    <div class="w-full bg-cyan-900/50 h-1">
+                        <div class="bg-cyan-400 h-full w-[80%] shadow-[0_0_5px_cyan]"></div>
+                    </div>
+                </div>
+                <div class="bg-red-900/10 border border-red-500/30 p-2">
+                    <div class="flex justify-between text-xs text-red-500 mb-1">
+                        <span>EMP</span>
+                        <span>20</span>
+                    </div>
+                    <div class="w-full bg-red-900/50 h-1">
+                        <div class="bg-red-500 h-full w-[20%] shadow-[0_0_5px_red]"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <button
+                class="w-full bg-cyan-700/20 hover:bg-cyan-500/40 border border-cyan-500 text-cyan-300 py-4 uppercase tracking-widest text-sm transition-all hover:text-white hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] relative overflow-hidden group">
+                <span class="relative z-10">Initialize Sharing Protocol</span>
+                <div
+                    class="absolute inset-0 bg-cyan-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300 opacity-20">
+                </div>
+            </button>
+
+        </div>
+    </main>
+</div>

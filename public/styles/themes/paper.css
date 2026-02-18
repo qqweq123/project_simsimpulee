@@ -1,0 +1,105 @@
+/* Google Fonts: Gaegu (손글씨) */
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+/* Base Styles */
+.font-hand {
+    font-family: 'Gaegu', 'Nanum Pen Script', cursive;
+}
+
+/* Background Texture */
+.bg-texture {
+    background-color: #f7f5e6;
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(0, 0, 0, 0.02) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 20%),
+        linear-gradient(to right, rgba(0, 0, 0, 0.01) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.01) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 20px 20px, 20px 20px;
+}
+
+/* Noise Overlay */
+.bg-noise {
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+}
+
+/* Polaroid Card */
+.polaroid-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.1),
+        0 10px 20px rgba(0, 0, 0, 0.1),
+        0 4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+}
+
+/* Tape Strip Effect */
+.tape-strip {
+    background-image: linear-gradient(45deg,
+            rgba(255, 255, 255, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent);
+    background-size: 10px 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    /* Torn edges (rough clip-path) */
+    clip-path: polygon(0% 5%, 5% 0%, 10% 5%, 15% 0%, 20% 5%, 25% 0%, 30% 5%, 35% 0%, 40% 5%, 45% 0%, 50% 5%, 55% 0%, 60% 5%, 65% 0%, 70% 5%, 75% 0%, 80% 5%, 85% 0%, 90% 5%, 95% 0%, 100% 5%,
+            100% 95%, 95% 100%, 90% 95%, 85% 100%, 80% 95%, 75% 100%, 70% 95%, 65% 100%, 60% 95%, 55% 100%, 50% 95%, 45% 100%, 40% 95%, 35% 100%, 30% 95%, 25% 100%, 20% 95%, 15% 100%, 10% 95%, 5% 100%, 0% 95%);
+}
+
+/* Sticker Tags */
+.tag-item {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: #fff0f5;
+    /* Light Pink */
+    color: #d63384;
+    border: 2px solid #f8d7da;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+    transform: rotate(-2deg);
+    transition: transform 0.2s;
+}
+
+.tag-item:nth-child(even) {
+    background: #e0f7fa;
+    /* Light Cyan */
+    color: #00838f;
+    border-color: #b2ebf2;
+    transform: rotate(2deg);
+}
+
+.tag-item:hover {
+    transform: scale(1.1) rotate(0deg);
+}
+
+/* Notebook Paper Style */
+.notebook-paper {
+    background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 100% 1.5rem;
+    /* Line height */
+    line-height: 1.5rem;
+}
+
+/* Animations */
+@keyframes flutter {
+
+    0%,
+    100% {
+        transform: rotate(1deg);
+    }
+
+    50% {
+        transform: rotate(-1deg);
+    }
+}
+
+.polaroid-card:hover {
+    animation: flutter 2s infinite ease-in-out;
+}

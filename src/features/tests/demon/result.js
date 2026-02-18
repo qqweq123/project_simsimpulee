@@ -7,16 +7,15 @@ export function initDemonResult() {
 
         // 1. Parse Data Config
         const archetype = urlParams.get('archetype') || '이름 없는 귀살대원';
-        const resultData = demonResults[archetype];
+        let resultData = demonResults[archetype];
 
         if (!resultData) {
-            alert('잘못된 결과 데이터입니다.');
-            window.location.href = 'index.html';
-            return;
+            console.warn(`[Demon Result] archetype "${archetype}" not found in demonResults. Falling back to default.`);
+            resultData = demonResults['이름 없는 귀살대원'];
         }
 
-        // 2. Determine Theme (Default: demon)
-        const themeName = urlParams.get('theme') || 'demon';
+        // 2. Determine Theme (Default: tarot)
+        const themeName = urlParams.get('theme') || 'tarot';
 
         // 3. Initialize Manager
         const themeManager = new ThemeManager();

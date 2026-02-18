@@ -11,8 +11,8 @@ export function initHormoniResult() {
         const type = urlParams.get('type') || 'Egen';
         const resultData = hormoniResults[gender]?.[type] || hormoniResults['female']['Egen'];
 
-        // 2. Determine Theme (Default: collage)
-        const themeName = urlParams.get('theme') || 'collage';
+        // 2. Determine Theme (Default: swiss)
+        const themeName = urlParams.get('theme') || 'swiss';
 
         // 3. Initialize Manager
         const themeManager = new ThemeManager();

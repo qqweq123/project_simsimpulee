@@ -1,0 +1,80 @@
+/* Google Fonts: Inter & Roboto Mono */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap');
+
+/* Base Styles */
+.font-swiss {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Typography Utilities */
+.tracking-tighter {
+    letter-spacing: -0.05em;
+}
+
+/* Box Shadow Heavy (Brutalism Style) */
+.box-shadow-heavy {
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 1);
+}
+
+/* Tag Styles */
+.tag-item {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: black;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+    border: 1px solid black;
+    transition: all 0.2s;
+}
+
+.tag-item:hover {
+    background: white;
+    color: black;
+}
+
+/* Specific component overrides if needed */
+#result-desc {
+    font-family: 'Roboto Mono', monospace;
+    /* Monospace for description adds to technical feel */
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+main>section {
+    animation: slideIn 0.6s ease-out forwards;
+}
+
+main>section:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+main>section:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+main>section:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+main>section:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+main>section:nth-child(5) {
+    animation-delay: 0.5s;
+}

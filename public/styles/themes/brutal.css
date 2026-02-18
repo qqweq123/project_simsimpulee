@@ -1,0 +1,79 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Roboto+Mono:wght@400;700&display=swap');
+
+/* Variables */
+:root {
+    --brutal-yellow: #FFD600;
+    --brutal-pink: #FF00CC;
+    --brutal-green: #00FF99;
+    --brutal-blue: #00CCFF;
+    --shadow-distance: 4px;
+}
+
+/* Base */
+.font-mono {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.font-black {
+    font-family: 'Black Han Sans', sans-serif;
+}
+
+.text-stroke-black {
+    -webkit-text-stroke: 2px black;
+    color: white;
+    /* Fallback */
+}
+
+/* Colors */
+.bg-brutal-yellow {
+    background-color: var(--brutal-yellow);
+}
+
+.bg-brutal-pink {
+    background-color: var(--brutal-pink);
+}
+
+.bg-brutal-green {
+    background-color: var(--brutal-green);
+}
+
+.bg-brutal-blue {
+    background-color: var(--brutal-blue);
+}
+
+/* Shadows (Hard Shadows) */
+.shadow-hard {
+    box-shadow: var(--shadow-distance) var(--shadow-distance) 0px 0px #000000;
+}
+
+.shadow-hard-sm {
+    box-shadow: 2px 2px 0px 0px #000000;
+}
+
+.shadow-hard-lg {
+    box-shadow: 8px 8px 0px 0px #000000;
+}
+
+/* Animations */
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee {
+    animation: marquee 10s linear infinite;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Button Active State helper */
+button:active {
+    transform: translate(var(--shadow-distance), var(--shadow-distance));
+    box-shadow: none;
+}

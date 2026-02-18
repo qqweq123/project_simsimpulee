@@ -1,0 +1,134 @@
+<!-- Vintage Tarot Template -->
+<div
+    class="tarot-theme min-h-screen bg-midnight font-serif text-cream relative overflow-hidden flex flex-col items-center justify-center p-4">
+
+    <!-- Stars Background -->
+    <div class="stars absolute inset-0 z-0 pointer-events-none"></div>
+    <div class="twinkling absolute inset-0 z-0 pointer-events-none"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 w-full max-w-lg">
+
+        <!-- Header -->
+        <header class="text-center mb-8 animate-fade-in-down">
+            <p class="text-gold text-sm tracking-[0.3em] uppercase mb-2">The Oracle Reveals</p>
+            <h1 class="text-4xl md:text-5xl font-cinzel text-gradient-gold drop-shadow-lg">YOUR DESTINY</h1>
+        </header>
+
+        <!-- Tarot Card Container (3D Flip) -->
+        <div class="card-container w-full h-[500px] mb-8 relative perspective-1000 group cursor-pointer"
+            onclick="this.classList.toggle('flipped')">
+            <div class="card-inner w-full h-full relative transition-transform duration-1000 transform-style-3d">
+
+                <!-- Card Front (Result) -->
+                <div
+                    class="card-front absolute w-full h-full bg-parchment rounded-xl border-4 border-gold shadow-2xl overflow-hidden backface-hidden flex flex-col items-center p-6 transform rotate-y-180">
+                    <!-- Ornate Border Decoration -->
+                    <div class="absolute inset-2 border border-gold/50 rounded-lg pointer-events-none"></div>
+                    <div class="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-gold pointer-events-none">
+                    </div>
+                    <div class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-gold pointer-events-none">
+                    </div>
+                    <div class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-gold pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-gold pointer-events-none">
+                    </div>
+
+                    <!-- Image -->
+                    <div
+                        class="w-48 h-48 rounded-full border-2 border-gold/30 mb-4 overflow-hidden shadow-inner relative mt-4">
+                        <img id="result-image" src="" alt="Archetype"
+                            class="w-full h-full object-cover filter sepia-[0.5] contrast-125">
+                        <div class="absolute inset-0 bg-gold/10 pointer-events-none"></div>
+                    </div>
+
+                    <!-- Title & Subtitle -->
+                    <div class="text-center mb-4 z-10">
+                        <span id="result-subtitle"
+                            class="block text-gold-dark text-xs uppercase tracking-widest mb-1 font-bold">The
+                            Archetype</span>
+                        <h2 id="result-title"
+                            class="text-3xl font-cinzel text-gray-900 border-b border-gold/50 pb-2 inline-block">Name
+                        </h2>
+                    </div>
+
+                    <!-- Keywords -->
+                    <div id="result-tags" class="flex flex-wrap justify-center gap-2 mb-4">
+                        <!-- Tags injected here -->
+                    </div>
+
+                    <!-- Short Desc -->
+                    <p
+                        class="text-gray-800 text-sm text-center leading-relaxed font-medium italic overflow-y-auto max-h-24 px-2 scrollbar-hide">
+                        "운명의 수레바퀴가 당신을 이곳으로 이끌었습니다..."
+                    </p>
+
+                    <div class="mt-auto pt-2 text-xs text-gold-dark uppercase tracking-widest opacity-60">Click to Flip
+                        Back</div>
+                </div>
+
+                <!-- Card Back (Cover) -->
+                <div
+                    class="card-back absolute w-full h-full bg-cover-pattern rounded-xl border-4 border-gold shadow-2xl backface-hidden flex items-center justify-center bg-midnight-light">
+                    <div class="absolute inset-4 border-2 border-gold/30 rounded-lg flex items-center justify-center">
+                        <div
+                            class="w-32 h-32 border-2 border-gold rounded-full flex items-center justify-center rotate-45">
+                            <div
+                                class="w-24 h-24 border border-gold rounded-full flex items-center justify-center -rotate-45">
+                                <span class="text-4xl">👁️</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="absolute bottom-8 text-gold text-sm tracking-widest animate-pulse">TAP TO REVEAL</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Description Box (Scroll) -->
+        <section class="bg-midnight-light/90 border border-gold/30 p-6 rounded-lg shadow-lg backdrop-blur-sm mb-8">
+            <h3 class="font-cinzel text-xl text-gold mb-4 flex items-center">
+                <span class="mr-2">✨</span> The Prophecy
+            </h3>
+            <p id="result-desc" class="text-cream/90 leading-loose text-justify text-sm font-light">
+                Description...
+            </p>
+        </section>
+
+        <!-- Compatibility -->
+        <section class="grid grid-cols-2 gap-4 mb-8">
+            <div class="bg-midnight-light/80 border border-gold/20 p-4 rounded text-center">
+                <span class="block text-gold text-xs uppercase mb-1">Soulmate</span>
+                <span id="match-best" class="font-cinzel text-lg text-cream">Name</span>
+            </div>
+            <div class="bg-midnight-light/80 border border-gold/20 p-4 rounded text-center">
+                <span class="block text-red-400 text-xs uppercase mb-1">Conflict</span>
+                <span id="match-worst" class="font-cinzel text-lg text-cream">Name</span>
+            </div>
+        </section>
+
+        <!-- Actions -->
+        <footer class="flex flex-col gap-3 pb-8">
+            <button id="btn-share-kakao"
+                class="bg-gold hover:bg-gold-light text-midnight-dark font-cinzel font-bold py-4 rounded shadow-[0_0_15px_rgba(212,175,55,0.4)] transition-all transform hover:scale-[1.02]">
+                Share Your Destiny
+            </button>
+            <a href="/"
+                class="text-gold/60 text-center text-sm hover:text-gold transition-colors underline decoration-gold/30 underline-offset-4">
+                Return to the Void
+            </a>
+        </footer>
+
+    </main>
+</div>
+
+<script>
+    // Auto-flip card after a short delay
+    setTimeout(() => {
+        const card = document.querySelector('.card-container');
+        if (card && !card.classList.contains('flipped')) {
+            card.classList.add('flipped');
+        }
+    }, 1500);
+</script>

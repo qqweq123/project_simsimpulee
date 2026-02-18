@@ -1,6 +1,6 @@
 const CONFIG = {
-    TEMPLATE_PATH: '/public/templates',
-    STYLE_PATH: '/src/assets/styles/themes'
+    TEMPLATE_PATH: '/templates',
+    STYLE_PATH: '/styles/themes'
 };
 
 export class ThemeManager {

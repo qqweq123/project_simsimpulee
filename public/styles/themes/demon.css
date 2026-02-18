@@ -1,0 +1,68 @@
+:root {
+    --demon-bg: #1a202c;
+    --demon-text: #e2e8f0;
+    --demon-accent: #ef4444;
+}
+
+body {
+    background-color: var(--demon-bg);
+    color: var(--demon-text);
+    font-family: 'Noto Serif KR', serif;
+}
+
+/* Screen Animations */
+.screen {
+    animation: fadeIn 0.8s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Button & Interactive Elements */
+.btn-demon {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-demon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Result Card Specifics */
+.result-card {
+    background-color: rgba(17, 24, 39, 0.5);
+    /* bg-gray-900/50 */
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Chemistry Section */
+.chemistry-box {
+    background-color: rgba(17, 24, 39, 0.5);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Lock Overlay for Consistency with other themes (Optional but good to have) */
+#lock-overlay {
+    background-color: rgba(26, 32, 44, 0.95);
+    color: white;
+}
