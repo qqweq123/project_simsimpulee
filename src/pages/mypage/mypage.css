@@ -1,0 +1,140 @@
+/* ====================================
+   Mellow Wave — 마이페이지 물결 배경
+   초기 버전: 심플한 3레이어 물결
+   ==================================== */
+
+/* 무한 물결: 화면 하단에 fixed, 전체 높이를 커버 */
+.wave-bg-infinite {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 각 물결 레이어 */
+.wave-bg-infinite .wave-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat-x;
+    background-size: 50% 100%;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* 노란색 물결 — 가장 앞 */
+.wave-bg-infinite .wave-y {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FFD166' fill-opacity='0.18' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+    animation: wave-drift 25s linear infinite;
+    z-index: 3;
+}
+
+/* 주황색 물결 — 중간 */
+.wave-bg-infinite .wave-o {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FFB366' fill-opacity='0.15' d='M0,160L48,176C96,192,192,224,288,224C384,224,480,192,576,192C672,192,768,224,864,229.3C960,235,1056,213,1152,208C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+    animation: wave-drift 35s linear infinite;
+    z-index: 2;
+}
+
+/* 핑크색 물결 — 가장 뒤 */
+.wave-bg-infinite .wave-p {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%23FF8C94' fill-opacity='0.12' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,218.7C1248,213,1344,235,1392,245.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e");
+    animation: wave-drift 39s linear infinite;
+    z-index: 1;
+}
+
+@keyframes wave-drift {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* ===== 프로필 카드 (글래스모피즘) ===== */
+.profile-card {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.75);
+}
+
+/* ===== 아바타 링 애니메이션 ===== */
+@keyframes avatar-ring-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 209, 102, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 10px rgba(255, 209, 102, 0);
+    }
+}
+
+.avatar-ring {
+    animation: avatar-ring-pulse 3s ease-in-out infinite;
+}
+
+/* ===== 고유 타이틀 뱃지 ===== */
+.title-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.title-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 테스트 히스토리 카드 ===== */
+@keyframes historyFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.history-card-anim {
+    animation: historyFadeIn 0.45s ease-out forwards;
+}
+
+/* ===== 모바일 대응 ===== */
+html,
+body {
+    max-width: 100vw;
+    overflow-x: hidden !important;
+}
+
+@media (max-width: 640px) {
+    .profile-card {
+        padding: 1.25rem !important;
+        border-radius: 1.25rem !important;
+    }
+
+    .profile-card .avatar-ring {
+        width: 5rem !important;
+        height: 5rem !important;
+    }
+}

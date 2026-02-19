@@ -1,0 +1,100 @@
+[Mellow Wave] 확장성 및 기능 고도화 기획서
+==============================================
+작성일: 2024. 02. 19
+문서 버전: 1.0
+
+1. 개요
+   본 문서는 Mellow Wave의 디자인 철학(몽글몽글, 따뜻함, 귀여움)을 계승하면서,
+   데이터 기반의 사용자 경험(UX)을 강화하고, 커뮤니티 활성화를 위한 확장 기능들을 설계하는 것을 목표로 한다.
+
+2. 유저 이모지 및 아바타 시스템 (Identity System)
+   
+   A. 현재 단계 (Phase 1): 자동 할당 (Option A)
+      - 구현 방식: 고유넘버(Hash) 기반 Deterministic Emoji 할당
+      - 이모지 풀: 🌊, ⭐, 🌈, 🍀, 🎪, 🦋, 🌸, 🎯, 🔮, 🎠 등 20종 (Mellow Wave 감성)
+      - 목적: 별도 설정 없이도 모든 유저에게 "나만의 귀여운 상징" 부여
+      - 장점: 구현 비용 0, 사용자 진입 장벽 0
+
+   B. 차후 단계 (Phase 2): 사용자 선택형 (Option D) + 커스텀
+      - 구현 방식: 마이페이지 편집 모드에서 이모지 피커(Emoji Picker) 제공
+      - 디자인: "나의 파도 조각 고르기"라는 감성적 UI 적용 (단순 리스트 나열 지양)
+      - 커뮤니티 활성화 시: 유저가 직접 그린 SVG/이미지를 업로드하거나, 포인트로 구매 가능한 '스페셜 아이콘' 도입
+      - 기대 효과: 애착 형성 및 개성 표현 욕구 충족
+
+3. 데이터베이스 설계 (Supabase Schema)
+
+   Mellow Wave의 유연한 확장을 위한 RDBMS 구조 설계.
+
+   A. profiles (사용자 프로필)
+      - id (UUID, PK): auth.users.id 참조
+      - nickname (TEXT): 사용자 닉네임 (기본값: '익명의 파도')
+      - avatar_emoji (TEXT): 현재 선택된 대표 이모지
+      - unique_code (TEXT): 고유 식별 코드 (ex: a81saa21x)
+      - title_adjective (TEXT): 타이틀 형용사 (ex: 용감한)
+      - title_noun (TEXT): 타이틀 명사 (ex: 꼬깔전사)
+      - theme_color (TEXT): 고유 테마 컬러 (HSL string)
+      - created_at (TIMESTAMPTZ)
+
+   B. test_results (테스트 결과)
+      - id (UUID, PK)
+      - user_id (UUID, FK): profiles.id 참조
+      - test_id (TEXT): 테스트 종류 ID ('dessert', 'love', 'island' 등)
+      - result_type (TEXT): 결과 유형 ('마카롱', 'SS급')
+      - scores (JSONB): 상세 점수 ({ E: 10, I: 2, ... }) -> 확장성 핵심
+      - shared_count (INT): 공유 횟수
+      - created_at (TIMESTAMPTZ)
+
+4. 데이터 저장 및 마이그레이션 로직 (Data Flow)
+
+   A. 결과 저장 로직 (Logging)
+      - 시점: 결과 페이지(result.html) 로드 시
+      - 비로그인: LocalStorage 'mw_guest_results' 배열에 push
+      - 로그인: Supabase 'test_results' 테이블에 바로 INSERT (RPC 활용 권장)
+      - 중복 방지: 동일 test_id에 대해 최근 1시간 내 중복 저장 방지 로직(client-side check)
+
+   B. 마이그레이션 로직 (Guest -> User)
+      - 시점: 회원가입 또는 로그인 성공 직후 (auth_ui.js -> onAuthStateChange)
+      - 프로세스:
+        1. LocalStorage의 'mw_guest_results' 확인
+        2. 데이터 존재 시, Supabase 'batch_insert_results' RPC 호출 (트랜잭션 처리)
+        3. 성공 시 LocalStorage 클리어 및 "과거 기록이 파도를 타고 도착했어요! 🌊" 토스트 메시지 출력
+
+5. 마이페이지 편집 기능 (Edit Profile)
+
+   A. UI/UX 컨셉
+      - "나의 파도 다듬기"
+      - 모달(Modal) 형태보다는 카드 자체가 뒤집히거나(Flip), 부드럽게 확장(Expand)되는 인터랙션 사용
+      - 닉네임 변경: 실시간 중복 체크보다는 감성적인 피드백 ("이 이름은 파도와 잘 어울려요!")
+   
+   B. 기능 명세
+      - 닉네임 수정
+      - 대표 이모지 선택 (Phase 2)
+      - 공개/비공개 설정 (나만 보기 vs 친구에게 자랑하기)
+
+6. AI 이미지 생성 기능 (Gen-AI Integration)
+
+   A. 기획 의도
+      - 단순 결과 텍스트를 넘어, 유저의 심리 상태를 시각화한 "단 하나뿐인 엽서" 제공
+      - Mellow Wave의 따뜻한 일러스트 화풍(LoRA) 학습 모델 활용
+
+   B. 구현 시나리오
+      - 트리거: 테스트 결과 페이지에서 "나만의 감성 엽서 만들기" 버튼 클릭
+      - 입력값: 테스트 결과 키워드 + 유저 닉네임
+      - 출력: 생성된 이미지를 Supabase Storage에 저장 및 test_results 테이블에 URL 업데이트
+      - UX: 생성 대기 시간 동안 "파도가 그림을 그리고 있어요..." 애니메이션 노출
+
+7. 공유 기능 (Social Sharing)
+
+   A. 이미지 공유 (Image Generation Share)
+      - html2canvas 등을 활용하여 결과 카드 자체를 이미지로 캡처하여 저장/공유
+      - "인스타그램 스토리" 규격(9:16)에 맞는 전용 템플릿 자동 생성
+
+   B. 링크 공유 (Meta Tags)
+      - 유저별 결과 페이지(Dynamic OG Image): 친구가 클릭하면 "OO님의 결과는 마카롱! 너는 어때?" 형태의 맞춤형 OG 태그 노출
+      - 유입 효과: 공유된 링크를 타고 온 친구가 테스트를 진행하면, 원래 유저에게 "wave point(가칭)" 지급 고려
+
+8. 결론 및 로드맵
+   
+   - 단기: Supabase 테이블 생성 및 기본 저장/불러오기 로직 완성 (기반 조성)
+   - 중기: 마이그레이션 및 마이페이지 편집 기능 (개인화 심화)
+   - 장기: AI 이미지 생성 및 커뮤니티 전용 기능 (플랫폼화)
