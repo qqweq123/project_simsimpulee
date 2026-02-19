@@ -109,6 +109,7 @@ export const islandQuestions = [
 export const islandResults = {
     leader: {
         name: "카리스마 리더",
+        image: "/images/island/result_leader.png",
         emoji: "👑",
         subtitle: "위기의 섬을 이끄는 사령관",
         type: "leader",
@@ -123,6 +124,7 @@ export const islandResults = {
     },
     explorer: {
         name: "모험 탐험가",
+        image: "/images/island/result_explorer.png",
         emoji: "🧭",
         subtitle: "미지의 세계를 열어가는 개척자",
         type: "explorer",
@@ -137,6 +139,7 @@ export const islandResults = {
     },
     survivor: {
         name: "생존 전문가",
+        image: "/images/island/result_survivor.png",
         emoji: "🔧",
         subtitle: "맨손으로 문명을 건설하는 장인",
         type: "survivor",
@@ -151,6 +154,7 @@ export const islandResults = {
     },
     diplomat: {
         name: "평화 외교관",
+        image: "/images/island/result_diplomat.png",
         emoji: "🕊️",
         subtitle: "사람들을 하나로 묶는 화합의 달인",
         type: "diplomat",
@@ -162,7 +166,7 @@ export const islandResults = {
         desc: "무인도에서 가장 무서운 건 야수가 아니라 사람 사이의 갈등! 당신은 그걸 본능적으로 알고 있는 사회적 생존 전문가예요.\n\n따뜻한 말 한마디로 무너진 사기를 되살리고, 날카로운 갈등도 부드럽게 중재하는 능력이 탁월해요. 당신이 있으면 팀은 흩어지지 않죠.\n\n배려심이 최고의 무기지만, 모두를 만족시키려다 정작 자기 자신은 챙기지 못하는 경우가 있어요. 가끔은 자신의 의견도 강하게 표현해보세요!",
         tags: ["#화합전문가", "#배려왕", "#소통능력자", "#팀플레이"],
         traits: { leadership: 65, survival: 55, exploration: 50, social: 95 }
-    }
+    },
 };
 
 /**

@@ -70,20 +70,20 @@
     </style>
 </head>
 
-<body class="bg-gradient-to-b from-emerald-50 via-white to-teal-50 min-h-screen flex flex-col items-center py-8">
+<body class="bg-[#FFFDF5] min-h-screen flex flex-col items-center py-8"
+    style="background-image: url('/images/island/bg_island_texture.png'); background-size: 300px;">
 
     <div class="max-w-md w-full px-4 relative z-0">
-        <h1
-            class="font-gaegu text-3xl font-bold text-center mb-6 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-            🏝️ 나의 생존 유형은?
+        <h1 class="font-gaegu text-4xl font-bold text-center mb-6 text-emerald-600 drop-shadow-sm tracking-widest">
+            🏝️ 나의 무인도 생존 유형 🥥
         </h1>
 
         <!-- 결과 카드 -->
         <div id="result-card"
-            class="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl shadow-xl overflow-hidden relative fade-in">
+            class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden relative fade-in border-4 border-emerald-100">
 
             <!-- 상단 그라데이션 바 -->
-            <div id="gradient-bar" class="h-2 bg-gradient-to-r from-emerald-500 to-teal-600 w-full"></div>
+            <div id="gradient-bar" class="h-2 bg-gradient-to-r from-emerald-400 to-teal-500 w-full"></div>
 
             <!-- 잠금 화면 -->
             <div id="lock-overlay" class="lock-overlay">
@@ -106,11 +106,21 @@
             <!-- 실제 결과 내용 -->
             <div id="result-content" class="blur-content p-8 text-center transition-all duration-700">
 
-                <!-- 이모지 & 유형명 -->
-                <div class="mb-6">
-                    <span id="result-emoji" class="text-7xl block mb-3">🔧</span>
-                    <h2 id="result-title" class="text-3xl font-bold text-gray-800 mb-1 break-keep"></h2>
-                    <h3 id="result-subtitle" class="text-base text-emerald-600 font-bold mb-2"></h3>
+                <!-- 이미지 & 유형명 -->
+                <div class="mb-6 relative">
+                    <div
+                        class="w-48 h-48 mx-auto mb-4 bg-emerald-50 rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-lg relative">
+                        <!-- 이미지 로딩 전 스켈레톤 -->
+                        <div class="absolute inset-0 bg-gray-200 animate-pulse skeleton-loader"></div>
+                        <img id="result-image" src="" alt="Result Character"
+                            class="w-full h-full object-cover z-10 transition-transform hover:scale-110 duration-500"
+                            onload="this.previousElementSibling.style.display='none'">
+                    </div>
+
+
+                    <h2 id="result-title"
+                        class="text-3xl font-bold text-gray-800 mb-1 break-keep font-gaegu tracking-wide mt-4"></h2>
+                    <h3 id="result-subtitle" class="text-base text-emerald-600 font-bold mb-2 font-noto"></h3>
                 </div>
 
                 <!-- 태그 -->

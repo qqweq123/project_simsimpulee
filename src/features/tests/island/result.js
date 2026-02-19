@@ -15,9 +15,15 @@ export function initIslandResult() {
         const result = islandResults[type];
         if (!result) return;
 
-        // Emoji
+        // Emoji & Image
         const emojiEl = document.getElementById('result-emoji');
         if (emojiEl) emojiEl.innerText = result.emoji;
+
+        const imageEl = document.getElementById('result-image');
+        if (imageEl && result.image) {
+            imageEl.src = result.image;
+            imageEl.alt = result.name;
+        }
 
         // Title & subtitle
         document.getElementById('result-title').innerText = result.name;
