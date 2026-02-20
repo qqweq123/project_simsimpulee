@@ -1,0 +1,43 @@
+/* Island Test Theme Styles (CSS Gradient Architecture) */
+
+.theme-island {
+    position: relative;
+    /* RGBA gradient with LOW opacity so the sand texture shows through clearly */
+    background-image:
+        linear-gradient(to bottom, rgba(236, 253, 245, 0.45) 0%, rgba(255, 255, 255, 0.5) 100%),
+        url('/images/island/bg_island_vector_sand_v6.webp');
+    background-repeat: no-repeat, repeat;
+    /* Scale up the texture to prevent human eye from perceiving the tile grid */
+    background-size: cover, 600px 600px;
+    background-blend-mode: normal;
+    background-attachment: fixed, fixed;
+    min-height: 100vh;
+}
+
+/* Whitewashing overlay removed — texture must be visible */
+
+/* Glassmorphism utility for the result card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Ensure content sits above the pseudo-element overlay */
+.theme-island>* {
+    position: relative;
+    z-index: 1;
+}
+
+/* Custom rounded blob shape for character portrait */
+.blob-portrait {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    transition: all 0.5s ease-in-out;
+}
+
+.blob-portrait:hover {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    transform: translateY(-5px);
+}

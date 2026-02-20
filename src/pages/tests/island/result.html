@@ -10,6 +10,7 @@
         href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/src/assets/styles/main.css">
+    <link rel="stylesheet" href="/src/assets/styles/themes/island.css">
     <style>
         .blur-content {
             filter: blur(8px);
@@ -18,7 +19,7 @@
         }
 
         .lock-overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -27,9 +28,9 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(4px);
-            z-index: 10;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(8px);
+            z-index: 100;
         }
 
         .fade-in {
@@ -70,36 +71,48 @@
     </style>
 </head>
 
-<body class="bg-[#FFFDF5] min-h-screen flex flex-col items-center py-8"
-    style="background-image: url('/images/island/bg_island_texture.png'); background-size: 300px;">
+<body class="min-h-screen flex flex-col items-center py-8 theme-island">
 
     <div class="max-w-md w-full px-4 relative z-0">
-        <h1 class="font-gaegu text-4xl font-bold text-center mb-6 text-emerald-600 drop-shadow-sm tracking-widest">
-            🏝️ 나의 무인도 생존 유형 🥥
+        <h1
+            class="font-gaegu text-4xl font-bold text-center mb-6 text-emerald-600 drop-shadow-sm tracking-tighter whitespace-nowrap">
+            🏝️ 나의 무인도 생존 유형
         </h1>
 
         <!-- 결과 카드 -->
-        <div id="result-card"
-            class="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden relative fade-in border-4 border-emerald-100">
+        <div id="result-card" class="glass-card rounded-3xl overflow-hidden relative fade-in">
 
             <!-- 상단 그라데이션 바 -->
             <div id="gradient-bar" class="h-2 bg-gradient-to-r from-emerald-400 to-teal-500 w-full"></div>
 
-            <!-- 잠금 화면 -->
-            <div id="lock-overlay" class="lock-overlay">
-                <div class="text-center p-6 bg-white/95 rounded-2xl shadow-2xl border border-emerald-200 max-w-[280px]">
-                    <span class="text-4xl mb-2 block compass-spin">🧭</span>
-                    <h3 class="text-xl font-bold mb-2">생존 분석 완료!</h3>
-                    <p class="text-sm text-gray-500 mb-4">당신의 생존 유형을 확인해보세요</p>
-                    <button onclick="unlockResult()"
-                        class="btn-press w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition-all mb-3 animate-pulse">
-                        무료로 결과 확인하기 🏝️
-                    </button>
-                    <button
-                        class="w-full bg-gray-200 text-gray-500 font-bold py-3 px-6 rounded-full text-sm cursor-not-allowed"
+            <!-- 전면 광고 및 로딩 화면 (Interstitial Ad) -->
+            <div id="lock-overlay" class="lock-overlay fade-in">
+                <!-- 광고 영역 (Above the fold, 전면 중앙 배치) -->
+                <div
+                    class="w-[300px] h-[250px] bg-gray-100 border border-gray-200 flex flex-col items-center justify-center text-gray-400 mb-8 rounded-lg shadow-sm">
+                    <span class="text-sm font-bold mb-2">스폰서 광고</span>
+                    <span class="text-xs">Advertisement Area</span>
+                </div>
+
+                <!-- 로딩 바 및 분석 메시지 -->
+                <div class="text-center w-[300px]">
+                    <span class="text-4xl mb-4 block compass-spin">🧭</span>
+                    <h3 class="text-xl font-bold mb-2 text-emerald-600 font-gaegu tracking-wide" id="loading-title">생존
+                        데이터를 분석 중입니다...</h3>
+                    <p class="text-sm text-gray-500 mb-6 font-noto">잠시만 기다려주세요</p>
+
+                    <div class="w-full bg-gray-200 rounded-full h-3 mb-6 overflow-hidden relative shadow-inner">
+                        <div id="loading-progress"
+                            class="bg-gradient-to-r from-emerald-400 to-teal-500 h-3 rounded-full transition-all duration-[3000ms] ease-linear w-0 shadow-md">
+                        </div>
+                    </div>
+
+                    <button id="btn-unlock" onclick="unlockResult()"
+                        class="btn-press w-full bg-emerald-500 text-white font-bold py-3 px-6 rounded-full transition-all opacity-50 cursor-not-allowed"
                         disabled>
-                        프리미엄 정밀 분석 (준비중)
+                        결과 확인하기
                     </button>
+                    <p class="text-xs text-gray-400 mt-4">* 결과 확인을 위해 잠시 기다려주세요</p>
                 </div>
             </div>
 
@@ -109,7 +122,7 @@
                 <!-- 이미지 & 유형명 -->
                 <div class="mb-6 relative">
                     <div
-                        class="w-48 h-48 mx-auto mb-4 bg-emerald-50 rounded-full flex items-center justify-center overflow-hidden border-4 border-white shadow-lg relative">
+                        class="w-48 h-48 mx-auto mb-4 bg-white/50 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg relative blob-portrait">
                         <!-- 이미지 로딩 전 스켈레톤 -->
                         <div class="absolute inset-0 bg-gray-200 animate-pulse skeleton-loader"></div>
                         <img id="result-image" src="" alt="Result Character"
@@ -136,37 +149,94 @@
 
                 <!-- 설명 -->
                 <p id="result-desc"
-                    class="text-gray-600 text-sm leading-7 mb-8 text-left bg-white/80 p-6 rounded-xl min-h-[100px] whitespace-pre-line border border-emerald-100 shadow-sm">
+                    class="text-gray-700 text-sm leading-7 mb-8 text-left bg-white/80 p-6 rounded-xl min-h-[100px] whitespace-pre-line border border-emerald-100 shadow-sm font-medium">
                 </p>
 
                 <!-- 공유 -->
                 <div class="border-t border-emerald-100 pt-6">
                     <h4 class="font-bold mb-4 text-sm text-gray-600">🏝️ 친구의 생존 유형도 궁금하다면?</h4>
-                    <div class="flex justify-center gap-4">
-                        <button class="p-3 bg-yellow-300 rounded-full hover:scale-110 transition shadow-sm btn-press">🟡
-                            카카오</button>
-                        <button
-                            class="p-3 bg-blue-500 text-white rounded-full hover:scale-110 transition shadow-sm btn-press">🔵
-                            페이스북</button>
+                    <div class="flex justify-center gap-3 flex-wrap">
+                        <!-- Kakao -->
+                        <button onclick="shareSNS('kakao')"
+                            class="w-12 h-12 flex items-center justify-center bg-[#FEE500] text-[#000000] rounded-full hover:scale-110 transition shadow-md btn-press"
+                            title="카카오톡 공유">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor"
+                                    d="M12 4c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.364 5.923-.19.684-.683 2.455-.71 2.593-.035.18.067.18.17.113.08-.05 2.76-1.848 3.84-2.61.425.06.865.093 1.336.093 4.97 0 9-3.186 9-7.116C21 7.185 16.97 4 12 4z" />
+                            </svg>
+                        </button>
+                        <!-- Facebook -->
+                        <button onclick="shareSNS('facebook')"
+                            class="w-12 h-12 flex items-center justify-center bg-[#1877F2] text-white rounded-full hover:scale-110 transition shadow-md btn-press"
+                            title="페이스북 공유">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="currentColor"
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                            </svg>
+                        </button>
+                        <!-- Instagram -->
+                        <button onclick="shareSNS('instagram')"
+                            class="w-12 h-12 flex items-center justify-center bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white rounded-full hover:scale-110 transition shadow-md btn-press"
+                            title="인스타그램 공유">
+                            <svg viewBox="0 0 24 24" width="22" height="22">
+                                <path fill="currentColor"
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                            </svg>
+                        </button>
+                        <!-- X (Twitter) -->
+                        <button onclick="shareSNS('twitter')"
+                            class="w-12 h-12 flex items-center justify-center bg-black text-white rounded-full hover:scale-110 transition shadow-md btn-press"
+                            title="X 공유">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor"
+                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                        </button>
+                        <!-- Threads -->
+                        <button onclick="shareSNS('threads')"
+                            class="w-12 h-12 flex items-center justify-center bg-black text-white rounded-full hover:scale-110 transition shadow-md btn-press"
+                            title="쓰레드 공유">
+                            <svg viewBox="0 0 24 24" width="22" height="22">
+                                <path fill="currentColor"
+                                    d="M14.07 11.96c-.035-.116-.089-.25-.152-.39-.142-.292-.321-.595-.536-.889-.413-.55-.91-.986-1.464-1.286-.549-.296-1.14-.426-1.761-.39-.684.041-1.306.275-1.85.698-.553.43-.99 1.05-1.302 1.848-.13.33-.242.69-.333 1.076a9.5 9.5 0 00-.181 1.343c-.024.316-.024.64 0 .964.041.547.14 1.08.307 1.58.175.52.41 1.002.69 1.432.28.43.626.7931.025 1.072.183.13.374.25.566.36.192.11.385.2.585.28h.001c.42.16.85.26 1.282.32a6.37 6.37 0 001.272.03c.433-.03.856-.13 1.258-.3a4.01 4.01 0 001.127-.69c.355-.3.655-.67.892-1.07.24-.4.428-.85.558-1.32.062-.23.111-.47.147-.72.036-.25.062-.51.076-.8h-2.1c-.046.2-.102.39-.168.58-.094.26-.217.5-.366.71-.149.2-.32.38-.517.51-.197.13-.418.23-.655.28a2.53 2.53 0 011.666 0c.23-.04.444-.13.635-.25.19-.13.355-.29.493-.49.138-.2.247-.43.32-.67.074-.25.116-.51.123-.78.006-.11.006-.21.001-.32a3.83 3.83 0 00-.071-.62c-.067-.32-.162-.63-.284-.91zM11.96 9.42c.864 0 1.53.308 2.003.92.473.61.742 1.45.807 2.49h-4.3c.092-.93.385-1.68.88-2.25.494-.57 1.1-.86 1.821-.86z" />
+                            </svg>
+                        </button>
+                        <!-- Link Copy -->
                         <button onclick="copyLink()"
-                            class="p-3 bg-gray-200 rounded-full hover:scale-110 transition shadow-sm btn-press">🔗
-                            링크</button>
+                            class="w-12 h-12 flex items-center justify-center bg-gray-200 text-gray-600 rounded-full hover:scale-110 transition shadow-md btn-press"
+                            title="링크 복사">
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path fill="currentColor" d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path fill="currentColor" d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- 광고 -->
+                <!-- 광고 (공유버튼 하단으로 이동) -->
                 <div
-                    class="mt-8 h-20 bg-white/50 rounded-lg flex items-center justify-center text-gray-400 text-xs border border-emerald-100">
-                    Advertisement Area
+                    class="mt-8 h-20 bg-white/50 rounded-xl flex items-center justify-center text-gray-500 text-sm font-semibold border border-emerald-100 shadow-sm relative overflow-hidden">
+                    <span class="z-10">Advertisement Area</span>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 -skew-x-12 translate-x-[-100%] animate-[shimmer_2s_infinite]">
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 하단 버튼 -->
         <div class="mt-8 text-center space-y-4">
-            <a href="/index.html"
+            <a href="/src/pages/tests/test_list.html"
                 class="btn-press block w-full bg-white border border-emerald-300 text-emerald-600 font-bold py-3 rounded-xl hover:bg-emerald-50 transition shadow-sm">
                 다른 테스트 하러 가기 🎨
+            </a>
+            <a href="/src/pages/tests/island/index.html"
+                class="btn-press block w-full bg-emerald-500 text-white font-bold py-3 rounded-xl hover:bg-emerald-600 transition shadow-sm">
+                다시 표류하기! 🏝️
             </a>
             <a href="/index.html" class="inline-block text-gray-400 underline text-sm hover:text-gray-600">
                 메인 홈으로 이동

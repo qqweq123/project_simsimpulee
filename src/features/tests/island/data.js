@@ -109,7 +109,7 @@ export const islandQuestions = [
 export const islandResults = {
     leader: {
         name: "카리스마 리더",
-        image: "/images/island/result_leader.png",
+        image: "/images/island/island_char_leader_v5_bg_matching_1771559589335.png",
         emoji: "👑",
         subtitle: "위기의 섬을 이끄는 사령관",
         type: "leader",
@@ -123,8 +123,8 @@ export const islandResults = {
         traits: { leadership: 95, survival: 70, exploration: 60, social: 75 }
     },
     explorer: {
-        name: "모험 탐험가",
-        image: "/images/island/result_explorer.png",
+        name: "호기심 많고 자유로운 탐험가",
+        image: "/images/island/island_char_explorer_v5_bg_matching_1771559608476.png",
         emoji: "🧭",
         subtitle: "미지의 세계를 열어가는 개척자",
         type: "explorer",
@@ -138,9 +138,9 @@ export const islandResults = {
         traits: { leadership: 55, survival: 65, exploration: 95, social: 50 }
     },
     survivor: {
-        name: "생존 전문가",
-        image: "/images/island/result_survivor.png",
-        emoji: "🔧",
+        name: "고독한 생존가",
+        image: "/images/island/island_char_survivor_v5_bg_matching_1771559657365.png",
+        emoji: "🔥",
         subtitle: "맨손으로 문명을 건설하는 장인",
         type: "survivor",
         color: "from-stone-500 to-zinc-600",
@@ -153,9 +153,9 @@ export const islandResults = {
         traits: { leadership: 60, survival: 95, exploration: 70, social: 45 }
     },
     diplomat: {
-        name: "평화 외교관",
-        image: "/images/island/result_diplomat.png",
-        emoji: "🕊️",
+        name: "평화주의 외교관",
+        image: "/images/island/island_char_diplomat_v5_bg_matching_1771559638093.png",
+        emoji: "🤝",
         subtitle: "사람들을 하나로 묶는 화합의 달인",
         type: "diplomat",
         color: "from-sky-500 to-blue-600",
