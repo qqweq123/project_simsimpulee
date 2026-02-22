@@ -5,7 +5,7 @@
     /* RGBA gradient with LOW opacity so the sand texture shows through clearly */
     background-image:
         linear-gradient(to bottom, rgba(236, 253, 245, 0.45) 0%, rgba(255, 255, 255, 0.5) 100%),
-        url('/images/island/bg_island_vector_sand_v6.webp');
+        url('https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/bg_sand.webp');
     background-repeat: no-repeat, repeat;
     /* Scale up the texture to prevent human eye from perceiving the tile grid */
     background-size: cover, 600px 600px;

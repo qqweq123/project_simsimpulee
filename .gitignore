@@ -33,3 +33,7 @@ pnpm-debug.log*
 
 # ─── Gemini / AI Agent ───
 .gemini/
+
+
+# ─── Opencode ───
+.oh-my-opencode/

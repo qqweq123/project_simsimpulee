@@ -1,5 +1,5 @@
 
-import { islandResults } from './data.js';
+import { islandResults, hotContentsMock } from './data.js';
 
 export function initIslandResult() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -55,6 +55,9 @@ export function initIslandResult() {
         // Ability bars (4가지 능력치)
         renderAbilityBars(result.traits);
 
+        // Platform Architecture: Cross-Promotion
+        renderHotContents();
+
         // Interstitial Ad Logic
         handleInterstitialAd();
     });
@@ -97,6 +100,25 @@ function renderAbilityBars(traits) {
             if (bar) bar.style.width = `${value}%`;
         }, 300);
     });
+}
+
+// [Platform Architecture] 핫 콘텐츠 3선 렌더링 엔진 (Image-Driven Mega Banner)
+function renderHotContents() {
+    const container = document.getElementById("hot-contents-container");
+    if (!container) return;
+
+    let htmlMarkup = "";
+    hotContentsMock.forEach(item => {
+        htmlMarkup += `
+            <a href="${item.target_url}" class="block w-full rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 btn-press outline-none relative" title="${item.alt_text}">
+                <!-- Fallback gray background -->
+                <div class="absolute inset-0 bg-gray-100 animate-pulse -z-10"></div>
+                <img src="${item.banner_url}" alt="${item.alt_text}" class="w-full h-auto block object-cover relative z-10" />
+            </a>
+        `;
+    });
+
+    container.innerHTML = htmlMarkup;
 }
 
 function handleInterstitialAd() {
