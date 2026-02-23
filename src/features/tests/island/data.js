@@ -106,9 +106,13 @@ export const islandQuestions = [
     }
 ];
 
+// Supabase Storage URL - test_image 버킷 내 island_test 폴더
+const ISLAND_BASE_URL = "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/";
+
 export const islandResults = {
     leader: {
         name: "카리스마 리더",
+        image: `${ISLAND_BASE_URL}leader.webp`,
         emoji: "👑",
         subtitle: "위기의 섬을 이끄는 사령관",
         type: "leader",
@@ -122,7 +126,8 @@ export const islandResults = {
         traits: { leadership: 95, survival: 70, exploration: 60, social: 75 }
     },
     explorer: {
-        name: "모험 탐험가",
+        name: "호기심 많고 자유로운 탐험가",
+        image: `${ISLAND_BASE_URL}explorer.webp`,
         emoji: "🧭",
         subtitle: "미지의 세계를 열어가는 개척자",
         type: "explorer",
@@ -136,8 +141,9 @@ export const islandResults = {
         traits: { leadership: 55, survival: 65, exploration: 95, social: 50 }
     },
     survivor: {
-        name: "생존 전문가",
-        emoji: "🔧",
+        name: "고독한 생존가",
+        image: `${ISLAND_BASE_URL}survivor.webp`,
+        emoji: "🔥",
         subtitle: "맨손으로 문명을 건설하는 장인",
         type: "survivor",
         color: "from-stone-500 to-zinc-600",
@@ -150,8 +156,9 @@ export const islandResults = {
         traits: { leadership: 60, survival: 95, exploration: 70, social: 45 }
     },
     diplomat: {
-        name: "평화 외교관",
-        emoji: "🕊️",
+        name: "평화주의 외교관",
+        image: `${ISLAND_BASE_URL}diplomat.webp`,
+        emoji: "🤝",
         subtitle: "사람들을 하나로 묶는 화합의 달인",
         type: "diplomat",
         color: "from-sky-500 to-blue-600",
@@ -162,7 +169,7 @@ export const islandResults = {
         desc: "무인도에서 가장 무서운 건 야수가 아니라 사람 사이의 갈등! 당신은 그걸 본능적으로 알고 있는 사회적 생존 전문가예요.\n\n따뜻한 말 한마디로 무너진 사기를 되살리고, 날카로운 갈등도 부드럽게 중재하는 능력이 탁월해요. 당신이 있으면 팀은 흩어지지 않죠.\n\n배려심이 최고의 무기지만, 모두를 만족시키려다 정작 자기 자신은 챙기지 못하는 경우가 있어요. 가끔은 자신의 의견도 강하게 표현해보세요!",
         tags: ["#화합전문가", "#배려왕", "#소통능력자", "#팀플레이"],
         traits: { leadership: 65, survival: 55, exploration: 50, social: 95 }
-    }
+    },
 };
 
 /**
@@ -173,3 +180,31 @@ export const islandResults = {
 export function getTopType(scores) {
     return Object.entries(scores).reduce((a, b) => a[1] >= b[1] ? a : b)[0];
 }
+
+// ==========================================
+// [Platform Architecture] Hot Contents Mock Data (Image-Driven Banner Schema)
+// ==========================================
+// - 1. Result-Based (결과 맞춤형 트렌드 - ex: 호르몬 연애)
+// - 2. Demographic-Based (전체 실시간 인기 1위 - ex: 디저트)
+// - 3. New & Personalized (신규 테스트 중 성향 매칭 - ex: 전생 악마)
+// * 추천 알고리즘 상세 명세는 docs/recommendation_logic.md 참조
+export const hotContentsMock = [
+    {
+        id: "banner_1_result",
+        target_url: "/src/pages/tests/hormoni/index.html",
+        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_hormone_v6.webp",
+        alt_text: "당신과 같은 성향이 열광한 호르몬 연애 테스트"
+    },
+    {
+        id: "banner_2_demographic",
+        target_url: "/src/pages/tests/dessert/index.html",
+        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_dessert_v6.webp",
+        alt_text: "지금 가장 핫한 대세 테스트, 나와 닮은 디저트는?"
+    },
+    {
+        id: "banner_3_new",
+        target_url: "/src/pages/tests/demon/index.html",
+        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_demon_v6.webp",
+        alt_text: "당신을 위한 새로운 추천, 전생 악마 테스트"
+    }
+];

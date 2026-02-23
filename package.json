@@ -19,7 +19,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/qqweq123/project_simsimpulee/issues"
   },
@@ -28,6 +28,7 @@
     "vite": "^7.3.1"
   },
   "dependencies": {
+    "@google/genai": "^1.42.0",
     "@supabase/supabase-js": "^2.95.3"
   }
 }

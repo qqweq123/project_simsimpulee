@@ -25,8 +25,8 @@
         rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/image_transform.css">
+    <link rel="stylesheet" href="/src/assets/styles/main.css">
+    <link rel="stylesheet" href="/src/assets/styles/image_transform.css">
 </head>
 
 <body class="overflow-x-hidden">
@@ -41,14 +41,12 @@
     <!-- 헤더 -->
     <header class="p-4 md:p-6 flex justify-between items-center">
         <a href="index.html" class="font-gaegu text-3xl font-bold" style="color: var(--color-accent);">Mellow Wave</a>
-        <nav class="hidden md:flex items-center space-x-6 text-lg">
+        <nav id="nav-desktop" class="hidden md:flex items-center space-x-6 text-lg">
             <a href="/src/pages/tests/test_list.html" class="hover:text-[var(--color-primary)] transition-colors">전체
                 테스트</a>
             <a href="#popular" class="hover:text-[var(--color-primary)] transition-colors">인기 테스트</a>
-            <div id="auth-container">
-                <a href="/src/pages/auth/login/index.html"
-                    class="bg-[var(--color-primary)] text-white px-4 py-2 rounded-full hover:bg-opacity-80 transition-shadow shadow-md">로그인</a>
-            </div>
+            <!-- auth_ui.js가 로그인/마이페이지 버튼을 동적으로 주입 -->
+            <div id="auth-desktop"></div>
         </nav>
         <button id="mobile-menu-btn" class="md:hidden text-3xl">☰</button>
     </header>
@@ -62,7 +60,8 @@
             <nav class="flex flex-col space-y-6 text-xl font-bold font-gaegu">
                 <a href="/src/pages/tests/test_list.html" class="hover:text-[var(--color-primary)]">전체 테스트</a>
                 <a href="#popular" class="hover:text-[var(--color-primary)]">인기 테스트</a>
-                <a href="login.html" class="hover:text-[var(--color-primary)]">로그인</a>
+                <!-- auth_ui.js가 로그인/마이페이지 버튼을 동적으로 주입 -->
+                <div id="auth-mobile"></div>
             </nav>
         </div>
     </div>

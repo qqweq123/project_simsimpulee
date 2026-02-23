@@ -49,6 +49,9 @@ export default defineConfig({
                 demonIndex: path.resolve(__dirname, 'src/pages/tests/demon/index.html'),
                 demonQuestion: path.resolve(__dirname, 'src/pages/tests/demon/question.html'),
                 demonResult: path.resolve(__dirname, 'src/pages/tests/demon/result.html'),
+
+                // Mypage
+                mypage: path.resolve(__dirname, 'src/pages/mypage/index.html'),
             },
         },
     },

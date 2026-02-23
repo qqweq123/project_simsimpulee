@@ -96,7 +96,7 @@ Migration(2026-02-10~14)을 통해 Vite + Feature-Sliced Design 기반의
   │   │   │       └── result.html  ← ThemeManager 사용
   │   │   ├── auth/login/
   │   │   ├── community/           ← 향후 확장 예약
-  │   │   └── mypage/              ← 향후 확장 예약
+  │   │   └── mypage/              ← 확장중
   │   │
   │   ├── assets/                  ← 정적 자산
   │   │   ├── styles/
@@ -148,7 +148,8 @@ Migration(2026-02-10~14)을 통해 Vite + Feature-Sliced Design 기반의
   4-3. 페이지 (pages/tests/{name}/index.html, question.html, result.html)
       - HTML 구조 + <script type="module"> 내에서 features 계층 import
       - result.html 은 ThemeManager를 통해 테마를 동적으로 로드
-      - import 경로: '../../../features/tests/{name}/data.js'
+      - import 경로: Node.js, npm, vite를 활용한 모듈화된 구조를 따를 것 (예시 @를 활용한 절대 경로)
+      - vercel을 활용중이므로 참고할 것.
 
   4-4. 테마 (선택사항)
       - CSS: src/assets/styles/themes/{name}.css
