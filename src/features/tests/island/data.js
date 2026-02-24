@@ -192,19 +192,19 @@ export const hotContentsMock = [
     {
         id: "banner_1_result",
         target_url: "/src/pages/tests/hormoni/index.html",
-        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_hormone_v6.webp",
+        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_hormone_v7.webp",
         alt_text: "당신과 같은 성향이 열광한 호르몬 연애 테스트"
     },
     {
         id: "banner_2_demographic",
         target_url: "/src/pages/tests/dessert/index.html",
-        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_dessert_v6.webp",
+        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_dessert_v7.webp",
         alt_text: "지금 가장 핫한 대세 테스트, 나와 닮은 디저트는?"
     },
     {
         id: "banner_3_new",
         target_url: "/src/pages/tests/demon/index.html",
-        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_demon_v6.webp",
+        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_demon_v7.webp",
         alt_text: "당신을 위한 새로운 추천, 전생 악마 테스트"
     }
 ];

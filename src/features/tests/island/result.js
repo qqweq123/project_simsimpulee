@@ -110,9 +110,10 @@ function renderHotContents() {
     let htmlMarkup = "";
     hotContentsMock.forEach(item => {
         htmlMarkup += `
-            <a href="${item.target_url}" class="block w-full rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 btn-press outline-none relative" title="${item.alt_text}">
+            <a href="${item.target_url}" class="block w-full overflow-hidden hover:opacity-95 transition-opacity duration-300 btn-press outline-none relative" title="${item.alt_text}">
                 <!-- Fallback gray background -->
                 <div class="absolute inset-0 bg-gray-100 animate-pulse -z-10"></div>
+                <!-- object-cover ensures the image fills the 100% width edge-to-edge -->
                 <img src="${item.banner_url}" alt="${item.alt_text}" class="w-full h-auto block object-cover relative z-10" />
             </a>
         `;

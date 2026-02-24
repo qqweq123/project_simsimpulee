@@ -22,14 +22,14 @@ const ARTIFACT_DIR = 'C:\\Users\\Administrator\\.gemini\\antigravity\\brain\\17b
 
 // Need to find the exact filenames of the generated images based on the prefix.
 const files = fs.readdirSync(ARTIFACT_DIR);
-const hormoneFile = files.find(f => f.startsWith('banner_hormone_v6') && f.endsWith('.png'));
-const dessertFile = files.find(f => f.startsWith('banner_dessert_v6') && f.endsWith('.png'));
-const demonFile = files.find(f => f.startsWith('banner_demon_v6') && f.endsWith('.png'));
+const hormoneFile = files.find(f => f.startsWith('banner_hormone_v7') && f.endsWith('.png'));
+const dessertFile = files.find(f => f.startsWith('banner_dessert_v7') && f.endsWith('.png'));
+const demonFile = files.find(f => f.startsWith('banner_demon_v7') && f.endsWith('.png'));
 
 const ASSETS = [
-    { source: path.join(ARTIFACT_DIR, hormoneFile), targetName: 'banner_hormone_v6.webp' },
-    { source: path.join(ARTIFACT_DIR, dessertFile), targetName: 'banner_dessert_v6.webp' },
-    { source: path.join(ARTIFACT_DIR, demonFile), targetName: 'banner_demon_v6.webp' }
+    { source: path.join(ARTIFACT_DIR, hormoneFile), targetName: 'banner_hormone_v7.webp' },
+    { source: path.join(ARTIFACT_DIR, dessertFile), targetName: 'banner_dessert_v7.webp' },
+    { source: path.join(ARTIFACT_DIR, demonFile), targetName: 'banner_demon_v7.webp' }
 ];
 
 async function processBanners() {

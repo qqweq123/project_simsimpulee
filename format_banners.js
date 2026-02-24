@@ -9,14 +9,14 @@ const targetFiles = files.filter(f => f.startsWith('banner_') && f.includes('_v3
 
 // We want a very wide portrait ratio, e.g. 1200 x 310 (4:1ish)
 const TARGET_WIDTH = 1200;
-const TARGET_HEIGHT = 310;
+const TARGET_HEIGHT = 330;
 
 async function processCrop() {
     console.log(`Found ${targetFiles.length} base banners to strictly resize to wide format.`);
 
     for (const file of targetFiles) {
         const sourcePath = path.join(ARTIFACT_DIR, file);
-        const destName = file.replace(/_v[1-5]_/, '_v6_');
+        const destName = file.replace(/_v[1-6]_/, '_v7_');
         const destPath = path.join(ARTIFACT_DIR, destName);
 
         try {

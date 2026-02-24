@@ -147,9 +147,9 @@
                     </div>
                 </div>
 
-                <!-- 설명 -->
+                <!-- 설명 (Typography & Depth Polished) -->
                 <p id="result-desc"
-                    class="text-gray-700 text-sm leading-7 mb-8 text-left bg-white/80 p-6 rounded-xl min-h-[100px] whitespace-pre-line border border-emerald-100 shadow-sm font-medium">
+                    class="text-gray-700 text-[15px] leading-relaxed tracking-wide mb-8 text-left bg-white/60 p-7 rounded-2xl min-h-[120px] whitespace-pre-line border border-emerald-100 shadow-inner font-medium">
                 </p>
 
                 <!-- 공유 -->
@@ -217,11 +217,13 @@
                     </div>
                 </div>
 
-                <!-- 추천 콘텐츠 3선 (Hot Issue - Image-Driven Banners) -->
-                <div class="mt-8 pt-6 border-t border-emerald-100/50">
-                    <h3 class="text-sm font-bold text-emerald-800 mb-4 px-2 tracking-tight">🔥 요즘 트렌드 몰아보기</h3>
+                <!-- 추천 콘텐츠 3선 (Hot Issue - Image-Driven Full-Bleed Banners) -->
+                <!-- Use negative margins (-mx-8 to counteract the parent's p-8) so banners touch the very edges of the card -->
+                <div class="mt-10 pt-8 border-t border-emerald-100/50 -mx-8 bg-gray-50/30 pb-4">
+                    <h3 class="text-sm font-bold text-emerald-800 mb-4 px-8 tracking-tight">🔥 요즘 트렌드 몰아보기</h3>
+                    <!-- space-y-1 keeps them tight vertically. Remove rounded corners here if they are truly edge-to-edge, or keep slightly rounded? Let's keep banners rectangular since they hit the edge. -->
                     <div id="hot-contents-container" class="flex flex-col w-full space-y-1">
-                        <!-- JS에서 동적으로 삽입됨 (Rounded with gaps) -->
+                        <!-- JS에서 동적으로 삽입됨 -->
                     </div>
                 </div>
 
