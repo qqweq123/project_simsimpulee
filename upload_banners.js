@@ -25,11 +25,13 @@ const files = fs.readdirSync(ARTIFACT_DIR);
 const hormoneFile = files.find(f => f.startsWith('banner_hormone_v7') && f.endsWith('.png'));
 const dessertFile = files.find(f => f.startsWith('banner_dessert_v7') && f.endsWith('.png'));
 const demonFile = files.find(f => f.startsWith('banner_demon_v7') && f.endsWith('.png'));
+const loveFile = files.find(f => f.startsWith('banner_love_v7') && f.endsWith('.png'));
 
 const ASSETS = [
     { source: path.join(ARTIFACT_DIR, hormoneFile), targetName: 'banner_hormone_v7.webp' },
     { source: path.join(ARTIFACT_DIR, dessertFile), targetName: 'banner_dessert_v7.webp' },
-    { source: path.join(ARTIFACT_DIR, demonFile), targetName: 'banner_demon_v7.webp' }
+    { source: path.join(ARTIFACT_DIR, demonFile), targetName: 'banner_demon_v7.webp' },
+    { source: path.join(ARTIFACT_DIR, loveFile), targetName: 'banner_love_v7.webp' }
 ];
 
 async function processBanners() {

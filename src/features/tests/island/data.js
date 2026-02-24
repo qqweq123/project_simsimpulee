@@ -206,5 +206,11 @@ export const hotContentsMock = [
         target_url: "/src/pages/tests/demon/index.html",
         banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_demon_v7.webp",
         alt_text: "당신을 위한 새로운 추천, 전생 악마 테스트"
+    },
+    {
+        id: "banner_4_love",
+        target_url: "/src/pages/tests/love/index.html",
+        banner_url: "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/banner_love_v7.webp",
+        alt_text: "10가지 상황으로 측정하는 나의 연애 능력치 테스트"
     }
 ];
