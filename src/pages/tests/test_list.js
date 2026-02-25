@@ -69,7 +69,7 @@ const testData = [
         category: 'personality',
         icon: '💉',
         gradient: 'from-pink-100 to-purple-100',
-        badge: '爆火',
+        badge: 'HOT',
         badgeGradient: 'from-pink-500 to-purple-500',
         participants: 9876,
         date: '2024-02-01',

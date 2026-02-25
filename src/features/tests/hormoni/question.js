@@ -1,16 +1,24 @@
-
 import { hormoniQuestions } from './data.js';
 
 let currentStep = 0;
-const totalSteps = hormoniQuestions.length;
+let currentQuestions = [];
+let totalSteps = 0;
 const scores = { "Egen": 0, "Teto": 0 };
+let testGender = 'female';
 
 export function initHormoniTest() {
+    const urlParams = new URLSearchParams(window.location.search);
+    testGender = urlParams.get('gender') || 'female';
+
+    // 성별에 맞는 질문 가져오기, 기본값은 여성
+    currentQuestions = hormoniQuestions[testGender] || hormoniQuestions['female'];
+    totalSteps = currentQuestions.length;
+
     renderQuestion();
 }
 
 function renderQuestion() {
-    const question = hormoniQuestions[currentStep];
+    const question = currentQuestions[currentStep];
 
     document.getElementById('question-text').innerHTML = question.q;
     const qNum = document.getElementById('q-num');
