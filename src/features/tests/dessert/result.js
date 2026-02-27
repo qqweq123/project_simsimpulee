@@ -1,5 +1,6 @@
 
-import { dessertResults, matchData } from './data.js';
+import { dessertResults, matchData } from '@/features/tests/dessert/data.js';
+import { TestService } from '@/core/testService.js';
 
 export function initDessertResult() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +12,9 @@ export function initDessertResult() {
         const result = dessertResults[type];
 
         if (result) {
+            // 참여자 수 증가 텔레메트리 (DB 반영)
+            TestService.incrementParticipantCount('dessert');
+
             document.getElementById('result-title').innerText = result.name;
             document.getElementById('result-subtitle').innerText = result.subtitle || "";
             document.getElementById('result-desc').innerText = result.desc;

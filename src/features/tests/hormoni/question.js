@@ -1,4 +1,4 @@
-import { hormoniQuestions } from './data.js';
+import { hormoniQuestions } from '@/features/tests/hormoni/data.js';
 
 let currentStep = 0;
 let currentQuestions = [];

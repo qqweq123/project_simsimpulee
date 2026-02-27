@@ -1,5 +1,5 @@
 
-import { dessertQuestions } from './data.js';
+import { dessertQuestions } from '@/features/tests/dessert/data.js';
 
 let currentStep = 0;
 const totalSteps = dessertQuestions.length;

@@ -1,0 +1,59 @@
+/* Dopamine Test Core Theme */
+:root {
+    --dopa-bg: #1a1a2e;
+    --dopa-text: #e2e8f0;
+    --dopa-accent: #8b5cf6;
+    --dopa-accent-hover: #7c3aed;
+    --dopa-glass: rgba(30, 41, 59, 0.7);
+    --dopa-border: rgba(139, 92, 246, 0.3);
+}
+
+.theme-dopamine {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--dopa-text);
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.theme-dopamine .glass-panel {
+    background: var(--dopa-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--dopa-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.btn-dopa {
+    background: linear-gradient(45deg, var(--dopa-accent), #ec4899);
+    color: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-dopa:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.5);
+}
+
+/* Question Hydration Buttons */
+.btn-press-dopa {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--dopa-text);
+    transition: all 0.2s;
+}
+
+.btn-press-dopa:active {
+    background: linear-gradient(45deg, var(--dopa-accent), #ec4899);
+    color: white;
+    transform: scale(0.98);
+}
+
+@media (min-width: 640px) {
+    .btn-press-dopa:hover {
+        background: linear-gradient(45deg, var(--dopa-accent), #ec4899);
+        border-color: transparent;
+        color: white;
+    }
+}

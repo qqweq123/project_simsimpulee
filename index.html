@@ -30,6 +30,9 @@
 </head>
 
 <body class="overflow-x-hidden">
+    <!-- 1선 방어망: 하드코딩된 허니팟 트랩 (JS 실행 전 파싱하는 봇 차단) -->
+    <input type="checkbox" name="human_check" id="hp_trap" class="absolute -left-[9999px] opacity-0" tabindex="-1"
+        aria-hidden="true" autocomplete="off" />
     <!-- Side Ads (Desktop Only) -->
     <div class="side-ad side-ad-left">
         <div style="background:#eee; width:140px; height:500px; margin-top:10px;"></div>
@@ -171,8 +174,12 @@
                                 class="absolute top-3 left-3 z-10 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
                                 🥉 3위</div>
                             <div
-                                class="h-36 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">
-                                🏝️
+                                class="h-36 w-full flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500 relative">
+                                <img src="https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/thumbnails/island_thumb.webp"
+                                    class="w-full h-full object-cover" alt="무인도 섬 썸네일">
+                                <div
+                                    class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition-opacity">
+                                </div>
                             </div>
                             <div class="p-6">
                                 <h4 class="text-xl font-bold mb-2">무인도 생존 유형</h4>
@@ -223,23 +230,23 @@
                             </div>
                         </div>
 
-                        <!-- 신규 2: 무인도 -->
-                        <div class="group relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer border border-emerald-100"
-                            onclick="location.href='/src/pages/tests/island/index.html'">
+                        <!-- 신규 2: 도파민 몬스터 -->
+                        <div class="group relative bg-gradient-to-br from-indigo-900 to-purple-900 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer border border-purple-500/30"
+                            onclick="location.href='/src/pages/tests/dopamine/index.html'">
                             <div class="absolute top-3 right-3 z-10">
                                 <span
-                                    class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow animate-pulse">NEW</span>
+                                    class="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow animate-pulse">NEW</span>
                             </div>
                             <div class="p-6 flex items-center gap-5">
                                 <div
-                                    class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-200 to-teal-200 flex items-center justify-center text-4xl shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                                    🏝️
+                                    class="w-20 h-20 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 shadow-sm overflow-hidden border border-purple-500/30 relative bg-gradient-to-br from-purple-800 to-indigo-900">
+                                    <span class="text-4xl animate-bounce">📱</span>
                                 </div>
                                 <div>
-                                    <h4 class="text-lg font-bold mb-1">무인도 생존유형 테스트</h4>
-                                    <p class="text-gray-500 text-xs mb-2">극한 상황에서의 선택으로 보는 4가지 생존 유형</p>
+                                    <h4 class="text-lg font-bold mb-1 text-white">현대인 도파민 생태계</h4>
+                                    <p class="text-purple-200 text-xs mb-2">무한스크롤 vs 탕진잼? 내 안의 괴물 찾기</p>
                                     <div class="flex gap-1">
-                                        <span class="text-xs text-emerald-600 font-bold">#생존 #유형 #무인도</span>
+                                        <span class="text-xs text-pink-400 font-bold">#도파민 #숏폼 #탕진잼</span>
                                     </div>
                                 </div>
                             </div>
@@ -291,10 +298,14 @@
                         <div class="group bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
                             onclick="location.href='/src/pages/tests/island/index.html'">
                             <div
-                                class="relative h-32 bg-gradient-to-br from-emerald-100 to-teal-50 flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-500 overflow-hidden">
-                                🏝️
+                                class="relative h-32 w-full flex items-center justify-center group-hover:scale-105 transition-transform duration-500 overflow-hidden">
+                                <img src="https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/thumbnails/island_thumb.webp"
+                                    class="w-full h-full object-cover" alt="무인도 썸네일">
+                                <div
+                                    class="absolute inset-0 bg-black bg-opacity-10 group-hover:bg-opacity-0 transition-opacity">
+                                </div>
                                 <span
-                                    class="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">NEW</span>
+                                    class="absolute top-2 right-2 z-10 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">NEW</span>
                             </div>
                             <div class="p-4">
                                 <h5 class="font-bold text-sm mb-1">무인도 생존 유형</h5>

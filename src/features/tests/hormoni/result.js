@@ -1,6 +1,7 @@
 
-import { hormoniResults } from './data.js';
+import { hormoniResults } from '@/features/tests/hormoni/data.js';
 import { ThemeManager } from '@/core/ThemeManager.js';
+import { TestService } from '@/core/testService.js';
 
 export function initHormoniResult() {
     document.addEventListener('DOMContentLoaded', async () => {
@@ -21,6 +22,9 @@ export function initHormoniResult() {
         // 4. Load Theme
         const success = await themeManager.loadTheme(themeName, container);
         if (!success) return;
+
+        // 4.5. 참여자 수 집계 (DB)
+        TestService.incrementParticipantCount('hormoni');
 
         // 5. Bind Data
         themeManager.bindData(resultData);

@@ -1,21 +1,28 @@
-
-import { islandResults, hotContentsMock } from './data.js';
+import { islandResults } from '@/features/tests/island/data.js';
+import { checkSession, cacheUTM } from '@/features/tests/island/core/validator.js';
+import { TestEngine } from '@/core/testEngine.js';
+import { renderAbilityBars, renderHotContents, renderActionButtons } from '@/features/tests/island/core/renderer.js';
+import { TestService } from '@/core/testService.js';
 
 export function initIslandResult() {
     document.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
+        // 1. 보안 검증 및 캐싱
+        cacheUTM();
+        const mode = checkSession();
+        if (mode === 'redirect') return; // 리다이렉트 발생 시 렌더링 중단
+
+        // 2. 파라미터 파싱
+        const urlParams = new URLSearchParams(location.search);
         const type = urlParams.get('type') || 'survivor';
-
-        let scores = { leader: 0, explorer: 0, survivor: 0, diplomat: 0 };
-        try {
-            const s = urlParams.get('scores');
-            if (s) scores = JSON.parse(decodeURIComponent(s));
-        } catch (e) { /* fallback */ }
-
+        const scoresString = urlParams.get('scores');
+        const scores = TestEngine.parseEncodedScores(scoresString);
         const result = islandResults[type];
         if (!result) return;
 
-        // Emoji & Image
+        // 2.5. 참여자 수 집계 (DB)
+        TestService.incrementParticipantCount('island');
+
+        // 3. UI 렌더링 
         const emojiEl = document.getElementById('result-emoji');
         if (emojiEl) emojiEl.innerText = result.emoji;
 
@@ -25,14 +32,10 @@ export function initIslandResult() {
             imageEl.alt = result.name;
         }
 
-        // Title & subtitle
         document.getElementById('result-title').innerText = result.name;
         document.getElementById('result-subtitle').innerText = result.subtitle;
-
-        // Description
         document.getElementById('result-desc').innerText = result.desc;
 
-        // Tags
         const tagContainer = document.getElementById('result-tags');
         if (tagContainer) {
             tagContainer.innerHTML = '';
@@ -44,108 +47,38 @@ export function initIslandResult() {
             });
         }
 
-        // Apply theme to card
         const card = document.getElementById('result-card');
         if (card) card.className = `${result.bgColor} rounded-3xl shadow-xl overflow-hidden relative fade-in`;
 
-        // Gradient bar
         const gradientBar = document.getElementById('gradient-bar');
         if (gradientBar) gradientBar.className = `h-2 bg-gradient-to-r ${result.color} w-full`;
 
-        // Ability bars (4가지 능력치)
         renderAbilityBars(result.traits);
+        renderHotContents('island');
 
-        // Platform Architecture: Cross-Promotion
-        renderHotContents();
+        // 4. 모드에 따른 공유/시작 UI 분기
+        renderActionButtons(mode);
 
-        // Interstitial Ad Logic
+        // 5. 로딩 / 전면 광고 화면 제어
         handleInterstitialAd();
     });
 
+    // 전역 함수 바인딩
     window.unlockResult = unlockResult;
     window.copyLink = copyLink;
     window.shareSNS = shareSNS;
 }
 
-function renderAbilityBars(traits) {
-    const labels = {
-        leadership: { name: '리더십', icon: '👑', color: 'from-amber-400 to-orange-500' },
-        survival: { name: '생존력', icon: '🔧', color: 'from-stone-400 to-zinc-500' },
-        exploration: { name: '탐험력', icon: '🧭', color: 'from-emerald-400 to-teal-500' },
-        social: { name: '사회성', icon: '🕊️', color: 'from-sky-400 to-blue-500' }
-    };
-
-    const container = document.getElementById('ability-bars');
-    if (!container) return;
-    container.innerHTML = '';
-
-    Object.entries(labels).forEach(([key, label]) => {
-        const value = traits[key] || 0;
-        const row = document.createElement('div');
-        row.className = 'mb-3';
-        row.innerHTML = `
-            <div class="flex justify-between text-sm mb-1">
-                <span class="font-bold text-gray-600">${label.icon} ${label.name}</span>
-                <span class="font-bold text-gray-500">${value}%</span>
-            </div>
-            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
-                <div class="h-2.5 rounded-full bg-gradient-to-r ${label.color} transition-all duration-1000 ease-out" style="width: 0%"></div>
-            </div>
-        `;
-        container.appendChild(row);
-
-        // Animate bars
-        setTimeout(() => {
-            const bar = row.querySelector('.bg-gradient-to-r');
-            if (bar) bar.style.width = `${value}%`;
-        }, 300);
-    });
-}
-
-// [Platform Architecture] 핫 콘텐츠 3선 렌더링 엔진 (Image-Driven Mega Banner)
-function renderHotContents() {
-    const container = document.getElementById("hot-contents-container");
-    if (!container) return;
-
-    let htmlMarkup = "";
-    hotContentsMock.forEach(item => {
-        htmlMarkup += `
-            <a href="${item.target_url}" class="block w-full rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 btn-press outline-none relative" title="${item.alt_text}">
-                <!-- Fallback gray background -->
-                <div class="absolute inset-0 bg-gray-100 animate-pulse -z-10"></div>
-                <!-- object-cover ensures the image fills the 100% width edge-to-edge -->
-                <img src="${item.banner_url}" alt="${item.alt_text}" class="w-full h-auto block object-cover relative z-10" />
-            </a>
-        `;
-    });
-
-    container.innerHTML = htmlMarkup;
-}
-
 function handleInterstitialAd() {
-    // 이미 광고를 통과했는지 확인 (선택 사항, 통과했더라도 매번 보여주려면 로컬스토리지 주석 처리)
-    const unlockTime = localStorage.getItem('adUnlockTime');
-    const now = Date.now();
-
-    // 만약 한 번 보면 10분 동안 안 보게 하려면 이 로직 활성화
-    // if (unlockTime && (now - parseInt(unlockTime) < 60 * 10 * 1000)) {
-    //     document.getElementById('lock-overlay').style.display = 'none';
-    //     document.getElementById('result-content').classList.remove('blur-content');
-    //     return;
-    // }
-
-    // 광고/로딩 화면 시작
     const overlay = document.getElementById('lock-overlay');
     const progress = document.getElementById('loading-progress');
     const title = document.getElementById('loading-title');
     const btn = document.getElementById('btn-unlock');
 
-    // 100ms 후 프로그레스 바 애니메이션 시작 (transition 3000ms 설정됨)
     setTimeout(() => {
         if (progress) progress.style.width = '100%';
     }, 100);
 
-    // 3초 후 결과 확인 버튼 활성화
     setTimeout(() => {
         if (title) title.innerHTML = '분석이 완료되었습니다! 🏝️';
         if (btn) {
@@ -157,16 +90,11 @@ function handleInterstitialAd() {
 }
 
 function unlockResult() {
-    // 선택 사항: 쿠팡 등 스폰서 링크 연결을 원하지 않으면 주석 처리
-    // window.open('https://www.coupang.com', '_blank');
-
-    // 시간 저장
     localStorage.setItem('adUnlockTime', Date.now());
 
     const overlay = document.getElementById('lock-overlay');
     const content = document.getElementById('result-content');
 
-    // 오버레이 페이드아웃 애니메이션
     overlay.style.transition = 'opacity 0.6s ease';
     overlay.style.opacity = '0';
 
@@ -177,27 +105,35 @@ function unlockResult() {
 }
 
 function copyLink() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
+    // UTM 제거한 순수 공유 링크 생성 (Bot SEO 용이)
+    const shareUrl = window.location.origin + window.location.pathname + window.location.search.replace(/mode=owner/, 'mode=viewer').replace(/mode=redirect/, 'mode=viewer');
+    // 실제로는 깔끔하게 쿼리 조작이 필요한데 간단히 처리:
+    const url = new URL(window.location.href);
+    url.searchParams.set('mode', 'viewer');
+
+    navigator.clipboard.writeText(url.href).then(() => {
         alert('링크가 복사되었습니다! 🏝️ 친구들에게 공유해보세요.');
     });
 }
 
 function shareSNS(platform) {
-    const url = encodeURIComponent(window.location.href);
+    const urlObj = new URL(window.location.href);
+    urlObj.searchParams.set('mode', 'viewer');
+    const url = encodeURIComponent(urlObj.href);
+
+    // 이 부분은 차후 SEO Edge Function에서 다뤄질 메타데이터(OG)입니다.
     const text = encodeURIComponent('내가 무인도에 떨어진다면? 나의 생존 유형을 확인해보세요! 🏝️ #MellowWave #무인도테스트');
 
-    // 모바일 환경 Web Share API 지원 시 기본 작동 (인스타 등 앱 강제 공유용)
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile && navigator.share && (platform === 'instagram' || platform === 'kakao')) {
+    if (isMobile && navigator.share) {
         navigator.share({
             title: '나의 무인도 생존 유형',
             text: '내가 무인도에 떨어진다면? 나의 생존 유형을 확인해보세요! 🏝️',
-            url: window.location.href,
+            url: urlObj.href,
         }).catch(console.error);
         return;
     }
 
-    // 각 플랫폼별 URL Intent
     switch (platform) {
         case 'facebook':
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
@@ -209,11 +145,10 @@ function shareSNS(platform) {
             window.open(`https://www.threads.net/intent/post?text=${text} ${url}`, '_blank', 'width=600,height=400');
             break;
         case 'kakao':
-            // 카카오톡 공유 API가 없을 경우 카카오스토리 폴백 또는 클립보드 복사
-            window.open(`https://story.kakao.com/share?url=${url}`, '_blank', 'width=600,height=400');
+            copyLink();
+            alert('카카오톡 채팅방에 붙여넣기로 쉽게 공유하세요! (링크 복사 완료)');
             break;
         case 'instagram':
-            // 웹 인스타그램은 다이렉트 링크 공유 미지원. 링크 복사 유도.
             copyLink();
             alert('인스타그램 스토리에 붙여넣기 할 수 있도록 링크가 복사되었습니다!');
             break;
