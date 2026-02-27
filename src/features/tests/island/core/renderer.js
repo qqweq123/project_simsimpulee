@@ -9,46 +9,24 @@ export function renderHotContents(currentTestId = '') {
 
     let htmlMarkup = "";
 
-    // UI Layout: 4개의 추천 카드 렌더링 (리스트 뷰와 동일한 시각적 톤앤매너 유지)
-    recommendations.forEach((item, index) => {
-        // 첫 번째 카드는 풀 배너 형태 (최상단 강조), 나머지는 그리드 형태로 꾸밀 수 있지만 
-        // 일관성을 위해 리스트의 심플 카드 룩을 채용.
-        const badgeHtml = `<span class="absolute top-2 right-2 bg-gradient-to-r text-white text-[10px] font-bold px-2 py-0.5 rounded-full ${item.badgeGradient || 'from-gray-400 to-gray-500'}">${item.recLabel}</span>`;
-
-        const tagsHtml = item.tags.map(t =>
-            `<span class="${t.bgColor} ${t.textColor} text-xs font-bold px-2.5 py-0.5 rounded-full">#${t.label}</span>`
-        ).join('');
-
-        const participantStr = item.participants.toLocaleString();
-
+    // 1. 배너 이미지 형태 (1200x330 파노라마)
+    // 2. 텍스트 라벨('유사성향 추천' 등)은 UI에서 숨기고 background(개발/DOM 데이터)로만 유지
+    recommendations.forEach(item => {
         htmlMarkup += `
-            <div class="group relative bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer mb-4"
-                onclick="location.href='${item.url}'">
+            <a href="${item.url}" 
+               class="block mb-1 rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 relative group"
+               data-recommendation-type="${item.recLabel}"
+               data-target-participants="${item.participants}">
+               
+                <!-- 시각적 라벨 제거 (개발자/A11y 용어로만 배치) -->
+                <span class="sr-only">${item.recLabel} - ${item.title}</span>
                 
-                <div class="flex items-stretch">
-                    <!-- Icon Area (좌측) -->
-                    <div class="w-24 shrink-0 bg-gradient-to-br ${item.gradient} flex items-center justify-center text-4xl relative overflow-hidden">
-                        <span class="relative z-10 group-hover:scale-110 transition-transform duration-300">${item.icon}</span>
-                    </div>
-
-                    <!-- Content Area (우측) -->
-                    <div class="p-4 flex-1 relative">
-                        ${badgeHtml}
-                        <h5 class="font-bold text-sm text-gray-800 mb-1 pr-16">${item.title}</h5>
-                        <p class="text-[11px] text-gray-500 mb-2 truncate">${item.desc}</p>
-                        
-                        <div class="flex items-center justify-between mt-1">
-                            <div class="flex gap-1">
-                                ${tagsHtml}
-                            </div>
-                            <span class="text-[10px] text-gray-400 flex items-center gap-0.5">
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                ${participantStr}
-                            </span>
-                        </div>
-                    </div>
+                <div class="w-full relative pt-[27.5%]"> <!-- 1200x330 비율 (330/1200 = 27.5%) -->
+                    <img src="${item.bannerUrl}" 
+                         alt="${item.title} 테스트 배너" 
+                         class="absolute inset-0 w-full h-full object-cover">
                 </div>
-            </div>
+            </a>
         `;
     });
 
