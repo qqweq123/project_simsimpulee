@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 안의 도파민 몬스터 - Mellow Wave 분석 결과</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/src/assets/styles/main.css">
+    <link rel="stylesheet" href="/src/assets/styles/themes/dopamine.css">
+</head>
+
+<body class="theme-dopamine min-h-screen text-slate-800">
+
+    <header class="p-4 text-center">
+        <a href="/index.html" class="font-gaegu text-2xl font-bold text-white drop-shadow-md">Mellow Wave</a>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 pb-32">
+        <!-- Results Container (Hydrated by JS) -->
+        <div id="result-bg-container"
+            class="max-w-md w-full rounded-[2.5rem] shadow-2xl p-8 mx-auto text-center border bg-white text-gray-800 transition-colors duration-700">
+            <h2 id="result-subtitle"
+                class="text-sm font-bold text-gray-500 mb-2 uppercase tracking-widest label-animation">
+                분석 완료
+            </h2>
+            <h1 id="result-title" class="text-3xl font-extrabold mb-6 font-gaegu transform transition hover:scale-105">
+                당신의 몬스터
+            </h1>
+
+            <div
+                class="relative w-full aspect-square bg-gray-100 rounded-3xl mb-8 overflow-hidden shadow-inner flex items-center justify-center">
+                <img id="result-image" src="" alt="결과 이미지" class="w-full h-full object-cover">
+            </div>
+
+            <div id="result-tags" class="flex flex-wrap justify-center mb-6 gap-y-2">
+                <!-- 태그 데이터 주입 -->
+            </div>
+
+            <div class="prose prose-sm font-noto-sans mb-8 ext-left">
+                <p id="result-desc"
+                    class="text-gray-700 leading-relaxed text-[15px] p-6 bg-gray-50 rounded-2xl border border-gray-100 shadow-sm text-left whitespace-pre-line">
+                </p>
+            </div>
+
+            <div id="action-buttons-container"></div>
+        </div>
+
+        <section class="mt-16 max-w-md mx-auto">
+            <h3 class="text-center font-bold text-xl mb-6 text-white font-gaegu drop-shadow-sm">나랑 딱 맞는 다른 테스트는?</h3>
+            <div id="hot-contents-container" class="space-y-4">
+                <!-- Data-Driven Banner Injection -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-6 text-sm text-slate-500 pb-20">
+        <p>© 2026 Mellow Wave. All rights reserved.</p>
+    </footer>
+
+    <!-- Result Data Processing Script -->
+    <script type="module">
+        import { initDopamineResult } from '@/features/tests/dopamine/result.js';
+        initDopamineResult();
+    </script>
+</body>
+
+</html>

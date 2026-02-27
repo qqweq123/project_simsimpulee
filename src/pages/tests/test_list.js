@@ -5,97 +5,10 @@
  * 카드 구조: rounded-2xl shadow-md + 그라데이션 아이콘 영역 + 뱃지 + 태그 + 참여자 수
  */
 
-// ===== 테스트 데이터 =====
-const testData = [
-    {
-        id: 'dessert',
-        title: '내가 디저트라면?',
-        desc: '달콤한 디저트로 알아보는 나의 MBTI 성격 유형',
-        tags: [
-            { label: '성격', bgColor: 'bg-yellow-100', textColor: 'text-yellow-700' },
-            { label: 'MBTI', bgColor: 'bg-pink-100', textColor: 'text-pink-700' }
-        ],
-        category: 'personality',
-        icon: '🍰',
-        gradient: 'from-amber-100 to-yellow-50',
-        badge: 'HOT',
-        badgeGradient: 'from-red-500 to-orange-500',
-        participants: 12345,
-        date: '2024-01-20',
-        url: '/src/pages/tests/dessert/index.html'
-    },
-    {
-        id: 'love',
-        title: '나의 연애 능력치',
-        desc: '10가지 상황으로 측정하는 SS~D급 연애 등급',
-        tags: [
-            { label: '연애', bgColor: 'bg-red-100', textColor: 'text-red-700' },
-            { label: '능력치', bgColor: 'bg-pink-100', textColor: 'text-pink-700' }
-        ],
-        category: 'love',
-        icon: '💖',
-        gradient: 'from-pink-100 via-rose-50 to-red-100',
-        badge: 'NEW',
-        badgeGradient: 'from-pink-500 to-rose-500',
-        participants: 8742,
-        date: '2024-02-15',
-        url: '/src/pages/tests/love/index.html'
-    },
-    {
-        id: 'island',
-        title: '무인도 생존 유형',
-        desc: '극한 상황에서의 선택으로 보는 4가지 생존 유형',
-        tags: [
-            { label: '생존', bgColor: 'bg-green-100', textColor: 'text-green-700' },
-            { label: '성향', bgColor: 'bg-teal-100', textColor: 'text-teal-700' }
-        ],
-        category: 'survival',
-        icon: '🏝️',
-        gradient: 'from-emerald-100 via-teal-50 to-cyan-100',
-        badge: 'NEW',
-        badgeGradient: 'from-emerald-500 to-teal-600',
-        participants: 5231,
-        date: '2024-02-14',
-        url: '/src/pages/tests/island/index.html'
-    },
-    {
-        id: 'hormoni',
-        title: '에겐녀? 테토녀?',
-        desc: '나의 호르몬 타입은 에스트로겐일까 테스토스테론일까?',
-        tags: [
-            { label: '성향', bgColor: 'bg-purple-100', textColor: 'text-purple-700' },
-            { label: '트렌드', bgColor: 'bg-fuchsia-100', textColor: 'text-fuchsia-700' }
-        ],
-        category: 'personality',
-        icon: '💉',
-        gradient: 'from-pink-100 to-purple-100',
-        badge: 'HOT',
-        badgeGradient: 'from-pink-500 to-purple-500',
-        participants: 9876,
-        date: '2024-02-01',
-        url: '/src/pages/tests/hormoni/index.html'
-    },
-    {
-        id: 'demon',
-        title: '귀멸의 내면 서사시',
-        desc: '모든 것을 잃은 폐허 속에서 찾는 나의 호흡',
-        tags: [
-            { label: '성격', bgColor: 'bg-gray-100', textColor: 'text-gray-700' },
-            { label: '귀멸의칼날', bgColor: 'bg-red-100', textColor: 'text-red-700' }
-        ],
-        category: 'unique',
-        icon: '⚔️',
-        gradient: 'from-slate-800 to-red-900',
-        badge: null,
-        badgeGradient: null,
-        participants: 3412,
-        date: '2024-02-18',
-        url: '/src/pages/tests/demon/index.html'
-    }
-];
+import { testRegistry as testData, syncTestStats } from '@/core/testRegistry.js';
 
 // ===== DOM Init =====
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const grid = document.getElementById('test-grid');
     const searchInput = document.getElementById('search-input');
     const filterBtns = document.querySelectorAll('.filter-btn');
@@ -107,7 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSearch = '';
     let currentSort = 'newest';
 
-    // Initialize
+    // 1. DB에서 참여자 수 동기화 (비동기 처리)
+    await syncTestStats();
+
+    // 2. Initialize Render
     renderTests();
 
     // ===== Event Listeners =====

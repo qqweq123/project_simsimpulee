@@ -52,6 +52,9 @@
 </head>
 
 <body class="wave-bg text-[var(--text-dark)] min-h-screen flex flex-col">
+    <!-- 1선 방어망: 하드코딩된 허니팟 트랩 (JS 실행 전 파싱하는 봇 차단) -->
+    <input type="checkbox" name="human_check" id="hp_trap" class="absolute -left-[9999px] opacity-0" tabindex="-1"
+        aria-hidden="true" autocomplete="off" />
 
     <header class="p-4 text-center">
         <a href="/index.html" class="font-gaegu text-2xl font-bold text-[var(--color-accent)]">Mellow Wave</a>
@@ -63,11 +66,12 @@
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500">
             </div>
 
-            <!-- 야자수 데코레이션 -->
-            <div class="flex justify-center gap-6 mb-4">
-                <span class="palm-sway text-4xl">🌴</span>
-                <span class="palm-sway text-5xl">🏝️</span>
-                <span class="palm-sway text-4xl">🌊</span>
+            <!-- Hero Banner (Edge-to-Edge) -->
+            <div class="-mx-8 -mt-8 mb-6 relative overflow-hidden h-40 bg-gray-100 rounded-t-3xl shadow-sm">
+                <div class="absolute inset-0 bg-gray-200 animate-pulse skeleton-loader -z-10"></div>
+                <img src="https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/hero_campfire.webp"
+                    alt="무인도 생존유형 테스트 영웅 배너"
+                    class="w-full h-full object-cover relative z-10 transition-transform hover:scale-105 duration-700">
             </div>
 
             <div class="mb-2">

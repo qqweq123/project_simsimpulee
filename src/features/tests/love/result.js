@@ -1,5 +1,6 @@
 
-import { loveResults } from './data.js';
+import { loveResults } from '@/features/tests/love/data.js';
+import { TestService } from '@/core/testService.js';
 
 export function initLoveResult() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +10,9 @@ export function initLoveResult() {
 
         const result = loveResults[grade];
         if (!result) return;
+
+        // DB 텔레메트리 연동
+        TestService.incrementParticipantCount('love');
 
         // Grade badge
         const gradeEl = document.getElementById('result-grade');

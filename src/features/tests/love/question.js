@@ -1,5 +1,5 @@
 
-import { loveQuestions, getGrade } from './data.js';
+import { loveQuestions, getGrade } from '@/features/tests/love/data.js';
 
 let currentStep = 0;
 const totalSteps = loveQuestions.length;

@@ -54,8 +54,20 @@
             </h2>
         </div>
 
+        <!-- 1선 방어망: 하드코딩된 허니팟 트랩 (JS 실행 전 파싱하는 봇 차단) -->
+        <input type="checkbox" name="human_check" id="hp_trap" class="absolute -left-[9999px] opacity-0" tabindex="-1"
+            aria-hidden="true" autocomplete="off" />
+
         <div class="space-y-4" id="answers-container">
-            <!-- 버튼들이 여기에 동적으로 생성됩니다 -->
+            <!-- 수화(Hydration)를 위한 정적 버튼 (메모리 누수 방지용 DOM 재사용) -->
+            <button
+                class="answer-btn btn-press w-full bg-gray-50 border-2 border-gray-100 text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left active:bg-gradient-to-r active:from-emerald-500 active:to-teal-600 active:text-white sm:hover:bg-gradient-to-r sm:hover:from-emerald-500 sm:hover:to-teal-600 sm:hover:text-white sm:hover:border-transparent"></button>
+            <button
+                class="answer-btn btn-press w-full bg-gray-50 border-2 border-gray-100 text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left active:bg-gradient-to-r active:from-emerald-500 active:to-teal-600 active:text-white sm:hover:bg-gradient-to-r sm:hover:from-emerald-500 sm:hover:to-teal-600 sm:hover:text-white sm:hover:border-transparent"></button>
+            <button
+                class="answer-btn btn-press w-full bg-gray-50 border-2 border-gray-100 text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left active:bg-gradient-to-r active:from-emerald-500 active:to-teal-600 active:text-white sm:hover:bg-gradient-to-r sm:hover:from-emerald-500 sm:hover:to-teal-600 sm:hover:text-white sm:hover:border-transparent"></button>
+            <button
+                class="answer-btn btn-press w-full bg-gray-50 border-2 border-gray-100 text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left active:bg-gradient-to-r active:from-emerald-500 active:to-teal-600 active:text-white sm:hover:bg-gradient-to-r sm:hover:from-emerald-500 sm:hover:to-teal-600 sm:hover:text-white sm:hover:border-transparent"></button>
         </div>
     </div>
 

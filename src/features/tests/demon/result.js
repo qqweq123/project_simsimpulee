@@ -1,4 +1,5 @@
 import { demonResults } from './data.js';
+import { TestService } from '../../../core/testService.js';
 
 export function initDemonResult() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +12,9 @@ export function initDemonResult() {
             console.warn(`Archetype "${archetype}" not found. Falling back.`);
             resultData = demonResults['이름 없는 귀살대원'];
         }
+
+        // DB 참여자 수 집계 텔레메트리
+        TestService.incrementParticipantCount('demon');
 
         // DOM Binding
         document.getElementById('result-title').textContent = resultData.name;
