@@ -5,15 +5,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>무인도 생존유형 결과 - Mellow Wave</title>
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.5.0/kakao.min.js"
-        integrity="sha384-D4h2/d3u29X1s1bBfE8L1t31QkP1fN25L2RzY6K2z//6Wv8Y6eB/8/f0B27qI2Hj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="/src/assets/styles/main.css">
-    <link rel="stylesheet" href="/src/assets/styles/themes/island.css">
+
+    <!-- ========================================== -->
+    <!-- 🎯 [SEO 필수] Open Graph 태그 -->
+    <!-- ⏐⏐ 주의: 결과 페이지는 CSR이라 유저 튜터입력값으로 동적 주입 불가. -->
+    <!-- 소셜 떔우기도구(카카오톡/X/FB) 크롤러는 정적 HTML만 파싱함.                      -->
+    <!-- 따라서, 결과 페이지진입 타임의 '|게스'(특정화 전 모드)를 발동한 OG 태그를 사용합니다.   -->
+    <!-- → 실제 'Supabase Edge Function으로 동적 og:image 주입'(뫻4 SEO 기획) 시 업데이트 필요.        -->
+    <!-- ========================================== -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mellowwave.com/island_test/result">
+    <meta property="og:title" content="훌어! 나는 무인도 생존 유형이 있었다! - Mellow Wave">
+    <meta property="og:description" content="10가지 극한 상황에서의 나만의 선택으로 알아보는 생존 유형! 너는 어떤 타입일까?">
+    <!-- 실제 유저의 결과 타입이미지는 JS로 로드 후 og:image를 window.__ogImage로 올려준비. -->
+    <!-- 후속 Edge Function 연동 시, result_type 파라미터로 실시간 주입될 위치. -->
+    <meta property="og:image"
+        content="https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/hero_campfire.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- ========================================== -->
+    <!-- 🐦 [SEO 필수] Twitter Card (X, 슬랙, 디스코드 등) -->
+    <!-- ========================================== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@mellowwave">
+    <meta name="twitter:url" content="https://mellowwave.com/island_test/result">
+    <meta name="twitter:title" content="훌어! 나는 무인도 생존 유형이 있었다! - Mellow Wave">
+    <meta name="twitter:description" content="10가지 극한 상황에서의 나만의 선택으로 알아보는 생존 유형! 너는 어떤 타입일까?">
+    <meta name="twitter:image"
+        content="https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/hero_campfire.webp">
+
+    <!-- ========================================== -->
+    <!-- 🧬 [SEO 핵심] Schema.org JSON-LD 구조화 데이터 -->
+    <!-- ========================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "무인도 생존유형 테스트 결과 - Mellow Wave",
+      "description": "10가지 극한 상황에서의 나만의 선택으로 알아보는 생존 유형 테스트 결과페이지",
+      "url": "https://mellowwave.com/island_test/result",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "All",
+      "image": "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/hero_campfire.webp"
+    }
+    </script>
+
+    <!-- ========================================== -->
+    <!-- 홈 라이브러리 / 스타일 -->
+    <!-- ========================================== -->
     <style>
         .blur-content {
             filter: blur(8px);

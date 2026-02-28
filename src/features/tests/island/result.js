@@ -63,10 +63,8 @@ export function initIslandResult() {
         handleInterstitialAd();
     });
 
-    // 전역 함수 바인딩
+    // 전역 함수 바인딩 (unlockResult만 - share는 @core/share.js가 주관)
     window.unlockResult = unlockResult;
-    window.copyLink = copyLink;
-    window.shareSNS = shareSNS;
 }
 
 function handleInterstitialAd() {
@@ -104,14 +102,5 @@ function unlockResult() {
     }, 600);
 }
 
-function copyLink() {
-    // UTM 제거한 순수 공유 링크 생성 (Bot SEO 용이)
-    const shareUrl = window.location.origin + window.location.pathname + window.location.search.replace(/mode=owner/, 'mode=viewer').replace(/mode=redirect/, 'mode=viewer');
-    // 실제로는 깔끔하게 쿼리 조작이 필요한데 간단히 처리:
-    const url = new URL(window.location.href);
-    url.searchParams.set('mode', 'viewer');
-
-    navigator.clipboard.writeText(url.href).then(() => {
-        alert('링크가 복사되었습니다! 🏝️ 친구들에게 공유해보세요.');
-    });
-}
+// 링크 복사는 @core/share.js의 window.shareSNS('link')이 대체함.
+// renderer.js 등에서 주입되는 버튼 : onclick="shareSNS('link')" / onclick="shareSNS('kakao')"
