@@ -3,6 +3,8 @@ const CONFIG = {
     STYLE_PATH: '/styles/themes'
 };
 
+import { executeShare } from '@/core/share.js';
+
 export class ThemeManager {
     constructor() {
         this.currentThemeLink = null;
@@ -108,12 +110,12 @@ export class ThemeManager {
 
     /**
      * 공통 이벤트를 바인딩합니다.
-     * @param {Object} handlers - { onUnlock: fn, onShareKakao: fn, onCopyLink: fn }
+     * @param {Object} handlers - { onUnlock: fn }
      */
     bindEvents(handlers) {
         this._bindEvent('btn-unlock', 'click', handlers.onUnlock);
-        this._bindEvent('btn-share-kakao', 'click', handlers.onShareKakao);
-        this._bindEvent('btn-share-link', 'click', handlers.onCopyLink);
+        this._bindEvent('btn-share-kakao', 'click', () => executeShare('kakao'));
+        this._bindEvent('btn-share-link', 'click', () => executeShare('link'));
     }
 
     /**

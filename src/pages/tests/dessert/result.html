@@ -124,12 +124,13 @@
                 <div class="border-t border-gray-100 pt-6">
                     <h4 class="font-bold mb-4 text-sm">결과 공유하고 내 짝꿍 찾기</h4>
                     <div class="flex justify-center gap-4">
-                        <button class="p-3 bg-yellow-300 rounded-full hover:scale-110 transition shadow-sm btn-press">🟡
+                        <button onclick="shareSNS('kakao')"
+                            class="p-3 bg-yellow-300 rounded-full hover:scale-110 transition shadow-sm btn-press">🟡
                             카카오</button>
-                        <button
+                        <button onclick="shareSNS('facebook')"
                             class="p-3 bg-blue-500 text-white rounded-full hover:scale-110 transition shadow-sm btn-press">🔵
                             페이스북</button>
-                        <button onclick="copyLink()"
+                        <button onclick="shareSNS('link')"
                             class="p-3 bg-gray-200 rounded-full hover:scale-110 transition shadow-sm btn-press">🔗
                             링크</button>
                     </div>

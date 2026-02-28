@@ -3,6 +3,9 @@ import '@/assets/styles/main.css';
 
 console.log('Mellow Wave App Initialized');
 
+import { bindGlobalShare } from '@/core/share.js';
+bindGlobalShare();
+
 // Global Auth UI Logic (Header)
 const authContainer = document.getElementById('auth-container');
 

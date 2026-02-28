@@ -1,9 +1,13 @@
 
 import { loveResults } from '@/features/tests/love/data.js';
 import { TestService } from '@/core/testService.js';
+import { bindGlobalShare } from '@/core/share.js';
 
 export function initLoveResult() {
     document.addEventListener('DOMContentLoaded', () => {
+        // 0. Bind Share Functions to Window
+        bindGlobalShare();
+
         const urlParams = new URLSearchParams(window.location.search);
         const grade = urlParams.get('grade') || 'B';
         const score = parseInt(urlParams.get('score')) || 25;
@@ -66,7 +70,6 @@ export function initLoveResult() {
     });
 
     window.unlockResult = unlockResult;
-    window.copyLink = copyLink;
 }
 
 function unlockResult() {
@@ -92,8 +95,3 @@ function checkAdLockStatus() {
     }
 }
 
-function copyLink() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-        alert('링크가 복사되었습니다! 💖');
-    });
-}

@@ -1,4 +1,8 @@
 import { RecommendationEngine } from '@/core/recommendationEngine.js';
+import { bindGlobalShare } from '@/core/share.js';
+
+// Bind globally once imported
+bindGlobalShare();
 
 export function renderHotContents(currentTestId = '') {
     const container = document.getElementById("hot-contents-container");
@@ -14,7 +18,7 @@ export function renderHotContents(currentTestId = '') {
     recommendations.forEach(item => {
         htmlMarkup += `
             <a href="${item.url}" 
-               class="block mb-1 rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 relative group"
+               class="block rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 relative group"
                data-recommendation-type="${item.recLabel}"
                data-target-participants="${item.participants}">
                

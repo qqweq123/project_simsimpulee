@@ -1,9 +1,13 @@
 
 import { dessertResults, matchData } from '@/features/tests/dessert/data.js';
 import { TestService } from '@/core/testService.js';
+import { bindGlobalShare } from '@/core/share.js';
 
 export function initDessertResult() {
     document.addEventListener('DOMContentLoaded', () => {
+        // 0. Bind Share Functions to Window
+        bindGlobalShare();
+
         // 1. Parse URL Parameter
         const urlParams = new URLSearchParams(window.location.search);
         const type = urlParams.get('type') || 'ESFP';
@@ -49,7 +53,6 @@ export function initDessertResult() {
 
     // Make functions global for HTML onclick
     window.unlockResult = unlockResult;
-    window.copyLink = copyLink;
 }
 
 function unlockResult() {
@@ -76,8 +79,4 @@ function checkAdLockStatus() {
     }
 }
 
-function copyLink() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-        alert('링크가 복사되었습니다!');
-    });
-}
+
