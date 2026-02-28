@@ -1,0 +1,88 @@
+﻿[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+node.exe : <script src="../js/ma
+in.js"> in "/src/pages/tests/des
+sert/index.html" can't be bundle
+d without type="module" attribut
+e
+위치 줄:1 문자:1
++ & "C:\Program Files\nodejs/nod
+e.exe" "C:\Program Files\nodejs/
+node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~
+    + CategoryInfo          : N 
+   otSpecified: (<script src="  
+  .....dule" attribute:String   
+ ) [], RemoteException
+    + FullyQualifiedErrorId : N 
+   ativeCommandError
+ 
+[32m??[39m 116 modules transformed.
+[31m??[39m Build failed in 367m
+s
+[31merror during build:
+[31msrc/core/engine/TestRunner.
+js (1:9): "ScoreCalculator" is n
+ot exported by "src/core/engine/
+ScoreCalculator.js", imported by
+ "src/core/engine/TestRunner.js"
+.[31m
+file: [36mC:/projects/mind_test
+/src/core/engine/TestRunner.js:1
+:9[31m
+[33m
+1: import { ScoreCalculator } fr
+om '@/core/engine/ScoreCalculato
+r.js';
+            ^
+2: import { ResultRenderer } fro
+m '@/core/engine/ResultRenderer.
+js';
+3: import { initTelemetryListene
+r, startQuestionTimer, getPureDw
+ellTime } from '@/features/tests
+/island/utils/telemetry....
+[31m
+    at getRollupError (file:///C
+:/projects/mind_test/node_module
+s/rollup/dist/es/shared/parseAst
+.js:402:41)
+    at error (file:///C:/project
+s/mind_test/node_modules/rollup/
+dist/es/shared/parseAst.js:398:4
+2)
+    at Module.error (file:///C:/
+projects/mind_test/node_modules/
+rollup/dist/es/shared/node-entry
+.js:17040:16)
+    at Module.traceVariable (fil
+e:///C:/projects/mind_test/node_
+modules/rollup/dist/es/shared/no
+de-entry.js:17452:29)
+    at ModuleScope.findVariable 
+(file:///C:/projects/mind_test/n
+ode_modules/rollup/dist/es/share
+d/node-entry.js:15070:39)
+    at ChildScope.findVariable (
+file:///C:/projects/mind_test/no
+de_modules/rollup/dist/es/shared
+/node-entry.js:5673:38)
+    at ClassBodyScope.findVariab
+le (file:///C:/projects/mind_tes
+t/node_modules/rollup/dist/es/sh
+ared/node-entry.js:5673:38)
+    at ChildScope.findVariable (
+file:///C:/projects/mind_test/no
+de_modules/rollup/dist/es/shared
+/node-entry.js:5673:38)
+    at FunctionScope.findVariabl
+e (file:///C:/projects/mind_test
+/node_modules/rollup/dist/es/sha
+red/node-entry.js:5673:38)
+    at FunctionBodyScope.findVar
+iable (file:///C:/projects/mind_
+test/node_modules/rollup/dist/es
+/shared/node-entry.js:5673:38)[
+39m

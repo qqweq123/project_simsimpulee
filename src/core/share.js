@@ -18,7 +18,7 @@ export async function executeShare(platform, customConfig = {}) {
     let imgSrc = customConfig.image || document.getElementById('result-image')?.src || getMeta('og:image');
     if (!imgSrc || imgSrc.includes('localhost') || imgSrc.includes('127.0.0.1')) {
         // Fallback to public storage banner if local
-        imgSrc = 'https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/hero_banner_island_v1.png';
+        imgSrc = 'https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/banners/hero_campfire.webp';
     }
 
     const text = encodeURIComponent(`${title} - ${desc} ✨`);

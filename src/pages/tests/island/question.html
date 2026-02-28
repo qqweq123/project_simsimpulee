@@ -72,8 +72,9 @@
     </div>
 
     <script type="module">
-        import { initIslandTest } from '@/features/tests/island/question.js';
-        initIslandTest();
+        import { TestRunner } from '@/core/engine/TestRunner.js';
+        import { islandQuestions } from '@/features/tests/island/data.js';
+        TestRunner.initQuestionStrategy('island', islandQuestions, { leader: 0, explorer: 0, survivor: 0, diplomat: 0 });
     </script>
 </body>
 

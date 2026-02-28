@@ -5,7 +5,7 @@
  * 그리고 텔레메트리 파이프라인 탑재를 단일화(Templatize)하는 전단 엔진.
  */
 
-export class TestEngine {
+export class ScoreCalculator {
     /**
      * [Type 1] 단일 최빈값 도출 로직 (ex: 무인도 생존유형)
      * 주석: 객체 내에서 가장 높은 점수를 획득한 Key를 반환합니다.

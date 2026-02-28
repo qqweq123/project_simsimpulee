@@ -1,7 +1,7 @@
 import { dopamineQuestions } from '@/features/tests/dopamine/data.js';
-import { TestEngine } from '@/core/testEngine.js';
-import { initTelemetryListener, startQuestionTimer, getPureDwellTime } from '@/features/tests/island/utils/telemetry.js';
-import { isBotTraffic } from '@/features/tests/island/utils/honeypot.js';
+import { ScoreCalculator as TestEngine } from '@/core/engine/ScoreCalculator.js';
+import { initTelemetryListener, startQuestionTimer, getPureDwellTime } from '@/core/telemetry/telemetry.js';
+import { isBotTraffic } from '@/core/security/honeypot.js';
 
 let currentStep = 0;
 const totalSteps = dopamineQuestions.length;

@@ -1,7 +1,7 @@
 import { getCombinedResult } from '@/features/tests/dopamine/data.js';
-import { checkSession, cacheUTM } from '@/features/tests/island/core/validator.js';
-import { TestEngine } from '@/core/testEngine.js';
-import { renderHotContents, renderActionButtons } from '@/features/tests/island/core/renderer.js';
+import { checkSession, cacheUTM } from '@/core/security/validator.js';
+import { ScoreCalculator as TestEngine } from '@/core/engine/ScoreCalculator.js';
+import { ResultRenderer } from '@/core/engine/ResultRenderer.js';
 import { TestService } from '@/core/testService.js';
 
 export function initDopamineResult() {
@@ -26,8 +26,8 @@ export function initDopamineResult() {
         renderResultUI(result);
 
         // 5. 공통 컴포넌트 렌더링 (추천 배너, 공유 버튼)
-        renderActionButtons(`[도파민 생태계 테스트] 나의 서식지는 '${result.name}' 입니다!`);
-        renderHotContents('dopamine');
+        ResultRenderer.renderActionButtons(mode);
+        ResultRenderer.renderHotContents('dopamine');
 
         // 6. UTM 데이터 보존
         cacheUTM();
