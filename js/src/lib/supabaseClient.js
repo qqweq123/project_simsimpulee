@@ -16,7 +16,11 @@ const supabaseUrl = 'https://hykzfvrmnnykvinhtucc.supabase.co';
 // Update: actually, createClient(url, key) usually takes the Project URL.
 // I will use the exact string from the original file to be safe.
 
-const supabaseUrlOriginal = 'https://hykzfvrmnnykvinhtucc.supabase.co/auth/v1/callback';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5a3pmdnJtbm55a3Zpbmh0dWNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwNTA5OTcsImV4cCI6MjA4MTYyNjk5N30.ucjlryz2NfuxQ-XArvqwPHkY13Qgf-nQ-j3vKlvTRgM';
+const supabaseUrlOriginal = ''; // REMOVED: MUST BE INJECTED VIA ENV OR BUILD PIPELINE
+const supabaseKey = '';         // REMOVED: MUST BE INJECTED VIA ENV OR BUILD PIPELINE
+
+if (!supabaseUrlOriginal || !supabaseKey) {
+    console.error('Data Security Violation: Hardcoded Supabase credentials have been expunged. Please provide them via environment configuration (.env).');
+}
 
 export const supabase = createClient(supabaseUrlOriginal, supabaseKey);
