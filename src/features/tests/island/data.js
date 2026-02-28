@@ -109,6 +109,11 @@ export const islandQuestions = [
 // Supabase Storage URL - test_image 버킷 내 island_test 폴더
 const ISLAND_BASE_URL = "https://hykzfvrmnnykvinhtucc.supabase.co/storage/v1/object/public/test_image/island_test/";
 
+export const islandMetaData = {
+    testId: 'island',
+    bannerLayout: 'panoramic' // [Design Architecture] 전면 파노라마 레이아웃 강제
+};
+
 export const islandResults = {
     leader: {
         name: "카리스마 리더",

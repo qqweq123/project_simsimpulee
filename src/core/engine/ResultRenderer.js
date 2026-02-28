@@ -5,7 +5,7 @@ import { bindGlobalShare } from '@/core/share.js';
 bindGlobalShare();
 
 export class ResultRenderer {
-    static renderHotContents(currentTestId = '') {
+    static renderHotContents(currentTestId = '', options = { layout: 'card' }) {
         const container = document.getElementById("hot-contents-container");
         if (!container) return;
 
@@ -16,10 +16,17 @@ export class ResultRenderer {
 
         // 1. 배너 이미지 형태 (1200x330 파노라마)
         // 2. 텍스트 라벨('유사성향 추천' 등)은 UI에서 숨기고 background(개발/DOM 데이터)로만 유지
+        // [Design Architecture] Injection-based dynamic styling
+        const isPanoramic = options.layout === 'panoramic';
+        const cardClass = isPanoramic
+            // Full-bleed width but maintaining 2xl corners, tight gap (in HTML), and scale/lift hover animations
+            ? "block w-full rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-1 transform transition-all duration-300 relative group"
+            : "block rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 relative group"; // Boxed, rounded, scale hover
+
         recommendations.forEach(item => {
             htmlMarkup += `
                 <a href="${item.url}" 
-                   class="block rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:scale-[1.02] transform transition-all duration-300 relative group"
+                   class="${cardClass}"
                    data-recommendation-type="${item.recLabel}"
                    data-target-participants="${item.participants}">
                    

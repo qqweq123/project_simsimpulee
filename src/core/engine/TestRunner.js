@@ -213,7 +213,7 @@ export class TestRunner {
     /**
      * 결과지(Result) 페이지 공통 초기화 로직
      */
-    static initResultStrategy(id, resultsConfig) {
+    static initResultStrategy(id, resultsConfig, metaData = {}) {
         document.addEventListener('DOMContentLoaded', () => {
             // 1. 보안 검증 및 캐싱
             cacheUTM();
@@ -281,7 +281,7 @@ export class TestRunner {
             if (gradientBar && resultData.color) gradientBar.className = `h-2 bg-gradient-to-r ${resultData.color} w-full`;
 
             ResultRenderer.renderAbilityBars(resultData.traits);
-            ResultRenderer.renderHotContents(id);
+            ResultRenderer.renderHotContents(id, { layout: metaData.bannerLayout || 'card' });
 
             // 4. 모드에 따른 공유 분기
             ResultRenderer.renderActionButtons(mode);
