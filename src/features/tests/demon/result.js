@@ -14,7 +14,7 @@ export function initDemonResult() {
         }
 
         // DB 참여자 수 집계 텔레메트리
-        TestService.incrementParticipantCount('demon');
+        TestService.incrementCompletionCount('demon');
 
         // DOM Binding
         document.getElementById('result-title').textContent = resultData.name;

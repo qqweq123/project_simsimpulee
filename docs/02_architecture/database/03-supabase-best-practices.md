@@ -62,7 +62,7 @@ USING (auth.uid() = user_session_id);
 이를 해결하기 위해 **Supabase Edge Functions**를 프로토콜 인터셉터로 활용합니다.
 
 ### 워크플로우 명세 (Edge OG-Injector)
-1. **Trigger**: 유저가 공유받은 동적 URL 경로(예: `https://mellow-wave.com/share?result=leader`)를 클릭합니다. (혹은 크롤러 봇이 해당 URL을 스크랩합니다)
+1. **Trigger**: 유저가 공유받은 동적 URL 경로(예: `https://mellowave.me/share?result=leader`)를 클릭합니다. (혹은 크롤러 봇이 해당 URL을 스크랩합니다)
 2. **Intercept**: 해당 요청은 정적 프론트 서버로 바로 가지 않고 Supabase Edge Function이 가장 앞에서 요격(Intercept)합니다.
 3. **Fetch & Render**: 함수 내부에서 `result=leader` 파라미터를 읽고, DB(`tests_metadata`)에서 leader 결과의 매력적인 `og:title`, `og:image` 값을 매우 빠르게 조회합니다.
 4. **Response**: 동적 메타 태그가 심어진 순수 HTML 껍데기를 Crawler에게 응답(Return)하여 예쁜 썸네일을 생성하게 합니다.

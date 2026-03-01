@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# 방지 구역: 검색엔진이 불필요한 중간 페이지나 파라미터를 크롤링하지 않도록 차단하여 랜딩 페이지에 크롤 예산을 집중시킵니다.
+Disallow: /*/question.html
+Disallow: /*/result.html
+Disallow: /*?*
+
+# 크롤러 안내지도
+Sitemap: https://mellowwave.me/sitemap.xml

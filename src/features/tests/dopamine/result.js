@@ -20,7 +20,7 @@ export function initDopamineResult() {
         if (!result) return;
 
         // 3.5 참여자 수 DB 집계
-        TestService.incrementParticipantCount('dopamine');
+        TestService.incrementCompletionCount('dopamine');
 
         // 4. UI 렌더링
         renderResultUI(result);

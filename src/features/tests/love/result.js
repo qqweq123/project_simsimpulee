@@ -16,7 +16,7 @@ export function initLoveResult() {
         if (!result) return;
 
         // DB 텔레메트리 연동
-        TestService.incrementParticipantCount('love');
+        TestService.incrementCompletionCount('love');
 
         // Grade badge
         const gradeEl = document.getElementById('result-grade');

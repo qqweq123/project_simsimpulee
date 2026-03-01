@@ -1,3 +1,4 @@
+import { TestService } from '@/core/testService.js';
 import { demonQuestions, archetypeMatrix, getScoreCategory } from '@/features/tests/demon/data.js';
 
 let currentQuestionIndex = 0;
@@ -9,6 +10,7 @@ let scores = {
 };
 
 export function initDemonTest() {
+    TestService.incrementParticipantCount('demon');
     showQuestion();
 }
 

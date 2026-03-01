@@ -17,7 +17,7 @@ export function initDessertResult() {
 
         if (result) {
             // 참여자 수 증가 텔레메트리 (DB 반영)
-            TestService.incrementParticipantCount('dessert');
+            TestService.incrementCompletionCount('dessert');
 
             document.getElementById('result-title').innerText = result.name;
             document.getElementById('result-subtitle').innerText = result.subtitle || "";

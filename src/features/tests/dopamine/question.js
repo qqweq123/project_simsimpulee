@@ -1,3 +1,4 @@
+import { TestService } from '@/core/testService.js';
 import { dopamineQuestions } from '@/features/tests/dopamine/data.js';
 import { ScoreCalculator as TestEngine } from '@/core/engine/ScoreCalculator.js';
 import { initTelemetryListener, startQuestionTimer, getPureDwellTime } from '@/core/telemetry/telemetry.js';
@@ -8,6 +9,7 @@ const totalSteps = dopamineQuestions.length;
 const scores = { scroller: 0, consumer: 0, stan: 0, sloth: 0 };
 
 export function initDopamineTest() {
+    TestService.incrementParticipantCount('dopamine');
     // 텔레메트리 초기화 (island의 검증 모듈을 허브로 재사용)
     initTelemetryListener();
     startQuestionTimer();

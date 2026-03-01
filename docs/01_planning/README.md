@@ -10,6 +10,8 @@ status: "Active"
 
 # 01_planning (기획 / 비즈니스 도메인)
 
+**site URL (www.mellowave.me)**
+
 이 디렉토리는 시스템의 근간이 되는 비즈니스 도메인 규칙(Business Domain Rules)과 로드맵을 정의합니다. 데이터 통합 처리 총괄 디렉터(`@dataarchitecturedirector`)의 **"유일한 진실의 공급원(SSOT)"** 원칙에 따라, 모든 기획안은 파편화되지 않고 명확한 구조 하에 작성되어야 합니다.
 
 ## 📂 하위 디렉토리 구조 및 역할

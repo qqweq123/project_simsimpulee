@@ -30,6 +30,9 @@ export class TestRunner {
             initTelemetryListener();
             startQuestionTimer();
 
+            // 1.5. 트래픽 마케팅용 참여자 수 기록 (테스트 시작 기준)
+            TestService.incrementParticipantCount(id);
+
             // 2. 이벤트 위임(Event Delegation) 설정
             const container = document.getElementById('answers-container');
             if (container) {
@@ -238,8 +241,8 @@ export class TestRunner {
 
             if (!resultData) return;
 
-            // 2.5. 참여자 수 집계 (DB)
-            TestService.incrementParticipantCount(id);
+            // 2.5. 원시 내부 데이터용 완료자 수 집계 (DB)
+            TestService.incrementCompletionCount(id);
 
             // 3. UI 렌더링 
             const emojiEl = document.getElementById('result-emoji');

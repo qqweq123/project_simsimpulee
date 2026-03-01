@@ -8,6 +8,8 @@ status: Active
 
 # 01. 시스템 개요 및 핵심 목표 (System Overview & Core Objectives)
 
+**site URL (www.mellowave.me)**
+
 > **목적**: Mellow Wave의 전반적인 서비스 비전, 단기 및 장기 목표, 그리고 이를 지탱하기 위해 도입된 **서버리스(Serverless) 및 데이터 주도(Data-Driven) 아키텍처**의 근본적인 전환 배경을 서술합니다.
 
 ---

@@ -24,7 +24,7 @@ export function initHormoniResult() {
         if (!success) return;
 
         // 4.5. 참여자 수 집계 (DB)
-        TestService.incrementParticipantCount('hormoni');
+        TestService.incrementCompletionCount('hormoni');
 
         // 5. Bind Data
         themeManager.bindData(resultData);

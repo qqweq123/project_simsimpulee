@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>무인도 생존유형 테스트 - Mellow Wave</title>
 
+    <!-- 🔍 [필수] 검색엔진 최적화 (SEO) 기본 메타 태그 -->
+    <meta name="description" content="만약 무인도에 떨어진다면? 10가지 극한 상황에서의 선택으로 알아보는 나만의 생존 전략을 확인해보세요!">
+    <meta name="keywords" content="무인도 생존유형 테스트, 심리테스트, MBTI 테스트, 성격 테스트, 무인도 테스트, 생존 전쟁">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mellowwave.me/island_test">
+
     <!-- 폰트 및 스타일시트 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +25,9 @@
     <!-- 🎯 [필수] Open Graph (카카오톡, 페이스북, 링크드인 등) -->
     <!-- ========================================== -->
     <meta property="og:type" content="website"> <!-- 웹사이트 타입 명시 -->
-    <meta property="og:url" content="https://mellowwave.com/island_test"> <!-- 현재 페이지 주소 -->
+    <meta property="og:url" content="https://mellowwave.me/island_test"> <!-- 현재 페이지 주소 -->
+    <meta property="og:site_name" content="Mellow Wave">
+    <meta property="og:locale" content="ko_KR">
     <meta property="og:title" content="무인도 생존유형 테스트 - Mellow Wave">
     <meta property="og:description" content="무인도에 떨어졌을 때 나의 생존 전략은? 지금 바로 확인해보세요!">
 
@@ -32,7 +40,7 @@
     <!-- 🐦 [필수] Twitter Card (X, 슬랙, 디스코드 등) -->
     <!-- ========================================== -->
     <meta name="twitter:card" content="summary_large_image"> <!-- 큰 이미지 형태의 카드 -->
-    <meta name="twitter:url" content="https://mellowwave.com/island_test">
+    <meta name="twitter:url" content="https://mellowwave.me/island_test">
     <meta name="twitter:title" content="무인도 생존유형 테스트 - Mellow Wave">
     <meta name="twitter:description" content="무인도에 떨어졌을 때 나의 생존 전략은? 지금 바로 확인해보세요!">
     <meta name="twitter:image"
@@ -47,7 +55,7 @@
       "@type": "SoftwareApplication",
       "name": "무인도 생존유형 테스트 - Mellow Wave",
       "description": "만약 무인도에 떨어진다면? 10가지 극한 상황에서의 선택으로 알아보는 나만의 생존 전략",
-      "url": "https://mellowwave.com/island_test",
+      "url": "https://mellowwave.me/island_test",
       "applicationCategory": "GameApplication",
       "operatingSystem": "All",
       "interactionStatistic": {
@@ -159,6 +167,8 @@
     </main>
 
     <script type="module">
+        import { TestService } from '@/core/testService.js';
+
         // 1. Telemetry Session Initialization (UUID 발급)
         function generateUUID() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -174,8 +184,8 @@
                 sessionStorage.setItem('mellow_session_start_time', Date.now());
             }
 
-            // 2. Eventual Consistency - Participant Count Animation
-            // Extract baseline from JSON-LD Schema to sync SEO with UI
+            // 2. SWR (Stale-While-Revalidate) - Participant Count Animation
+            // Extract baseline from JSON-LD Schema to sync SEO with UI (Stale Value)
             const schemaScript = document.querySelector('script[type="application/ld+json"]');
             let baseCount = 5231; // Local Fallback Default
 
@@ -190,10 +200,13 @@
 
             const countEl = document.getElementById('participant-count');
             if (countEl) {
-                // Count-up animation for engaging VFX without DB load
+                // Count-up animation for engaging VFX without DB load blocking
                 let current = 0;
-                const duration = 1500;
+                const duration = 2000; // 2 seconds allows time for fetch to return
                 const startTime = performance.now();
+
+                // Track fetched status
+                let isFetched = false;
 
                 function animateCount(timestamp) {
                     const progress = Math.min((timestamp - startTime) / duration, 1);
@@ -205,11 +218,36 @@
 
                     if (progress < 1) {
                         requestAnimationFrame(animateCount);
-                    } else {
+                    } else if (isFetched) {
+                        // Guarantee final value display
                         countEl.innerText = `${baseCount.toLocaleString()}명 참여`;
+                    } else {
+                        countEl.innerText = `${baseCount.toLocaleString()}+ 참여`;
                     }
                 }
+
+                // Start immediate UI animation (Stale)
                 requestAnimationFrame(animateCount);
+
+                // Revalidate (Background Fetch)
+                const cacheKey = 'island_participants_cache';
+                const cached = sessionStorage.getItem(cacheKey);
+
+                if (cached) {
+                    const cachedNum = parseInt(cached, 10);
+                    if (cachedNum > baseCount) baseCount = cachedNum;
+                    isFetched = true;
+                } else {
+                    TestService.getSingleTestStats('island').then(dbCount => {
+                        if (dbCount && dbCount > baseCount) {
+                            baseCount = dbCount; // Swap target goal mid-flight
+                            sessionStorage.setItem(cacheKey, dbCount.toString());
+                        }
+                        isFetched = true;
+                    }).catch(() => {
+                        isFetched = true; // graceful fallback
+                    });
+                }
             }
         });
     </script>

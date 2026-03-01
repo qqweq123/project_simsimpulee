@@ -1,3 +1,4 @@
+import { TestService } from '@/core/testService.js';
 import { hormoniQuestions } from '@/features/tests/hormoni/data.js';
 
 let currentStep = 0;
@@ -7,6 +8,7 @@ const scores = { "Egen": 0, "Teto": 0 };
 let testGender = 'female';
 
 export function initHormoniTest() {
+    TestService.incrementParticipantCount('hormoni');
     const urlParams = new URLSearchParams(window.location.search);
     testGender = urlParams.get('gender') || 'female';
 

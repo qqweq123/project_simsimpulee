@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   <!-- 메인 홈 -->
+   <url>
+      <loc>https://mellowwave.me/</loc>
+      <lastmod>2026-03-01</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>1.0</priority>
+   </url>
+   
+   <!-- 무인도 생존유형 테스트 (우선순위 1위 배너) -->
+   <url>
+      <loc>https://mellowwave.me/island_test</loc>
+      <lastmod>2026-03-01</lastmod>
+      <changefreq>daily</changefreq>
+      <priority>0.9</priority>
+   </url>
+   
+   <!-- 도파민 중독 테스트 -->
+   <url>
+      <loc>https://mellowwave.me/dopamine_test</loc>
+      <lastmod>2026-03-01</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   
+   <!-- 당신의 호르몬은 안녕하십니까 -->
+   <url>
+      <loc>https://mellowwave.me/hormoni_test</loc>
+      <lastmod>2026-03-01</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.8</priority>
+   </url>
+   
+   <!-- 전생의 당신은 어떤 요괴 -->
+   <url>
+      <loc>https://mellowwave.me/demon_test</loc>
+      <lastmod>2026-03-01</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+   </url>
+   
+   <!-- 사랑의 향기, 디저트 -->
+   <url>
+      <loc>https://mellowwave.me/dessert_test</loc>
+      <lastmod>2026-03-01</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+   </url>
+   
+   <!-- 나만의 고스펙 연인 -->
+   <url>
+      <loc>https://mellowwave.me/love_test</loc>
+      <lastmod>2026-03-01</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.7</priority>
+   </url>
+</urlset>

@@ -1,4 +1,4 @@
-
+import { TestService } from '@/core/testService.js';
 import { dessertQuestions } from '@/features/tests/dessert/data.js';
 
 let currentStep = 0;
@@ -13,6 +13,7 @@ const scores = {
 };
 
 export function initDessertTest() {
+    TestService.incrementParticipantCount('dessert');
     renderQuestion();
 }
 

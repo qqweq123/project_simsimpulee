@@ -1,4 +1,4 @@
-
+import { TestService } from '@/core/testService.js';
 import { loveQuestions, getGrade } from '@/features/tests/love/data.js';
 
 let currentStep = 0;
@@ -6,6 +6,7 @@ const totalSteps = loveQuestions.length;
 let totalScore = 0;
 
 export function initLoveTest() {
+    TestService.incrementParticipantCount('love');
     renderQuestion();
 }
 

@@ -10,6 +10,8 @@ status: "Active"
 
 # Mellow Wave 공식 문서 인덱스 및 아키텍처 지침 (Docs-as-Code)
 
+**site URL (www.mellowave.me)**
+
 본 저장소는 Feature-Sliced Design(FSD) 기반의 프론트엔드와 Supabase 기반의 서버리스 백엔드를 아우르는 Mellow Wave 시스템의 기술적 무결성을 유지하기 위한 **단일 진실 공급원(SSOT, Single Source of Truth)**입니다. 모든 에이전트 및 컴포넌트 개발자는 본 지침을 엄격하게 준수하여 아키텍처 문서를 작성하고 관리해야 합니다.
 
 ## 📂 폴더 구조 체계 (Directory Architecture)

@@ -10,6 +10,8 @@ status: "Active"
 
 # 03_design (UX/UI 명세 및 개념도)
 
+**site URL (www.mellowave.me)**
+
 이 디렉토리는 시스템의 사용자 인터페이스(UI) 설계 원칙과 사용자 경험(UX) 흐름, 그리고 시각 자산(Assets)의 엔지니어링적 관리 규약을 통제합니다. 심미성(Art)과 공학적 렌더링 성능(Engineering)의 완벽한 결합을 추구합니다.
 
 ## 📂 하위 디렉토리 구조 및 역할
