@@ -1,4 +1,4 @@
-export function checkSession(sessionKey = 'island_test_started', redirectUrl = '/src/pages/tests/island/index.html') {
+export function checkSession(sessionKey, redirectUrl) {
     const urlParams = new URLSearchParams(window.location.search);
     const mode = urlParams.get('mode');
 

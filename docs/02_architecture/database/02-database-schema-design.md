@@ -21,7 +21,7 @@ dependencies: ["supabase-postgres-best-practices", "database-schema-designer"]
 
 ---
 
-## 2. 핵심 テーブル 스키마 (Core Table Schemas)
+## 2. 핵심 테이블 스키마 (Core Table Schemas)
 
 ### A. Test_Meta_DB (`tests_metadata`)
 테스트의 뼈대 정보를 담은 불변(또는 관리자만 수정하는) 테이블입니다. 잦은 Join을 피하기 위해 *JSONB를 활용*합니다.

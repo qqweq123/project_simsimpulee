@@ -22,12 +22,28 @@ export class TestRunner {
         this.testId = id;
         this.questionsConfig = questions;
         this.totalSteps = questions.length;
-        this.scores = { ...initialScores };
-        this.currentStep = 0;
+
+        // [Phase 4: State Recovery & FOUC Prevention]
+        // DOMContentLoaded 이전에 동기적으로 상태를 읽어 즉시 복원(Rehydration)합니다.
+        let recoveredStep = 0;
+        let recoveredScores = null;
+        try {
+            const cachedRaw = sessionStorage.getItem(`${id}_progress`);
+            if (cachedRaw) {
+                const cached = JSON.parse(cachedRaw);
+                if (cached && typeof cached.step === 'number' && cached.scores) {
+                    recoveredStep = cached.step;
+                    recoveredScores = cached.scores;
+                }
+            }
+        } catch (e) { /* 파싱 실패 시 무시 */ }
+
+        this.scores = recoveredScores ? { ...recoveredScores } : { ...initialScores };
+        this.currentStep = recoveredStep;
 
         document.addEventListener('DOMContentLoaded', () => {
             // 1. 텔레메트리 및 어뷰저 방어 초기화
-            initTelemetryListener();
+            initTelemetryListener(id);
             startQuestionTimer();
 
             // 1.5. 트래픽 마케팅용 참여자 수 기록 (테스트 시작 기준)
@@ -105,6 +121,16 @@ export class TestRunner {
 
         this.currentStep++;
 
+        // [Phase 4 State Recovery] 
+        // 매 클릭마다 문항 인덱스와 누적 점수를 고속 캐싱 (Micro-Funnel Analytics last_question_index 용도로도 활용됨)
+        try {
+            sessionStorage.setItem(`${this.testId}_progress`, JSON.stringify({
+                step: this.currentStep,
+                scores: this.scores,
+                timestamp: Date.now()
+            }));
+        } catch (e) { }
+
         // [Phase 3 Architecture] Background Prefetching (Waterfall 해소)
         // 유저가 마지막 2문항 정도를 풀고 있을 때(Idle Time), 결과 화면에 나올 배너 이미지들을 미리 메모리에 캐싱해둠.
         if (this.currentStep === Math.max(0, this.totalSteps - 2) && !this.hasPrefetched) {
@@ -154,7 +180,7 @@ export class TestRunner {
         const pureDwellTime = getPureDwellTime();
 
         // 식별자 및 검증 플래그 발급 (Owner Mode 증명서)
-        const sessionKeyPrefix = this.testId === 'dopamine' ? 'dopamine' : 'island';
+        const sessionKeyPrefix = this.testId.split('_')[0];
 
         if (!sessionStorage.getItem(`${sessionKeyPrefix}_test_uuid`)) {
             const uuid = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : `user-${Date.now()}-${Math.random()}`;
@@ -162,6 +188,9 @@ export class TestRunner {
         }
         sessionStorage.setItem(`${sessionKeyPrefix}_test_started`, 'true'); // 보안 검증 패스포트 부여
         sessionStorage.setItem(`${sessionKeyPrefix}_last_dwell_time`, pureDwellTime.toString()); // 차후 RPC 전송용 캐싱
+
+        // 테스트가 완료되었으므로 진행 상태 캐시 삭제 (Micro-Funnel Analytics 찌꺼기 방지)
+        sessionStorage.removeItem(`${this.testId}_progress`);
 
         // 엔진에 스코어 파싱 위임 (island는 단일, dopamine/demon은 다중 등. 기본은 최고점)
         // 도파민 테스트 커스텀 라우팅
@@ -220,7 +249,7 @@ export class TestRunner {
         document.addEventListener('DOMContentLoaded', () => {
             // 1. 보안 검증 및 캐싱
             cacheUTM();
-            const sessionKeyPrefix = id === 'dopamine' ? 'dopamine' : 'island';
+            const sessionKeyPrefix = id.split('_')[0];
             const mode = checkSession(`${sessionKeyPrefix}_test_started`, `/src/pages/tests/${id}/index.html`);
             if (mode === 'redirect') return;
 

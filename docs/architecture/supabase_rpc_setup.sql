@@ -80,9 +80,13 @@ CREATE TABLE IF NOT EXISTS public."Test_Dropoff_Logs" (
     uuid text NOT NULL,
     test_id text NOT NULL,
     dwell_time integer NOT NULL,
+    last_question_index smallint DEFAULT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     PRIMARY KEY (uuid, test_id)
 );
+
+-- 1.5. 기존 테이블 업데이트 (컬럼 추가)
+ALTER TABLE public."Test_Dropoff_Logs" ADD COLUMN IF NOT EXISTS last_question_index smallint DEFAULT NULL;
 
 -- [schema-01] 시계열 조회(최근 24시간 필터링 등) 시 Full Table Scan을 방지하기 위한 B-Tree 인덱스 도입
 CREATE INDEX IF NOT EXISTS idx_test_dropoff_logs_created_at 
@@ -93,18 +97,22 @@ ALTER TABLE public."Test_Dropoff_Logs" ENABLE ROW LEVEL SECURITY;
 
 -- 2. Dropoff Logging RPC (RLS Bypass)
 DROP FUNCTION IF EXISTS public.log_test_dropoff(text, text, integer);
+DROP FUNCTION IF EXISTS public.log_test_dropoff(text, text, integer, smallint);
 
-CREATE OR REPLACE FUNCTION public.log_test_dropoff(p_uuid text, p_test_id text, p_dwell_time integer)
+CREATE OR REPLACE FUNCTION public.log_test_dropoff(p_uuid text, p_test_id text, p_dwell_time integer, p_last_question_index smallint DEFAULT NULL)
 RETURNS void
 LANGUAGE plpgsql
 SECURITY DEFINER -- RLS 우회하여 강제 통계 적재 (telemetry API의 핵심)
 AS $$
 BEGIN
-  INSERT INTO public."Test_Dropoff_Logs" (uuid, test_id, dwell_time)
-  VALUES (p_uuid, p_test_id, p_dwell_time)
+  INSERT INTO public."Test_Dropoff_Logs" (uuid, test_id, dwell_time, last_question_index)
+  VALUES (p_uuid, p_test_id, p_dwell_time, p_last_question_index)
   ON CONFLICT (uuid, test_id)
-  DO UPDATE SET dwell_time = EXCLUDED.dwell_time, created_at = now();
+  DO UPDATE SET 
+    dwell_time = EXCLUDED.dwell_time, 
+    last_question_index = EXCLUDED.last_question_index, 
+    created_at = now();
 END;
 $$;
 
-GRANT EXECUTE ON FUNCTION public.log_test_dropoff(text, text, integer) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.log_test_dropoff(text, text, integer, smallint) TO anon, authenticated;
