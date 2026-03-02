@@ -44,7 +44,7 @@ tags: ["Supabase", "Data Architecture", "SQL", "ETL", "Schema", "RPC", "Security
 | **`uuid`** | `text` | **PK (복합)** | - | 사용자의 브라우저 세션 UUID. |
 | **`test_id`** | `text` | **PK (복합)** | - | 해당 세션이 수행 중인 테스트 ID. |
 | **`dwell_time`** | `integer` | | - | 순수 체류시간. **단위: 밀리초(ms)**. 프론트엔드(`telemetry.js`)에서 `performance.now()` 기반으로 측정된 원시(raw) 밀리초 값이 그대로 적재됩니다. 분석 쿼리에서 `/ 1000`으로 초 단위 변환하여 사용합니다. |
-| **`last_question_index`** | `smallint` | | `NULL` | **[마이크로 퍼널]** 이탈 직전 마지막으로 머물렀던 문항 번호 (0-indexed). ⚠️ 현재 RPC 미반영, §6 실행 로드맵 참조. |
+| **`last_question_index`** | `smallint` | | `NULL` | **[마이크로 퍼널]** 이탈 직전 마지막으로 머물렀던 문항 번호 (0-indexed). ✅ RPC 연동 완료 |
 | **`created_at`** | `timestamptz` | | `now()` | 레코드 최초 생성 시간. **Upsert 시 `now()`로 갱신**되어 마지막 핑(Ping) 시점을 기록합니다 (`ON CONFLICT DO UPDATE SET created_at = now()`). |
 
 **보안 정책**: RLS `RESTRICT` 준하. 오직 `log_test_dropoff` RPC(SECURITY DEFINER)를 통해서만 Upsert.
@@ -133,12 +133,12 @@ const testId = sessionStorage.getItem('dopamine_test_started') ? 'dopamine' : 'i
 
 - `'island_survival'`이라는 값은 DB의 `test_id = 'island'`와 **불일치**합니다.
 - 3번째 이상의 테스트(`demon`, `love` 등)에서는 항상 `'island_survival'`로 잘못 기록됩니다.
-- **해법**: `TestRunner.testId`를 `telemetry.js`에 주입하는 구조로 리팩토링 필요.
+- **해결 완료**: Phase 2에서 `TestRunner.testId`를 동적으로 주입하도록 리팩토링 및 검증 완료.
 
-### 4-3. `last_question_index` SQL/RPC 미반영
+### 4-3. `last_question_index` SQL/RPC 미반영 (Resolved)
 
-- 문서(§2.2)에는 컬럼이 정의되었으나, **실제 SQL(`supabase_rpc_setup.sql`)에는 컬럼이 없고**, `log_test_dropoff` RPC 시그니처에도 `p_last_question_index` 파라미터가 없습니다.
-- **해법**: ALTER TABLE + RPC 함수 재생성 필요 (§6 로드맵 참조).
+- 문서(§2.2)에는 컬럼이 정의되었으나, **실제 SQL(`supabase_rpc_setup.sql`)에는 컬럼이 없고**, `log_test_dropoff` RPC 시그니처에도 `p_last_question_index` 파라미터가 없었습니다.
+- **해결 완료**: Phase 1에서 ALTER TABLE 및 RPC 재생성 적용 완료, Phase 2 프론트엔드 연동 완료.
 
 ### 4-4. `getTestStats()` 무제한 SELECT
 
@@ -223,7 +223,7 @@ LIMIT 50;
 
 ### 💡 Query 4: 문항별 이탈률 분석 (Micro-Funnel Question-Level Drop-off)
 
-> ⚠️ `last_question_index` 컬럼 및 RPC 확장 적용 후 사용 가능 (§6 로드맵 Phase 1 참조)
+> ✅ `last_question_index` DB 컬럼 및 프론트엔드 연동이 모두 완료되어 즉시 사용 가능합니다 (Phase 1, 2 완료).
 
 ```sql
 SELECT 
@@ -294,17 +294,17 @@ ADD COLUMN user_id UUID REFERENCES auth.users(id) DEFAULT NULL;
 
 | 순서 | 작업 | 파일 | 설명 |
 |---|---|---|---|
-| 1-1 | `last_question_index` 컬럼 추가 | Supabase SQL Editor | `ALTER TABLE "Test_Dropoff_Logs" ADD COLUMN IF NOT EXISTS last_question_index smallint;` |
-| 1-2 | `log_test_dropoff` RPC 시그니처 확장 | Supabase SQL Editor | 4번째 파라미터 `p_last_question_index smallint DEFAULT NULL` 추가 후 함수 재생성 |
-| 1-3 | `supabase_rpc_setup.sql` 문서 동기화 | `docs/architecture/` | 위 변경사항을 SQL 파일에 반영 |
+| 1-1 | `last_question_index` 컬럼 추가 | Supabase SQL Editor | **[완료]** `ALTER TABLE "Test_Dropoff_Logs" ADD COLUMN ...` |
+| 1-2 | `log_test_dropoff` RPC 시그니처 확장 | Supabase SQL Editor | **[완료]** 파라미터 추가 및 함수 재생성 |
+| 1-3 | `supabase_rpc_setup.sql` 문서 동기화 | `docs/architecture/` | **[완료]** 위 변경사항을 SQL 파일에 통합 |
 
-### Phase 2: 프론트엔드 리팩토링 (난이도 ★★☆)
+### Phase 2: 프론트엔드 리팩토링 (난이도 ★★☆) - 완료
 
 | 순서 | 작업 | 파일 | 설명 |
 |---|---|---|---|
-| 2-1 | `telemetry.js` testId 하드코딩 제거 | `src/core/telemetry/` | `TestRunner.testId`를 `initTelemetryListener(testId)` 파라미터로 주입 |
-| 2-2 | `telemetry.js` `last_question_index` 전송 | `src/core/telemetry/` | `sessionStorage`에서 `${testId}_progress` → `step` 읽어 RPC payload에 포함 |
-| 2-3 | `validator.js` 기본값 제거 | `src/core/security/` | `checkSession()` 기본 파라미터에서 `'island_test_started'` 하드코딩 제거 |
+| 2-1 | `telemetry.js` testId 하드코딩 제거 | `src/core/telemetry/` | **[완료]** 동적 `testId` 파라미터로 주입 |
+| 2-2 | `telemetry.js` `last_question_index` 전송 | `src/core/telemetry/` | **[완료]** `sessionStorage` 캐시 추출 및 RPC 전송 |
+| 2-3 | `validator.js` 기본값 제거 | `src/core/security/` | **[완료]** 하드코딩 제거 및 `TestRunner` 리팩토링 |
 
 ### Phase 3: 관찰 및 장기 과제 (난이도 ★★★)
 
