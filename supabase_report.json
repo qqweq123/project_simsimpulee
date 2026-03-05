@@ -1,0 +1,254 @@
+{
+  "storage": [
+    {
+      "name": "user_assets",
+      "public": false,
+      "files": []
+    },
+    {
+      "name": "dessert-test",
+      "public": true,
+      "files": [
+        {
+          "name": "candy.png",
+          "size": 7044280,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "castella.png",
+          "size": 1023585,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "cottoncandy.png",
+          "size": 643947,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "darkcho.png",
+          "size": 1077216,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "espresso.png",
+          "size": 1014793,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "greenteamochi.png",
+          "size": 1030929,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "hotchoco.png",
+          "size": 885345,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "icecream.png",
+          "size": 928855,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "mintcho.png",
+          "size": 1025865,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "parfait.png",
+          "size": 911769,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "rainbowcake.png",
+          "size": 1089799,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "scone.png",
+          "size": 6448625,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "shootingstar.png",
+          "size": 849454,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "souffle.png",
+          "size": 965685,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "tart.png",
+          "size": 1083807,
+          "mimetype": "image/png"
+        },
+        {
+          "name": "yanggaeng.png",
+          "size": 938830,
+          "mimetype": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "test_image",
+      "public": true,
+      "files": [
+        {
+          "name": "island_test/.emptyFolderPlaceholder",
+          "size": null,
+          "mimetype": "application/octet-stream"
+        },
+        {
+          "name": "island_test/bg_sand.webp",
+          "size": 5346,
+          "mimetype": "image/webp"
+        },
+        {
+          "name": "island_test/diplomat.webp",
+          "size": 62874,
+          "mimetype": "image/webp"
+        },
+        {
+          "name": "island_test/explorer.webp",
+          "size": 92932,
+          "mimetype": "image/webp"
+        },
+        {
+          "name": "island_test/leader.webp",
+          "size": 99874,
+          "mimetype": "image/webp"
+        },
+        {
+          "name": "island_test/survivor.webp",
+          "size": 66996,
+          "mimetype": "image/webp"
+        },
+        {
+          "name": "main_hero/mellow_main_hero.webp",
+          "size": 56852,
+          "mimetype": "image/webp"
+        }
+      ]
+    }
+  ],
+  "schema": [
+    {
+      "table": "Test_Dropoff_Logs",
+      "row_count": 7,
+      "columns": [
+        {
+          "name": "uuid",
+          "type": "text",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "name": "test_id",
+          "type": "text",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "name": "dwell_time",
+          "type": "integer",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "now()"
+        },
+        {
+          "name": "last_question_index",
+          "type": "smallint",
+          "nullable": true,
+          "default": null
+        },
+        {
+          "name": "back_count_detail",
+          "type": "jsonb",
+          "nullable": true,
+          "default": "'{}'::jsonb"
+        },
+        {
+          "name": "restart_count",
+          "type": "integer",
+          "nullable": true,
+          "default": "0"
+        },
+        {
+          "name": "result_view_count",
+          "type": "integer",
+          "nullable": true,
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "table": "Test_Meta_DB",
+      "row_count": 6,
+      "columns": [
+        {
+          "name": "test_id",
+          "type": "text",
+          "nullable": false,
+          "default": null
+        },
+        {
+          "name": "participants_count",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": false,
+          "default": "now()"
+        },
+        {
+          "name": "completions_count",
+          "type": "bigint",
+          "nullable": false,
+          "default": "0"
+        }
+      ]
+    }
+  ],
+  "indexes": [
+    {
+      "tablename": "Test_Dropoff_Logs",
+      "indexname": "Test_Dropoff_Logs_pkey",
+      "indexdef": "CREATE UNIQUE INDEX \"Test_Dropoff_Logs_pkey\" ON public.\"Test_Dropoff_Logs\" USING btree (uuid, test_id)"
+    },
+    {
+      "tablename": "Test_Dropoff_Logs",
+      "indexname": "idx_test_dropoff_logs_created_at",
+      "indexdef": "CREATE INDEX idx_test_dropoff_logs_created_at ON public.\"Test_Dropoff_Logs\" USING btree (created_at DESC)"
+    },
+    {
+      "tablename": "Test_Meta_DB",
+      "indexname": "Test_Meta_DB_pkey",
+      "indexdef": "CREATE UNIQUE INDEX \"Test_Meta_DB_pkey\" ON public.\"Test_Meta_DB\" USING btree (test_id)"
+    }
+  ],
+  "foreign_keys": [],
+  "rls_policies": [
+    {
+      "schemaname": "public",
+      "tablename": "Test_Meta_DB",
+      "policyname": "Allow public read access",
+      "permissive": "PERMISSIVE",
+      "roles": [
+        "public"
+      ],
+      "cmd": "SELECT",
+      "qual": "true",
+      "with_check": null
+    }
+  ]
+}
