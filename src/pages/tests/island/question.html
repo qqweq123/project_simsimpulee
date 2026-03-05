@@ -34,8 +34,9 @@
 <body class="theme-island flex flex-col items-center justify-center p-4">
 
     <!-- 상단 Mellow Wave 로고 (홈으로 이동) -->
-    <a href="/index.html" class="mb-6 opacity-80 hover:opacity-100 transition-opacity flex items-center gap-2">
-        <h1 class="text-2xl font-gaegu font-bold tracking-widest text-emerald-800">mellow wave</h1>
+    <a href="/index.html" class="mb-6 opacity-90 hover:opacity-100 transition-opacity flex items-center justify-center">
+        <h1 class="text-3xl font-gaegu font-bold tracking-[0.2em] text-wave-gradient drop-shadow-sm pb-1">mellow wave
+        </h1>
     </a>
 
     <!-- 상단 진행바 -->
@@ -55,7 +56,8 @@
     <div id="question-card"
         class="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 text-center fade-in border border-emerald-100">
         <div class="mb-8">
-            <h2 class="text-2xl font-bold mb-4 leading-snug break-keep" id="question-text">
+            <h2 class="text-2xl sm:text-3xl font-noto font-bold text-gray-800 tracking-tight leading-normal break-keep"
+                id="question-text">
                 Loading...
             </h2>
         </div>
@@ -76,16 +78,17 @@
                 class="answer-btn btn-press w-full bg-gray-50 border-2 border-gray-100 text-gray-700 font-medium py-4 px-6 rounded-xl transition-all duration-200 text-left active:bg-gradient-to-r active:from-emerald-500 active:to-teal-600 active:text-white sm:hover:bg-gradient-to-r sm:hover:from-emerald-500 sm:hover:to-teal-600 sm:hover:text-white sm:hover:border-transparent"></button>
         </div>
 
-        <!-- [Phase 6] 데이터 순수성 방어망 (이전/다시하기 네비게이션) -->
-        <div class="mt-8 flex justify-center items-center space-x-6" id="nav-container" style="display: none;">
+        <!-- [Phase 6/7] 데이터 순수성 방어망 (이전/다시하기 네비게이션) - 톤앤매너 최적화 -->
+        <div class="mt-8 flex justify-center items-center gap-6" id="nav-container" style="display: none;">
             <button id="btn-back"
-                class="text-gray-400 hover:text-emerald-500 font-bold text-sm flex items-center transition-colors">
-                <span class="mr-1">◀</span> 이전 문항
+                class="text-gray-300 hover:text-emerald-400 font-medium text-xs sm:text-sm flex items-center transition-all duration-300 tracking-wide hover:-translate-x-1">
+                <span class="mr-1.5 opacity-80">◀</span> 이전 문항
             </button>
-            <span class="text-gray-200">|</span>
+            <div class="w-px h-3 bg-gray-200/50 rounded-full"></div>
             <button id="btn-restart"
-                class="text-gray-400 hover:text-rose-500 font-bold text-sm flex items-center transition-colors">
-                <span class="mr-1">↻</span> 다시하기
+                class="group text-gray-300 hover:text-rose-400 font-medium text-xs sm:text-sm flex items-center transition-colors duration-300 tracking-wide">
+                <span class="mr-1.5 opacity-80 transition-transform duration-500 group-hover:rotate-[180deg]">↻</span>
+                다시하기
             </button>
         </div>
     </div>

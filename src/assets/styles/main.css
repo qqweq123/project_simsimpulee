@@ -167,4 +167,42 @@ body {
     z-index: 9999;
 }
 
+/* 🌊 Mellow Wave Text SVG Wave Animation 🌊 */
+.text-wave-gradient {
+    /* 텍스트 렌더링 최적화 */
+    display: inline-block;
+    color: transparent;
+    /* fallback */
+
+    /* Island 톤앤매너에 맞는 에메랄드/청록색 2중 그라데이션 베이스 위에 SVG 파도를 태웁니다. */
+    /* 아래 SVG는 1440x320의 투명 배경 파도 이미지입니다. opacity가 살짝 섞인 wave 디자인입니다. */
+    background-image:
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3e%3cpath fill='%2310b981' fill-opacity='0.8' d='M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3e%3c/path%3e%3c/svg%3e"),
+        linear-gradient(to bottom, #047857 0%, #0f766e 100%);
+    /* 바닥에 짙은 바다색을 깝니다 */
+
+    /* 텍스트 가로 너비 기준 2번 반복되게 하여 애니메이션이 매끄럽게 흐르도록 설정 */
+    background-size: 200% auto, 100% 100%;
+    background-position: 0% bottom, 0 0;
+    background-repeat: repeat-x, no-repeat;
+
+    /* 핵심: 배경을 텍스트 모양성에만 클립시킵니다 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* 끊김 없이 부드럽게 무한 루프하는 파도 애니메이션 */
+    animation: text-wave-ocean 6s linear infinite;
+}
+
+@keyframes text-wave-ocean {
+    0% {
+        background-position: 0% bottom, 0 0;
+    }
+
+    100% {
+        background-position: 200% bottom, 0 0;
+    }
+}
+
 /* Mellow Wave Main Styles End */

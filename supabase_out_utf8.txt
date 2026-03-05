@@ -1,0 +1,56 @@
+﻿[dotenv@17.3.1] injecting env (4) from .env -- tip: ?숋툘  suppress all logs with { quiet: true }
+
+--- 1. ?ㅽ넗由ъ? 踰꾪궥 寃??(Storage Buckets) ---
+
+踰꾪궥 ?대쫫: user_assets
+?뚯씪 紐⑸줉 (1媛?:
+  - image_data (?ш린: ?????놁쓬 bytes)
+
+踰꾪궥 ?대쫫: dessert-test
+?뚯씪 紐⑸줉 (16媛?:
+  - candy.png (?ш린: 7044280 bytes)
+  - castella.png (?ш린: 1023585 bytes)
+  - cottoncandy.png (?ш린: 643947 bytes)
+  - darkcho.png (?ш린: 1077216 bytes)
+  - espresso.png (?ш린: 1014793 bytes)
+  - greenteamochi.png (?ш린: 1030929 bytes)
+  - hotchoco.png (?ш린: 885345 bytes)
+  - icecream.png (?ш린: 928855 bytes)
+  - mintcho.png (?ш린: 1025865 bytes)
+  - parfait.png (?ш린: 911769 bytes)
+  ... ??6媛?
+踰꾪궥 ?대쫫: test_image
+?뚯씪 紐⑸줉 (2媛?:
+  - island_test (?ш린: ?????놁쓬 bytes)
+  - main_hero (?ш린: ?????놁쓬 bytes)
+
+--- 2. DB ?뚯씠釉??ㅽ궎留?寃??(Table Schema) ---
+
+?뚯씠釉??대쫫: Test_Meta_DB
+  而щ읆 紐⑸줉:
+    - test_id (text, Nullable: NO)
+    - participants_count (bigint, Nullable: NO)
+    - created_at (timestamp with time zone, Nullable: NO)
+    - completions_count (bigint, Nullable: NO)
+  珥??곗씠???? 6嫄?
+?뚯씠釉??대쫫: Test_Dropoff_Logs
+  而щ읆 紐⑸줉:
+    - uuid (text, Nullable: NO)
+    - test_id (text, Nullable: NO)
+    - dwell_time (integer, Nullable: NO)
+    - created_at (timestamp with time zone, Nullable: NO)
+    - last_question_index (smallint, Nullable: YES)
+    - back_count_detail (jsonb, Nullable: YES)
+    - restart_count (integer, Nullable: YES)
+    - result_view_count (integer, Nullable: YES)
+  珥??곗씠???? 7嫄?
+--- 3. ?몃뜳??寃??(Indexes) ---
+
+?뚯씠釉? Test_Meta_DB | ?몃뜳?? Test_Meta_DB_pkey
+?뺤쓽: CREATE UNIQUE INDEX "Test_Meta_DB_pkey" ON public."Test_Meta_DB" USING btree (test_id)
+
+?뚯씠釉? Test_Dropoff_Logs | ?몃뜳?? Test_Dropoff_Logs_pkey
+?뺤쓽: CREATE UNIQUE INDEX "Test_Dropoff_Logs_pkey" ON public."Test_Dropoff_Logs" USING btree (uuid, test_id)
+
+?뚯씠釉? Test_Dropoff_Logs | ?몃뜳?? idx_test_dropoff_logs_created_at
+?뺤쓽: CREATE INDEX idx_test_dropoff_logs_created_at ON public."Test_Dropoff_Logs" USING btree (created_at DESC)
