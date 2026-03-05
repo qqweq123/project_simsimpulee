@@ -167,88 +167,10 @@
     </main>
 
     <script type="module">
-        import { TestService } from '@/core/testService.js';
-
-        // 1. Telemetry Session Initialization (UUID 발급)
-        function generateUUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
+        import { LandingController } from '/src/core/engine/LandingController.js';
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Initiate session if not exists
-            if (!sessionStorage.getItem('mellow_session_id')) {
-                sessionStorage.setItem('mellow_session_id', generateUUID());
-                sessionStorage.setItem('mellow_session_start_time', Date.now());
-            }
-
-            // 2. SWR (Stale-While-Revalidate) - Participant Count Animation
-            // Extract baseline from JSON-LD Schema to sync SEO with UI (Stale Value)
-            const schemaScript = document.querySelector('script[type="application/ld+json"]');
-            let baseCount = 5231; // Local Fallback Default
-
-            if (schemaScript) {
-                try {
-                    const schemaData = JSON.parse(schemaScript.textContent);
-                    if (schemaData.interactionStatistic && schemaData.interactionStatistic.userInteractionCount) {
-                        baseCount = schemaData.interactionStatistic.userInteractionCount;
-                    }
-                } catch (e) { console.error("SEO Schema Parse Error", e); }
-            }
-
-            const countEl = document.getElementById('participant-count');
-            if (countEl) {
-                // Count-up animation for engaging VFX without DB load blocking
-                let current = 0;
-                const duration = 2000; // 2 seconds allows time for fetch to return
-                const startTime = performance.now();
-
-                // Track fetched status
-                let isFetched = false;
-
-                function animateCount(timestamp) {
-                    const progress = Math.min((timestamp - startTime) / duration, 1);
-                    // Ease-out cubic
-                    const easeOut = 1 - Math.pow(1 - progress, 3);
-                    const currentVal = Math.floor(baseCount * easeOut);
-
-                    countEl.innerText = `${currentVal.toLocaleString()}명 참여`;
-
-                    if (progress < 1) {
-                        requestAnimationFrame(animateCount);
-                    } else if (isFetched) {
-                        // Guarantee final value display
-                        countEl.innerText = `${baseCount.toLocaleString()}명 참여`;
-                    } else {
-                        countEl.innerText = `${baseCount.toLocaleString()}+ 참여`;
-                    }
-                }
-
-                // Start immediate UI animation (Stale)
-                requestAnimationFrame(animateCount);
-
-                // Revalidate (Background Fetch)
-                const cacheKey = 'island_participants_cache';
-                const cached = sessionStorage.getItem(cacheKey);
-
-                if (cached) {
-                    const cachedNum = parseInt(cached, 10);
-                    if (cachedNum > baseCount) baseCount = cachedNum;
-                    isFetched = true;
-                } else {
-                    TestService.getSingleTestStats('island').then(dbCount => {
-                        if (dbCount && dbCount > baseCount) {
-                            baseCount = dbCount; // Swap target goal mid-flight
-                            sessionStorage.setItem(cacheKey, dbCount.toString());
-                        }
-                        isFetched = true;
-                    }).catch(() => {
-                        isFetched = true; // graceful fallback
-                    });
-                }
-            }
+            LandingController.init('island', 'participant-count');
         });
     </script>
 </body>

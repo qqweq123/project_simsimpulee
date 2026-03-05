@@ -3,6 +3,7 @@ import { ResultRenderer } from '@/core/engine/ResultRenderer.js';
 import { initTelemetryListener, startQuestionTimer, getPureDwellTime } from '@/core/telemetry/telemetry.js';
 import { isBotTraffic } from '@/core/security/honeypot.js';
 import { checkSession, cacheUTM } from '@/core/security/validator.js';
+import { generateSessionUUID } from '@/core/security/uuid.js';
 import { TestService } from '@/core/testService.js';
 
 export class TestRunner {
@@ -25,15 +26,25 @@ export class TestRunner {
 
         // [Phase 4: State Recovery & FOUC Prevention]
         // DOMContentLoaded 이전에 동기적으로 상태를 읽어 즉시 복원(Rehydration)합니다.
+        // 새션 클리어 로직은 `고민시간 측정 모듈과 충돌 위협`이 있으니 반드시 고려하여 주세요.
         let recoveredStep = 0;
         let recoveredScores = null;
         try {
             const cachedRaw = sessionStorage.getItem(`${id}_progress`);
             if (cachedRaw) {
                 const cached = JSON.parse(cachedRaw);
-                if (cached && typeof cached.step === 'number' && cached.scores) {
-                    recoveredStep = cached.step;
-                    recoveredScores = cached.scores;
+                const TWENTY_MIN_MS = 20 * 60 * 1000; // 20 minutes TTL
+
+                // [Phase 5: 20-minute Cache TTL] Check for Inactivity
+                if (cached.timestamp && (Date.now() - cached.timestamp < TWENTY_MIN_MS)) {
+                    if (cached && typeof cached.step === 'number' && cached.scores) {
+                        recoveredStep = cached.step;
+                        recoveredScores = cached.scores;
+                    }
+                } else {
+                    // 세션 만료됨 (방치 후 재접속) -> 캐시 강제 파괴 (초기화)
+                    sessionStorage.removeItem(`${id}_progress`);
+                    console.log(`[Architecture] 20m Cache TTL expired. Flushed old state for ${id}.`);
                 }
             }
         } catch (e) { /* 파싱 실패 시 무시 */ }
@@ -183,7 +194,7 @@ export class TestRunner {
         const sessionKeyPrefix = this.testId.split('_')[0];
 
         if (!sessionStorage.getItem(`${sessionKeyPrefix}_test_uuid`)) {
-            const uuid = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : `user-${Date.now()}-${Math.random()}`;
+            const uuid = generateSessionUUID();
             sessionStorage.setItem(`${sessionKeyPrefix}_test_uuid`, uuid);
         }
         sessionStorage.setItem(`${sessionKeyPrefix}_test_started`, 'true'); // 보안 검증 패스포트 부여
