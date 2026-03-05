@@ -221,6 +221,7 @@
                 다른 테스트 하러 가기 🎨
             </a>
             <a href="/src/pages/tests/island/index.html"
+                onclick="try { const m = JSON.parse(sessionStorage.getItem('island_metadata') || '{}'); m.resultViewCount = (m.resultViewCount || 0) + 1; sessionStorage.setItem('island_metadata', JSON.stringify(m)); sessionStorage.removeItem('island_progress'); } catch(e){}"
                 class="btn-press block w-full bg-emerald-500 text-white font-bold py-3 rounded-xl hover:bg-emerald-600 transition shadow-sm">
                 다시 표류하기! 🏝️
             </a>

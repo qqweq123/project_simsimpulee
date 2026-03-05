@@ -10,8 +10,14 @@ export class TestRunner {
     static currentStep = 0;
     static totalSteps = 0;
     static scores = {};
+    static history = [];
     static questionsConfig = [];
     static testId = '';
+
+    // [Phase 6] Data Purity Metadata Counters
+    static backCount = {};
+    static restartCount = 0;
+    static resultViewCount = 0;
 
     /**
      * 질문지(Question) 페이지 공통 초기화 로직
@@ -29,6 +35,20 @@ export class TestRunner {
         // 새션 클리어 로직은 `고민시간 측정 모듈과 충돌 위협`이 있으니 반드시 고려하여 주세요.
         let recoveredStep = 0;
         let recoveredScores = null;
+        let recoveredHistory = [];
+
+        // 1. MetaData 복원 (Session Storage 병렬 아키텍처)
+        try {
+            const metaRaw = sessionStorage.getItem(`${id}_metadata`);
+            if (metaRaw) {
+                const meta = JSON.parse(metaRaw);
+                this.backCount = meta.backCount || {};
+                this.restartCount = meta.restartCount || 0;
+                this.resultViewCount = meta.resultViewCount || 0;
+            }
+        } catch (e) { }
+
+        // 2. Progress 복원
         try {
             const cachedRaw = sessionStorage.getItem(`${id}_progress`);
             if (cachedRaw) {
@@ -40,6 +60,7 @@ export class TestRunner {
                     if (cached && typeof cached.step === 'number' && cached.scores) {
                         recoveredStep = cached.step;
                         recoveredScores = cached.scores;
+                        recoveredHistory = cached.history || [];
                     }
                 } else {
                     // 세션 만료됨 (방치 후 재접속) -> 캐시 강제 파괴 (초기화)
@@ -51,6 +72,7 @@ export class TestRunner {
 
         this.scores = recoveredScores ? { ...recoveredScores } : { ...initialScores };
         this.currentStep = recoveredStep;
+        this.history = recoveredHistory;
 
         document.addEventListener('DOMContentLoaded', () => {
             // 1. 텔레메트리 및 어뷰저 방어 초기화
@@ -65,6 +87,12 @@ export class TestRunner {
             if (container) {
                 container.addEventListener('click', (e) => this.handleAnswerClick(e));
             }
+
+            // [Phase 6] 네비게이션 복구 (Back/Restart)
+            const btnBack = document.getElementById('btn-back');
+            const btnRestart = document.getElementById('btn-restart');
+            if (btnBack) btnBack.addEventListener('click', () => this.goBack());
+            if (btnRestart) btnRestart.addEventListener('click', () => this.restart());
 
             // 3. 문제 렌더링 (Hydration)
             this.renderQuestion();
@@ -104,6 +132,12 @@ export class TestRunner {
             });
         }
 
+        // [Phase 6] Navigation Visibility Control
+        const navContainer = document.getElementById('nav-container');
+        if (navContainer) {
+            navContainer.style.display = this.currentStep > 0 ? 'flex' : 'none';
+        }
+
         // Progress
         const progress = ((this.currentStep + 1) / this.totalSteps) * 100;
         const bar = document.getElementById('progress-bar');
@@ -121,6 +155,13 @@ export class TestRunner {
     }
 
     static selectAnswer(types) {
+        // [Phase 6] Event Sourcing Array Push
+        const undoActions = types.map(t => t.trim());
+        this.history.push({
+            step: this.currentStep,
+            undoActions: undoActions
+        });
+
         types.forEach(t => {
             const key = t.trim();
             if (this.scores[key] !== undefined) {
@@ -131,16 +172,7 @@ export class TestRunner {
         });
 
         this.currentStep++;
-
-        // [Phase 4 State Recovery] 
-        // 매 클릭마다 문항 인덱스와 누적 점수를 고속 캐싱 (Micro-Funnel Analytics last_question_index 용도로도 활용됨)
-        try {
-            sessionStorage.setItem(`${this.testId}_progress`, JSON.stringify({
-                step: this.currentStep,
-                scores: this.scores,
-                timestamp: Date.now()
-            }));
-        } catch (e) { }
+        this.persistProgress();
 
         // [Phase 3 Architecture] Background Prefetching (Waterfall 해소)
         // 유저가 마지막 2문항 정도를 풀고 있을 때(Idle Time), 결과 화면에 나올 배너 이미지들을 미리 메모리에 캐싱해둠.
@@ -154,6 +186,61 @@ export class TestRunner {
         } else {
             this.renderQuestion();
         }
+    }
+
+    // [Phase 6] Data Persistence Helpers
+    static persistProgress() {
+        try {
+            sessionStorage.setItem(`${this.testId}_progress`, JSON.stringify({
+                step: this.currentStep,
+                scores: this.scores,
+                history: this.history,
+                timestamp: Date.now()
+            }));
+        } catch (e) { }
+    }
+
+    static persistMetadata() {
+        try {
+            sessionStorage.setItem(`${this.testId}_metadata`, JSON.stringify({
+                backCount: this.backCount,
+                restartCount: this.restartCount,
+                resultViewCount: this.resultViewCount
+            }));
+        } catch (e) { }
+    }
+
+    // [Phase 6] State Reversion Logic
+    static goBack() {
+        if (this.currentStep === 0 || this.history.length === 0) return;
+
+        // 1. Snapshot for Metadata (Identify ambiguous question)
+        const currentQIndex = `q${this.currentStep + 1}`;
+        this.backCount[currentQIndex] = (this.backCount[currentQIndex] || 0) + 1;
+        this.persistMetadata();
+
+        // 2. Event Sourcing Pop
+        const lastAction = this.history.pop();
+        if (lastAction && lastAction.undoActions) {
+            lastAction.undoActions.forEach(key => {
+                if (this.scores[key] !== undefined && this.scores[key] > 0) {
+                    this.scores[key]--;
+                }
+            });
+        }
+
+        this.currentStep--;
+        this.persistProgress();
+        this.renderQuestion();
+    }
+
+    static restart() {
+        this.restartCount++;
+        this.persistMetadata();
+
+        // Wipe progress but keep UUID and Telemetry pure
+        sessionStorage.removeItem(`${this.testId}_progress`);
+        location.reload();
     }
 
     /**
